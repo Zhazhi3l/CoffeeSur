@@ -32,6 +32,24 @@ namespace CoffeeSur.Repositorios
             }
         }
 
-        
+        public void ModificarUSuario(Usuario usuario)
+        {
+            using (MySqlConnection conex = conexion.GetConexion())
+            {
+                using (MySqlCommand cmd = new MySqlCommand("sp_ModificarUsuario", conex))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@pNombre", usuario.Nombre);
+                    cmd.Parameters.AddWithValue("@pApellido", usuario.Apellido);
+                    cmd.Parameters.AddWithValue("@pUsername", usuario.Username);
+                    cmd.Parameters.AddWithValue("@pPassword", usuario.Password ?? "");
+                    cmd.Parameters.AddWithValue("@pRol", usuario.Rol);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }
