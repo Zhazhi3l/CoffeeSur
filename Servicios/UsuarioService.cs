@@ -50,13 +50,37 @@ namespace CoffeeSur.Servicios
                     throw new Exception("El rol del usuario debe ser 'Admin' o 'User'.");
                 }
 
-                _repoUsuario.ModificarUSuario(usuario);
+                bool actualizado = _repoUsuario.ModificarUSuario(usuario);
+                if (!actualizado)
+                {
+                    throw new Exception("No se encontró el usuario para modificar.");
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al modificar usuario: " + ex.Message);
             }
         }
-
+        
+        public bool EliminarUsuario(string username)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(username))
+                {
+                    throw new Exception("El nombre de usuario no puede estar vacío.");
+                }
+                bool eliminado = _repoUsuario.EliminarUsuario(username);
+                if (!eliminado)
+                {
+                    throw new Exception("No se encontró el usuario para eliminar.");
+                }
+                return eliminado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al eliminar usuario: " + ex.Message);
+            }
+        }
     }
 }

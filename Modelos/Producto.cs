@@ -14,5 +14,6 @@ namespace CoffeeSur.Modelos
         public decimal Precio { get; set; }
         public int Stock { get; set; }
         public decimal Descuento { get; set; }
+        public bool Activo { get; set; }
     }
 }

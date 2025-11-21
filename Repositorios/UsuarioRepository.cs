@@ -32,7 +32,7 @@ namespace CoffeeSur.Repositorios
             }
         }
 
-        public void ModificarUSuario(Usuario usuario)
+        public bool ModificarUSuario(Usuario usuario)
         {
             using (MySqlConnection conex = conexion.GetConexion())
             {
@@ -46,7 +46,24 @@ namespace CoffeeSur.Repositorios
                     cmd.Parameters.AddWithValue("@pPassword", usuario.Password ?? "");
                     cmd.Parameters.AddWithValue("@pRol", usuario.Rol);
 
-                    cmd.ExecuteNonQuery();
+                    int filasAfectads = cmd.ExecuteNonQuery();
+                    return filasAfectads > 0;
+                }
+            }
+        }
+
+        public bool EliminarUsuario(string username)
+        {
+            using (MySqlConnection conex = conexion.GetConexion())
+            {
+                using (MySqlCommand cmd = new MySqlCommand("sp_EliminarUsuario", conex))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@pUsername", username);
+
+                    int filasAfectads = cmd.ExecuteNonQuery();
+                    return filasAfectads > 0;
                 }
             }
         }
