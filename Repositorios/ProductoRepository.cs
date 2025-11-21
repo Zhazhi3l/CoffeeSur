@@ -27,6 +27,15 @@ namespace CoffeeSur.Repositorios
                     cmd.Parameters.AddWithValue("@p_Stock", producto.Stock);
                     cmd.Parameters.AddWithValue("@p_Descuento", producto.Descuento);
                     cmd.Parameters.AddWithValue("@p_Activo", producto.Activo);
+                    if (producto.Imagen != null)
+                    {
+                        cmd.Parameters.Add("@p_Imagen", MySqlDbType.LongBlob).Value = producto.Imagen;
+                    }
+                    else
+                    {
+                        // Si no hay imagen, mandamos NULL a la BD
+                        cmd.Parameters.Add("@p_Imagen", MySqlDbType.LongBlob).Value = DBNull.Value;
+                    }
 
                     int filasAfectadas = cmd.ExecuteNonQuery();
                     return filasAfectadas > 0;
@@ -48,6 +57,15 @@ namespace CoffeeSur.Repositorios
                     cmd.Parameters.AddWithValue("@p_Precio", producto.Precio);
                     cmd.Parameters.AddWithValue("@p_Stock", producto.Stock);
                     cmd.Parameters.AddWithValue("@p_Descuento", producto.Descuento);
+                    if (producto.Imagen != null)
+                    {
+                        cmd.Parameters.Add("@p_Imagen", MySqlDbType.LongBlob).Value = producto.Imagen;
+                    }
+                    else
+                    {
+                        // Si no hay imagen, mandamos NULL a la BD
+                        cmd.Parameters.Add("@p_Imagen", MySqlDbType.LongBlob).Value = DBNull.Value;
+                    }
 
                     int filasAfectadas = cmd.ExecuteNonQuery();
                     return filasAfectadas > 0;
@@ -76,7 +94,7 @@ namespace CoffeeSur.Repositorios
             Producto p = null;
             using (MySqlConnection conex = conexion.GetConexion())
             {
-                string query = "SELECT Clave AS IdProducto, Nombre, Precio, Stock FROM Productos WHERE Clave = @id";
+                string query = "SELECT * FROM Productos WHERE Clave = @id";
                 using (MySqlCommand cmd = new MySqlCommand(query, conex))
                 {
                     cmd.Parameters.AddWithValue("@id", idProducto);
@@ -89,6 +107,17 @@ namespace CoffeeSur.Repositorios
                             p.Nombre = reader.GetString("Nombre");
                             p.Precio = reader.GetDecimal("Precio");
                             p.Stock = reader.GetInt32("Stock");
+                            p.Descuento = reader.GetDecimal("Descuento");
+                            p.Descripcion = reader.GetString("Descripcion");
+                            if (!reader.IsDBNull(reader.GetOrdinal("Imagen")))
+                            {
+                                // Solo la leemos si NO es nula
+                                p.Imagen = (byte[])reader["Imagen"];
+                            }
+                            else
+                            {
+                                p.Imagen = null;
+                            }
                         }
                     }
                 }

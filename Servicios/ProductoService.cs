@@ -3,6 +3,7 @@ using CoffeeSur.Repositorios;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,11 @@ namespace CoffeeSur.Servicios
     {
         private ProductoRepository _repo = new ProductoRepository();
 
+        /// <summary>
+        /// Método para registrar un nuevo producto. Recibe un objeto Producto con los datos del nuevo producto.
+        /// </summary>
+        /// <param name="nuevoProd"></param>
+        /// <exception cref="Exception"></exception>
         public void RegistrarNuevoProducto(Producto nuevoProd)
         {
             try
@@ -28,6 +34,7 @@ namespace CoffeeSur.Servicios
                 if (nuevoProd.Stock < 0){
                     throw new Exception("EL Stock del NUEVO producto, no puede ser negativo.");
                 }
+                nuevoProd.Imagen = ConvertirImagenABytes(imagenUI);
 
                 _repo.AgregarProducto(nuevoProd);
             }
@@ -41,6 +48,13 @@ namespace CoffeeSur.Servicios
             }
         }
 
+        /// <summary>
+        /// Método para modificar un producto existente. Rrecibe un objeto Producto con los datos actualizados.
+        /// Los datos originales se obtienen de la base de datos usando el IdProducto y de ahí se actualizan los campos.
+        /// </summary>
+        /// <param name="prodModificado"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool ModificarProductoExistente(Producto prodModificado)
         {
             try
@@ -81,6 +95,12 @@ namespace CoffeeSur.Servicios
             }
         }
 
+        /// <summary>
+        /// Método para eliminar un producto por su ID. El borrado funciona de forma lógica.
+        /// </summary>
+        /// <param name="idProducto"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool EliminarProducto(int idProducto)
         {
             try
@@ -108,6 +128,12 @@ namespace CoffeeSur.Servicios
             }
         }
 
+        /// <summary>
+        /// Método para validar si hay stock suficiente de un producto.
+        /// </summary>
+        /// <param name="idProducto"></param>
+        /// <param name="cantidadSolicitada"></param>
+        /// <exception cref="Exception"></exception>
         public void ValidarStockSuficiente(int idProducto, int cantidadSolicitada)
         {
             Producto prodEnBD = _repo.ObtenerPorId(idProducto);
@@ -123,6 +149,24 @@ namespace CoffeeSur.Servicios
             }
 
             // Si llega aquí, es que hay stock.
+        }
+
+        /// <summary>
+        /// Método para convertir una imagen a un arreglo de bytes para almacenar en BD.
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
+        public byte[] ConvertirImagenABytes(Image img)
+        {
+            // Si no mandaron imagen, retornamos null para que se guarde como NULL en BD
+            if (img == null) return null;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                // Guardamos como PNG para mantener calidad y transparencia
+                img.Save(ms, ImageFormat.Png);
+                return ms.ToArray();
+            }
         }
     }
 }
