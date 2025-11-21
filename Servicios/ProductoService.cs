@@ -20,6 +20,13 @@ namespace CoffeeSur.Servicios
                 {
                     throw new Exception("El precio debe ser mayor a 0.");
                 }
+                if (string.IsNullOrWhiteSpace(nuevoProd.Nombre))
+                {
+                    throw new Exception("El nombre del producto no puede estar vacío.");
+                }
+                if (nuevoProd.Stock < 0){
+                    throw new Exception("EL Stock del NUEVO producto, no puede ser negativo.");
+                }
 
                 _repo.AgregarProducto(nuevoProd);
             }

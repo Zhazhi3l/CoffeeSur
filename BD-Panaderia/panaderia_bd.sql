@@ -4,8 +4,8 @@ USE panaderia_bd;
 -- Tabla de usuarios/empleados
 CREATE TABLE Empleado(
     EmpleadoId		INT             NOT NULL    AUTO_INCREMENT        PRIMARY KEY,
-    firstname       VARCHAR(50)     NOT NULL,
-    lastname        VARCHAR(50)     NOT NULL,
+    Nombre          VARCHAR(50)     NOT NULL,
+    Apellido        VARCHAR(50)     NOT NULL,
     username        VARCHAR(50)     UNIQUE      NOT NULL,
     password        VARCHAR(256)    NOT NULL,
     email           VARCHAR(100)    UNIQUE      NOT NULL,
@@ -99,27 +99,28 @@ CREATE PROCEDURE sp_Login(
     IN p_password VARCHAR(256)
 )
 BEGIN
-    SELECT userid, firstname, lastname, username, email, userrole
+    SELECT userid, Nombre, Apellido, username, email, userrole
     FROM Users 
     WHERE username = p_username 
     AND password = SHA2(p_password, 256)
     AND activo = TRUE;
 END $$
+
 DELIMITER ;
 
 -- CRUD de Empleados
 DELIMITER $$
 CREATE PROCEDURE sp_InsertarEmpleado(
-    IN p_firstname VARCHAR(50),
-    IN p_lastname VARCHAR(50),
+    IN p_Nombre VARCHAR(50),
+    IN p_Apellido VARCHAR(50),
     IN p_username VARCHAR(50),
     IN p_password VARCHAR(256),
     IN p_email VARCHAR(100),
     IN p_userrole ENUM('Admin','Empleado')
 )
 BEGIN
-    INSERT INTO Users (firstname, lastname, username, password, email, userrole)
-    VALUES (p_firstname, p_lastname, p_username, SHA2(p_password, 256), p_email, p_userrole);
+    INSERT INTO Users (Nombre, Apellido, username, password, email, userrole)
+    VALUES (p_Nombre, p_Apellido, p_username, SHA2(p_password, 256), p_email, p_userrole);
 END $$
 DELIMITER ;
 
@@ -127,14 +128,14 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_ActualizarEmpleado(
     IN p_userid INT,
-    IN p_firstname VARCHAR(50),
-    IN p_lastname VARCHAR(50),
+    IN p_Nombre VARCHAR(50),
+    IN p_Apellido VARCHAR(50),
     IN p_email VARCHAR(100)
 )
 BEGIN
     UPDATE Users 
-    SET firstname = p_firstname,
-        lastname = p_lastname,
+    SET Nombre = p_Nombre,
+        Apellido = p_Apellido,
         email = p_email
     WHERE userid = p_userid;
 END $$
@@ -153,7 +154,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_ListarEmpleados()
 BEGIN
-    SELECT userid, firstname, lastname, username, email, userrole, createddate
+    SELECT userid, Nombre, Apellido, username, email, userrole, createddate
     FROM Users;
 END $$
 DELIMITER ;
@@ -161,7 +162,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_ListarEmpleadosActivos()
 BEGIN
-    SELECT userid, firstname, lastname, username, email, userrole, createddate
+    SELECT userid, Nombre, Apellido, username, email, userrole, createddate
     FROM Users WHERE activo = TRUE;
 END $$
 DELIMITER ;
@@ -291,7 +292,7 @@ BEGIN
     SELECT 
         v.VentaID,
         v.FechaVenta,
-        CONCAT(u.firstname, ' ', u.lastname) as Empleado,
+        CONCAT(u.Nombre, ' ', u.Apellido) as Empleado,
         v.Total,
         COUNT(dv.DetalleVentaID) as TotalProductos
     FROM ventas v
