@@ -42,6 +42,7 @@
             txtPassword = new TextBox();
             label3 = new Label();
             cboRol = new ComboBox();
+            checkBox1 = new CheckBox();
             SuspendLayout();
             // 
             // label1
@@ -90,9 +91,9 @@
             button1.AutoSize = true;
             button1.ForeColor = Color.DarkGoldenrod;
             button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(103, 322);
+            button1.Location = new Point(125, 362);
             button1.Name = "button1";
-            button1.Size = new Size(82, 63);
+            button1.Size = new Size(60, 59);
             button1.TabIndex = 6;
             button1.UseVisualStyleBackColor = true;
             // 
@@ -102,9 +103,9 @@
             button3.AutoSize = true;
             button3.ForeColor = Color.DarkGoldenrod;
             button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(259, 322);
+            button3.Location = new Point(257, 362);
             button3.Name = "button3";
-            button3.Size = new Size(69, 63);
+            button3.Size = new Size(69, 56);
             button3.TabIndex = 8;
             button3.UseVisualStyleBackColor = true;
             // 
@@ -181,12 +182,25 @@
             cboRol.Size = new Size(263, 25);
             cboRol.TabIndex = 18;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Font = new Font("Footlight MT Light", 14.25F);
+            checkBox1.Location = new Point(134, 306);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(77, 24);
+            checkBox1.TabIndex = 24;
+            checkBox1.Text = "Activo";
+            checkBox1.TextAlign = ContentAlignment.MiddleCenter;
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
             // FrmUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGoldenrod;
-            ClientSize = new Size(513, 394);
+            ClientSize = new Size(513, 430);
+            Controls.Add(checkBox1);
             Controls.Add(cboRol);
             Controls.Add(label3);
             Controls.Add(txtPassword);
@@ -221,5 +235,6 @@
         private TextBox txtPassword;
         private Label label3;
         private ComboBox cboRol;
+        private CheckBox checkBox1;
     }
 }
