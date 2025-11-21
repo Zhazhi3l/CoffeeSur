@@ -9,13 +9,21 @@ using System.Threading.Tasks;
 
 namespace CoffeeSur.Repositorios
 {
+    /// <summary>
+    /// Repositorio para la gestión del inventario de productos.
+    /// </summary>
     public class ProductoRepository
     {
-        private ConexionBD conexion = new ConexionBD();
+        private ConexionBD _conexion = new ConexionBD();
 
+        /// <summary>
+        /// Agrega un producto al inventario invocando el SP correspondiente.
+        /// </summary>
+        /// <param name="producto">Objeto Producto completo.</param>
+        /// <returns>True si la inserción fue exitosa.</returns>
         public bool AgregarProducto(Producto producto)
         {
-            using (MySqlConnection conex = conexion.GetConexion())
+            using (MySqlConnection conex = _conexion.GetConexion())
             {
                 using (MySqlCommand cmd = new MySqlCommand("sp_InsertarProducto", conex))
                 {
@@ -27,15 +35,11 @@ namespace CoffeeSur.Repositorios
                     cmd.Parameters.AddWithValue("@p_Stock", producto.Stock);
                     cmd.Parameters.AddWithValue("@p_Descuento", producto.Descuento);
                     cmd.Parameters.AddWithValue("@p_Activo", producto.Activo);
-                    if (producto.Imagen != null)
-                    {
+                    // Manejo de la imagen como parámetro BLOB
+                    if (producto.Imagen != null && producto.Imagen.Length > 0)
                         cmd.Parameters.Add("@p_Imagen", MySqlDbType.LongBlob).Value = producto.Imagen;
-                    }
                     else
-                    {
-                        // Si no hay imagen, mandamos NULL a la BD
                         cmd.Parameters.Add("@p_Imagen", MySqlDbType.LongBlob).Value = DBNull.Value;
-                    }
 
                     int filasAfectadas = cmd.ExecuteNonQuery();
                     return filasAfectadas > 0;
@@ -43,29 +47,29 @@ namespace CoffeeSur.Repositorios
             }
         }
 
+        /// <summary>
+        /// 
+        /// Modifica un producto al inventario invocando el SP correspondiente.
+        /// </summary>
+        /// <param name="producto">Objeto Producto completo.</param>
+        /// <returns>True si la actualización fue exitosa.</returns>
         public bool ActualizarProducto(Producto producto)
         {
-            using (MySqlConnection conex = conexion.GetConexion())
+            using (MySqlConnection conex = _conexion.GetConexion())
             {
                 using (MySqlCommand cmd = new MySqlCommand("sp_ActualizarProducto", conex))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    cmd.Parameters.AddWithValue("@p_IdProducto", producto.IdProducto);
                     cmd.Parameters.AddWithValue("@p_Nombre", producto.Nombre);
                     cmd.Parameters.AddWithValue("@p_Descripcion", producto.Descripcion);
                     cmd.Parameters.AddWithValue("@p_Precio", producto.Precio);
                     cmd.Parameters.AddWithValue("@p_Stock", producto.Stock);
                     cmd.Parameters.AddWithValue("@p_Descuento", producto.Descuento);
-                    if (producto.Imagen != null)
-                    {
+                    cmd.Parameters.AddWithValue("@p_Activo", producto.Activo);
+                    // Manejo de la imagen como parámetro BLOB
+                    if (producto.Imagen != null && producto.Imagen.Length > 0)
                         cmd.Parameters.Add("@p_Imagen", MySqlDbType.LongBlob).Value = producto.Imagen;
-                    }
                     else
-                    {
-                        // Si no hay imagen, mandamos NULL a la BD
                         cmd.Parameters.Add("@p_Imagen", MySqlDbType.LongBlob).Value = DBNull.Value;
-                    }
 
                     int filasAfectadas = cmd.ExecuteNonQuery();
                     return filasAfectadas > 0;
@@ -73,9 +77,14 @@ namespace CoffeeSur.Repositorios
             }
         }
 
+        /// <summary>
+        /// Realiza un borrado lógico del producto (Lo marca como inactivo).
+        /// </summary>
+        /// <param name="idProducto">Id del producto a eliminar.</param>
+        /// <returns>True si se eliminó correctamente.</returns>
         public bool EliminarProducto(int idProducto)
         {
-            using (MySqlConnection conex = conexion.GetConexion())
+            using (MySqlConnection conex = _conexion.GetConexion())
             {
                 using (MySqlCommand cmd = new MySqlCommand("sp_EliminarProducto", conex))
                 {
@@ -89,12 +98,20 @@ namespace CoffeeSur.Repositorios
             }
         }
 
+        /// <summary>
+        /// Obtiene un producto por su ID numérico interno.
+        /// </summary>
+        /// <param name="idProducto">Identificador único del producto.</param>
+        /// <returns>Objeto Producto o null si no existe.</returns>
         public Producto ObtenerPorId(int idProducto)
         {
             Producto p = null;
-            using (MySqlConnection conex = conexion.GetConexion())
+            using (MySqlConnection conex = _conexion.GetConexion())
             {
-                string query = "SELECT * FROM Productos WHERE Clave = @id";
+                string query = @"SELECT IdProducto, Clave, Nombre, Precio, Stock, Descuento, Descripcion, Imagen, Activo 
+                                 FROM productos 
+                                 WHERE IdProducto = @id";
+
                 using (MySqlCommand cmd = new MySqlCommand(query, conex))
                 {
                     cmd.Parameters.AddWithValue("@id", idProducto);
@@ -102,21 +119,20 @@ namespace CoffeeSur.Repositorios
                     {
                         if (reader.Read())
                         {
-                            p = new Producto();
-                            p.IdProducto = reader.GetInt32("IdProducto");
-                            p.Nombre = reader.GetString("Nombre");
-                            p.Precio = reader.GetDecimal("Precio");
-                            p.Stock = reader.GetInt32("Stock");
-                            p.Descuento = reader.GetDecimal("Descuento");
-                            p.Descripcion = reader.GetString("Descripcion");
+                            p = new Producto
+                            {
+                                IdProducto = reader.GetInt32("IdProducto"),
+                                Nombre = reader.GetString("Nombre"),
+                                Precio = reader.GetDecimal("Precio"),
+                                Stock = reader.GetInt32("Stock"),
+                                Descuento = reader.IsDBNull(reader.GetOrdinal("Descuento")) ? 0 : reader.GetDecimal("Descuento"),
+                                Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "" : reader.GetString("Descripcion"),
+                                Activo = reader.GetBoolean("Activo")
+                            };
+
                             if (!reader.IsDBNull(reader.GetOrdinal("Imagen")))
                             {
-                                // Solo la leemos si NO es nula
                                 p.Imagen = (byte[])reader["Imagen"];
-                            }
-                            else
-                            {
-                                p.Imagen = null;
                             }
                         }
                     }

@@ -8,10 +8,16 @@ using System.Threading.Tasks;
 
 namespace CoffeeSur.Servicios
 {
+    /// <summary>
+    /// Servicio encargado de la lógica de negocio de Usuarios (Empleados/Admins).
+    /// </summary>
     public class UsuarioService
     {
         private UsuarioRepository _repoUsuario = new UsuarioRepository();
 
+        /// <summary>
+        /// Registra un usuario nuevo validando campos obligatorios.
+        /// </summary>
         public void RegistrarNuevoUsuario(Usuario usuario)
         {
             try
@@ -33,6 +39,9 @@ namespace CoffeeSur.Servicios
             }
         }
 
+        /// <summary>
+        /// Modifica un usuario existente.
+        /// </summary>
         public void ModificarUsuarioExistente(Usuario usuario)
         {
             try
