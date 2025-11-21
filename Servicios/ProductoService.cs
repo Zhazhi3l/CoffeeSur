@@ -12,7 +12,7 @@ namespace CoffeeSur.Servicios
     public class ProductoService
     {
         private ProductoRepository _repo = new ProductoRepository();
-        public void RegistrarNuevoProducto(clsProducto nuevoProd)
+        public void RegistrarNuevoProducto(Producto nuevoProd)
         {
             try
             {

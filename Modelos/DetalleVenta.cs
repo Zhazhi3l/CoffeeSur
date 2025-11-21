@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeSur.Modelos
 {
-    public class clsDetalleVenta
+    public class DetalleVenta
     {
         public int IdDetalleVenta { get; set; }
         public int IdVenta { get; set; }

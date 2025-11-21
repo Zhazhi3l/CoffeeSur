@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CoffeeSur.Modelos
 {
-    public class clsVenta
+    public class Venta
     {
         public int IdVenta { get; set; }
         public int IdEmpleado { get; set; }
         public DateTime FechaVenta { get; set; }
         public decimal Total { get; set; }
-        public List<clsProducto> ProductosVendidos { get; set; }
+        public List<Producto> ProductosVendidos { get; set; }
     }
 }

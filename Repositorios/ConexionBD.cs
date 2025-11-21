@@ -10,25 +10,18 @@ namespace CoffeeSur.Repositorios
 {
     public class ConexionBD
     {
-        public string GetConnectionString()
+        public string GetCadenaConexion()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["CadConx"].ConnectionString;
             return connectionString;
         }
 
-        private MySqlConnection GetConnection()
+        public MySqlConnection GetConexion()
         {
-            MySqlConnection conexion = new MySqlConnection(GetConnectionString());
-            try
-            {
-                conexion.Open();
-                return conexion;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al conectar a la BD: {ex.Message}", "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
+            MySqlConnection conexion = new MySqlConnection(GetCadenaConexion());
+            
+            conexion.Open();
+            return conexion;
         }
     }
 }

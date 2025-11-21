@@ -13,7 +13,7 @@ namespace CoffeeSur.Repositorios
     {
         private string conexion = new ConexionBD().GetConnectionString();
 
-        public void AgregarProducto(clsProducto producto)
+        public void AgregarProducto(Producto producto)
         {
             using (MySqlConnection conn = new MySqlConnection(conexion))
             {
