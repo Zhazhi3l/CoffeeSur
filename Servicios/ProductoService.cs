@@ -129,6 +129,8 @@ namespace CoffeeSur.Servicios
 
         /// <summary>
         /// Verifica si existe stock suficiente para realizar una venta.
+        /// Realiza la consulta a la base de datos para obtener el stock actual
+        /// trayendo el producto por su ID.
         /// </summary>
         /// <param name="idProducto">ID del producto a vender.</param>
         /// <param name="cantidadSolicitada">Cantidad requerida.</param>
@@ -145,6 +147,25 @@ namespace CoffeeSur.Servicios
             if (prodEnBD.Stock < cantidadSolicitada)
             {
                 throw new Exception($"Stock insuficiente para '{prodEnBD.Nombre}'. Disponibles: {prodEnBD.Stock}, Solicitados: {cantidadSolicitada}.");
+            }
+
+            // Si llega aquí, es que hay stock.
+        }
+
+        /// <summary>
+        /// Valida si hay stock suficiente en el objeto Producto que recibe.
+        /// </summary>
+        /// <param name="producto">Producto ya poblado, generado previamente o traído de la BD.</param>
+        /// <param name="cantidadSolicitada"></param>
+        /// <exception cref="Exception"></exception>
+        public void ValidarStockSuficiente(Producto producto, int cantidadSolicitada)
+        {
+            if(producto == null)
+                throw new Exception("El producto no existe o no se encontró.");
+
+            if (producto.Stock < cantidadSolicitada)
+            {
+                throw new Exception($"Stock insuficiente para '{producto.Nombre}'. Disponibles: {producto.Stock}, Solicitados: {cantidadSolicitada}.");
             }
 
             // Si llega aquí, es que hay stock.

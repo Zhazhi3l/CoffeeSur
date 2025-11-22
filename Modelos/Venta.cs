@@ -9,9 +9,9 @@ namespace CoffeeSur.Modelos
     public class Venta
     {
         public int IdVenta { get; set; }
-        public int IdEmpleado { get; set; }
+        public int IdUsuario { get; set; }
         public DateTime FechaVenta { get; set; }
         public decimal Total { get; set; }
-        public List<Producto> ProductosVendidos { get; set; }
+        public List<DetalleVenta> Detalles { get; set; } = new List<DetalleVenta>();
     }
 }
