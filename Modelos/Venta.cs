@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CoffeeSur.Modelos
 {
+    /// <summary>
+    /// Objeto que representa una venta realizada en el sistema.
+    /// </summary>
     public class Venta
     {
         public int IdVenta { get; set; }

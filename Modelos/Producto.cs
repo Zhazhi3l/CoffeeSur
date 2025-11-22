@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CoffeeSur.Modelos
 {
+    /// <summary>
+    /// Representa un producto en el inventario del sistema con sus propiedades básicas.
+    /// </summary>
     public class Producto
     {
         public int IdProducto { get; set; }

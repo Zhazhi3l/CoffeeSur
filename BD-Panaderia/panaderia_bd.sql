@@ -1,17 +1,66 @@
-CREATE DATABASE IF NOT EXISTS panaderia_bd;
-USE panaderia_bd;
+DROP DATABASE IF EXISTS CoffeeSur;
+CREATE DATABASE CoffeeSur;
+USE CoffeeSur;
 
--- Tabla de usuarios/empleados
-CREATE TABLE Empleado(
-    EmpleadoId		INT             NOT NULL    AUTO_INCREMENT        PRIMARY KEY,
-    Nombre          VARCHAR(50)     NOT NULL,
-    Apellido        VARCHAR(50)     NOT NULL,
-    username        VARCHAR(50)     UNIQUE      NOT NULL,
-    password        VARCHAR(256)    NOT NULL,
-    email           VARCHAR(100)    UNIQUE      NOT NULL,
-    userrole        ENUM("Admin", "Empleado") DEFAULT "Empleado",
-    createddate     TIMESTAMP DEFAULT        CURRENT_TIMESTAMP,
-    activo          BOOLEAN         DEFAULT TRUE
+-- Credenciales de acceso temporal (admin / admin123)
+
+-- ==========
+-- 1. TABLAS 
+-- ==========
+
+CREATE TABLE Usuarios (
+    IdUsuario       INT AUTO_INCREMENT PRIMARY KEY,
+    Nombre          VARCHAR(100) NOT NULL,
+    Apellido        VARCHAR(100) NOT NULL,
+    Username        VARCHAR(50) NOT NULL UNIQUE,
+    Password        VARCHAR(256) NOT NULL, -- Se guardará el Hash SHA2
+    Rol             ENUM('Admin', 'Empleado') NOT NULL,
+    Activo          BOOLEAN DEFAULT TRUE,
+    FechaRegistro   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Datos Inicial (Usuario Admin por defecto: admin / admin123)
+INSERT INTO Usuarios (Nombre, Apellido, Username, Password, Rol, Activo) VALUES ('Administrador', 'Principal', 'admin', SHA2('admin123', 256), 'Admin', 1);
+
+CREATE TABLE Productos (
+    IdProducto      INT AUTO_INCREMENT PRIMARY KEY, -- Tu C# busca "IdProducto"
+    Clave           VARCHAR(50),                    -- Código de barras/SKU
+    Nombre          VARCHAR(100) NOT NULL,
+    Descripcion     TEXT,
+    Precio          DECIMAL(10,2) NOT NULL,
+    Stock           INT NOT NULL DEFAULT 0,
+    Descuento       DECIMAL(10,2) DEFAULT 0,
+    Imagen          LONGBLOB,                       -- Para guardar el byte[]
+    Activo          BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE Ventas (
+    IdVenta         INT AUTO_INCREMENT PRIMARY KEY,
+    IdUsuario       INT NOT NULL,
+    FechaVenta      DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Total           DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (IdUsuario) REFERENCES Usuarios(IdUsuario)
+);
+
+CREATE TABLE DetalleVenta (
+    IdDetalleVenta  INT AUTO_INCREMENT PRIMARY KEY,
+    IdVenta         INT NOT NULL,
+    IdProducto      INT NOT NULL,
+    Cantidad        INT NOT NULL,
+    PrecioUnitario  DECIMAL(10,2) NOT NULL,
+    Subtotal        DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (IdVenta) REFERENCES Ventas(IdVenta),
+    FOREIGN KEY (IdProducto) REFERENCES Productos(IdProducto)
+);
+
+-- Tabla de Auditoría
+CREATE TABLE AuditoriaProductos (
+    IdAuditoria     INT AUTO_INCREMENT PRIMARY KEY,
+    IdProducto      INT,
+    Accion          VARCHAR(20),
+    Fecha           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UsuarioBD       VARCHAR(50),
+    Detalles        TEXT
 );
 
 -- Tabla de categorías de productos
@@ -21,53 +70,7 @@ CREATE TABLE categorias (
     Descripcion     TEXT
 );
 
--- Tabla de productos
-CREATE TABLE productos (
-    ProductoID      INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
-    Clave           VARCHAR(13)     UNIQUE      NOT NULL,
-    Nombre          VARCHAR(30)     NOT NULL,
-    Precio          DECIMAL(10, 2)  NOT NULL,
-    Stock           INT             NOT NULL    DEFAULT 0,
-    Descripcion     TEXT,
-    CategoriaID     INT,
-    Disponibilidad  BOOLEAN         DEFAULT TRUE,
-    createddate     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (CategoriaID) REFERENCES categorias(CategoriaID)
-);
-
--- Tabla de ventas
-CREATE TABLE ventas (
-    VentaID         INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
-    FechaVenta      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Total           DECIMAL(10,2)   NOT NULL,
-    EmpleadoId          INT             NOT NULL,
-    FOREIGN KEY (EmpleadoId) 
-    REFERENCES Empleado(EmpleadoId)
-);
-
--- Tabla de detalles de venta
-CREATE TABLE detalle_venta (
-    DetalleVentaID  INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
-    VentaID         INT             NOT NULL,
-    ProductoID      INT             NOT NULL,
-    Cantidad        INT             NOT NULL,
-    PrecioUnitario  DECIMAL(10,2)   NOT NULL,
-    Subtotal        DECIMAL(10,2)   NOT NULL,
-    FOREIGN KEY (VentaID) REFERENCES ventas(VentaID),
-    FOREIGN KEY (ProductoID) REFERENCES productos(ProductoID)
-);
-
--- Tabla de auditoría de productos
-CREATE TABLE AuditoriaProductos (
-    AuditoriaID     INT             PRIMARY KEY AUTO_INCREMENT,
-    ProductoID      INT             NOT NULL,
-    FechaCambio     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    TipoCambio      ENUM('INSERT','UPDATE','DELETE') NOT NULL,
-    Empleado         VARCHAR(100)    NOT NULL,
-    ValorAnterior   TEXT,
-    ValorNuevo      TEXT
-);
-
+/*
 -- Tabla de compras/proveedores
 CREATE TABLE compras (
     CompraID        INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
@@ -77,7 +80,9 @@ CREATE TABLE compras (
     EmpleadoId          INT             NOT NULL,
     FOREIGN KEY (UserID) REFERENCES Users(userid)
 );
+*/
 
+/*
 CREATE TABLE detalle_compra (
     DetalleCompraID INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
     CompraID        INT             NOT NULL,
@@ -88,147 +93,188 @@ CREATE TABLE detalle_compra (
     FOREIGN KEY (CompraID) REFERENCES compras(CompraID),
     FOREIGN KEY (ProductoID) REFERENCES productos(ProductoID)
 );
+*/
 
 -- --------------------------------------------------------------------------------------------
 -- Funcionalidad de la BD
 
--- Procedimiento para login
+-- ================================
+-- 2.1 STORED PROCEDURES: USUARIOS
+-- ================================
+
 DELIMITER $$
-CREATE PROCEDURE sp_Login(
-    IN p_username VARCHAR(50),
-    IN p_password VARCHAR(256)
+
+-- Insertar Usuario (Con Hashing SHA2)
+CREATE PROCEDURE sp_InsertarUsuario(
+    IN p_Nombre VARCHAR(100),
+    IN p_Apellido VARCHAR(100),
+    IN p_Username VARCHAR(50),
+    IN p_Password VARCHAR(256),
+    IN p_Rol VARCHAR(20)
 )
 BEGIN
-    SELECT userid, Nombre, Apellido, username, email, userrole
-    FROM Users 
-    WHERE username = p_username 
-    AND password = SHA2(p_password, 256)
-    AND activo = TRUE;
-END $$
+    INSERT INTO Usuarios (Nombre, Apellido, Username, Password, Rol, Activo)
+    VALUES (p_Nombre, p_Apellido, p_Username, SHA2(p_Password, 256), p_Rol, 1);
+END$$
 
-DELIMITER ;
-
--- CRUD de Empleados
-DELIMITER $$
-CREATE PROCEDURE sp_InsertarEmpleado(
-    IN p_Nombre VARCHAR(50),
-    IN p_Apellido VARCHAR(50),
-    IN p_username VARCHAR(50),
-    IN p_password VARCHAR(256),
-    IN p_email VARCHAR(100),
-    IN p_userrole ENUM('Admin','Empleado')
+-- Modificar Usuario
+CREATE PROCEDURE sp_ModificarUsuario(
+    IN p_IdUsuario INT,
+    IN p_Nombre VARCHAR(100),
+    IN p_Apellido VARCHAR(100),
+    IN p_Username VARCHAR(50),
+    IN p_Password VARCHAR(256), -- Si viene vacío, no se cambia
+    IN p_Rol VARCHAR(20),
+    IN p_Activo BOOLEAN
 )
 BEGIN
-    INSERT INTO Users (Nombre, Apellido, username, password, email, userrole)
-    VALUES (p_Nombre, p_Apellido, p_username, SHA2(p_password, 256), p_email, p_userrole);
-END $$
-DELIMITER ;
-
--- Actualizar Empleado
-DELIMITER $$
-CREATE PROCEDURE sp_ActualizarEmpleado(
-    IN p_userid INT,
-    IN p_Nombre VARCHAR(50),
-    IN p_Apellido VARCHAR(50),
-    IN p_email VARCHAR(100)
-)
-BEGIN
-    UPDATE Users 
+    UPDATE Usuarios
     SET Nombre = p_Nombre,
         Apellido = p_Apellido,
-        email = p_email
-    WHERE userid = p_userid;
-END $$
-DELIMITER ;
+        Username = p_Username,
+        Rol = p_Rol,
+        Activo = p_Activo,
+        -- Solo actualiza password si el parámetro no está vacío
+        Password = IF(p_Password = '', Password, SHA2(p_Password, 256))
+    WHERE IdUsuario = p_IdUsuario;
+END$$
 
--- Eliminar Empleado
-DELIMITER $$
-CREATE PROCEDURE sp_EliminarEmpleado(IN p_userid INT)
-BEGIN
-    UPDATE Users SET activo = FALSE 
-    WHERE userid = p_userid;
-END $$
-DELIMITER ;
-
--- Lista de empleados
-DELIMITER $$
-CREATE PROCEDURE sp_ListarEmpleados()
-BEGIN
-    SELECT userid, Nombre, Apellido, username, email, userrole, createddate
-    FROM Users;
-END $$
-DELIMITER ;
-
-DELIMITER $$
-CREATE PROCEDURE sp_ListarEmpleadosActivos()
-BEGIN
-    SELECT userid, Nombre, Apellido, username, email, userrole, createddate
-    FROM Users WHERE activo = TRUE;
-END $$
-DELIMITER ;
-
--- CRUD de Productos
-DELIMITER $$
-CREATE PROCEDURE sp_InsertarProducto(
-    IN p_Clave VARCHAR(13),
-    IN p_Nombre VARCHAR(30),
-    IN p_Precio DECIMAL(10,2),
-    IN p_Stock INT,
-    IN p_Descripcion TEXT,
-    IN p_CategoriaID INT,
-    IN p_Disponibilidad BOOLEAN
+-- Eliminar Usuario (Borrado Lógico)
+CREATE PROCEDURE sp_EliminarUsuario(
+    IN p_Username VARCHAR(50)
 )
 BEGIN
-    INSERT INTO productos (Clave, Nombre, Precio, Stock, Descripcion, CategoriaID, Disponibilidad)
-    VALUES (p_Clave, p_Nombre, p_Precio, p_Stock, p_Descripcion, p_CategoriaID, p_Disponibilidad);
-END $$
-DELIMITER ;
+    UPDATE Usuarios 
+    SET Activo = 0 
+    WHERE Username = p_Username;
+END$$
+
+-- Login (Validación)
+CREATE PROCEDURE sp_ValidarLogin(
+    IN p_Username VARCHAR(50),
+    IN p_Password VARCHAR(256)
+)
+BEGIN
+    SELECT IdUsuario, Nombre, Apellido, Rol, Activo 
+    FROM Usuarios
+    WHERE Username = p_Username 
+      AND Password = SHA2(p_Password, 256) 
+      AND Activo = 1;
+END$$
+
+-- ==================================
+-- 2.2. STORED PROCEDURES: PRODUCTOS
+-- ==================================
+
+-- Insertar Producto
+CREATE PROCEDURE sp_InsertarProducto(
+    IN p_Clave VARCHAR(50),
+    IN p_Nombre VARCHAR(100),
+    IN p_Descripcion TEXT,
+    IN p_Precio DECIMAL(10,2),
+    IN p_Stock INT,
+    IN p_Descuento DECIMAL(10,2),
+    IN p_Activo BOOLEAN,
+    IN p_Imagen LONGBLOB
+)
+BEGIN
+    INSERT INTO Productos (Clave, Nombre, Descripcion, Precio, Stock, Descuento, Activo, Imagen)
+    VALUES (p_Clave, p_Nombre, p_Descripcion, p_Precio, p_Stock, p_Descuento, p_Activo, p_Imagen);
+END$$
 
 -- Actualizar Producto
-DELIMITER $$
 CREATE PROCEDURE sp_ActualizarProducto(
-    IN p_ProductoID INT,
-    IN p_Clave VARCHAR(13),
-    IN p_Nombre VARCHAR(30),
+    IN p_IdProducto INT,
+    IN p_Clave VARCHAR(50),
+    IN p_Nombre VARCHAR(100),
+    IN p_Descripcion TEXT,
     IN p_Precio DECIMAL(10,2),
     IN p_Stock INT,
-    IN p_Descripcion TEXT,
-    IN p_CategoriaID INT,
-    IN p_Disponibilidad BOOLEAN
+    IN p_Descuento DECIMAL(10,2),
+    IN p_Activo BOOLEAN,
+    IN p_Imagen LONGBLOB
 )
 BEGIN
-    UPDATE productos
+    UPDATE Productos
     SET Clave = p_Clave,
         Nombre = p_Nombre,
+        Descripcion = p_Descripcion,
         Precio = p_Precio,
         Stock = p_Stock,
-        Descripcion = p_Descripcion,
-        CategoriaID = p_CategoriaID,
-        Disponibilidad = p_Disponibilidad
-    WHERE ProductoID = p_ProductoID;
-END $$
-DELIMITER ;
+        Descuento = p_Descuento,
+        Activo = p_Activo,
+        -- Si la imagen es NULL (no se envió nueva), conserva la anterior
+        Imagen = IF(p_Imagen IS NULL, Imagen, p_Imagen)
+    WHERE IdProducto = p_IdProducto;
+END$$
 
--- Eliminar Producto
-DELIMITER $$
-CREATE PROCEDURE sp_EliminarProducto(IN p_ProductoID INT)
+-- Eliminar Producto (Borrado Lógico)
+CREATE PROCEDURE sp_EliminarProducto(
+    IN p_IdProducto INT
+)
 BEGIN
-    DELETE FROM productos WHERE ProductoID = p_ProductoID;
-END $$
-DELIMITER ;
+    UPDATE Productos SET Activo = 0 WHERE IdProducto = p_IdProducto;
+END$$
 
--- Lista de Productos
-DELIMITER $$
-CREATE PROCEDURE sp_ListarProductos()
+-- =============================================
+-- 2.3 STORED PROCEDURES: VENTAS (Transacciones)
+-- =============================================
+
+CREATE PROCEDURE sp_InsertarVenta(
+    IN p_IdUsuario INT,
+    IN p_Total DECIMAL(10,2),
+    OUT p_IdVentaGenerado INT -- Parámetro de Salida vital para C#
+)
 BEGIN
-    SELECT p.ProductoID, p.Clave, p.Nombre, p.Precio, p.Stock, p.Descripcion, 
-           c.Nombre as Categoria, p.Disponibilidad
-    FROM productos p
-    LEFT JOIN categorias c ON p.CategoriaID = c.CategoriaID;
-END $$
+    INSERT INTO Ventas (IdUsuario, Total, FechaVenta)
+    VALUES (p_IdUsuario, p_Total, NOW());
+    
+    SET p_IdVentaGenerado = LAST_INSERT_ID();
+END$$
+
+CREATE PROCEDURE sp_InsertarDetalleVenta(
+    IN p_IdVenta INT,
+    IN p_IdProducto INT,
+    IN p_Cantidad INT,
+    IN p_PrecioUnitario DECIMAL(10,2),
+    IN p_Subtotal DECIMAL(10,2)
+)
+BEGIN
+    INSERT INTO DetalleVenta (IdVenta, IdProducto, Cantidad, PrecioUnitario, Subtotal)
+    VALUES (p_IdVenta, p_IdProducto, p_Cantidad, p_PrecioUnitario, p_Subtotal);
+END$$
+
+CREATE PROCEDURE sp_DescontarStock(
+    IN p_IdProducto INT,
+    IN p_Cantidad INT
+)
+BEGIN
+    UPDATE Productos 
+    SET Stock = Stock - p_Cantidad
+    WHERE IdProducto = p_IdProducto;
+END$$
+
+-- -----------------------------------------------------------------------------------------------
+-- 3. TRIGGERS DE AUDITORÍA
+
+DELIMITER $$
+CREATE TRIGGER trg_Auditoria_UpdateProducto
+AFTER UPDATE ON Productos
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioDB, Detalles)
+    VALUES (
+        NEW.IdProducto, 
+        'UPDATE', 
+        USER(), 
+        CONCAT('Stock anterior: ', OLD.Stock, ', Nuevo: ', NEW.Stock, '. Precio ant: ', OLD.Precio, ', Nuevo: ', NEW.Precio)
+    );
+END$$
 DELIMITER ;
 
+-- -----------------------------------------------------------------------------------------------
 
+-- 4. FUNCIONES Y REPORTES
 
 -- Función para ventas del día
 DELIMITER $$
