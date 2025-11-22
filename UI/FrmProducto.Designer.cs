@@ -37,16 +37,20 @@
             label6 = new Label();
             txtNombre = new TextBox();
             txtDescripcion = new TextBox();
-            checkBox1 = new CheckBox();
+            chkActivo = new CheckBox();
             nudPrecio = new NumericUpDown();
             nudDescuento = new NumericUpDown();
             nudStock = new NumericUpDown();
-            button1 = new Button();
-            button2 = new Button();
+            btnAceptar = new Button();
+            btnCancelar = new Button();
             label7 = new Label();
+            txtClave = new TextBox();
+            pbImagen = new PictureBox();
+            btnCargarImagen = new Button();
             ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudDescuento).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudStock).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbImagen).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -130,17 +134,17 @@
             txtDescripcion.Size = new Size(293, 66);
             txtDescripcion.TabIndex = 19;
             // 
-            // checkBox1
+            // chkActivo
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Font = new Font("Footlight MT Light", 14.25F);
-            checkBox1.Location = new Point(438, 98);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(77, 24);
-            checkBox1.TabIndex = 23;
-            checkBox1.Text = "Activo";
-            checkBox1.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox1.UseVisualStyleBackColor = true;
+            chkActivo.AutoSize = true;
+            chkActivo.Font = new Font("Footlight MT Light", 14.25F);
+            chkActivo.Location = new Point(338, 225);
+            chkActivo.Name = "chkActivo";
+            chkActivo.Size = new Size(77, 24);
+            chkActivo.TabIndex = 23;
+            chkActivo.Text = "Activo";
+            chkActivo.TextAlign = ContentAlignment.MiddleCenter;
+            chkActivo.UseVisualStyleBackColor = true;
             // 
             // nudPrecio
             // 
@@ -171,35 +175,37 @@
             nudStock.Size = new Size(157, 28);
             nudStock.TabIndex = 26;
             // 
-            // button1
+            // btnAceptar
             // 
-            button1.AutoSize = true;
-            button1.BackColor = Color.Gainsboro;
-            button1.Font = new Font("Footlight MT Light", 14.25F);
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.ImageAlign = ContentAlignment.MiddleLeft;
-            button1.Location = new Point(82, 361);
-            button1.Name = "button1";
-            button1.Size = new Size(118, 47);
-            button1.TabIndex = 27;
-            button1.Text = "Aceptar";
-            button1.TextAlign = ContentAlignment.MiddleRight;
-            button1.UseVisualStyleBackColor = false;
+            btnAceptar.AutoSize = true;
+            btnAceptar.BackColor = Color.Gainsboro;
+            btnAceptar.Font = new Font("Footlight MT Light", 14.25F);
+            btnAceptar.Image = (Image)resources.GetObject("btnAceptar.Image");
+            btnAceptar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAceptar.Location = new Point(82, 361);
+            btnAceptar.Name = "btnAceptar";
+            btnAceptar.Size = new Size(118, 47);
+            btnAceptar.TabIndex = 27;
+            btnAceptar.Text = "Aceptar";
+            btnAceptar.TextAlign = ContentAlignment.MiddleRight;
+            btnAceptar.UseVisualStyleBackColor = false;
+            btnAceptar.Click += btnGuardar_Click;
             // 
-            // button2
+            // btnCancelar
             // 
-            button2.AutoSize = true;
-            button2.BackColor = Color.Gainsboro;
-            button2.Font = new Font("Footlight MT Light", 14.25F);
-            button2.Image = (Image)resources.GetObject("button2.Image");
-            button2.ImageAlign = ContentAlignment.MiddleLeft;
-            button2.Location = new Point(275, 361);
-            button2.Name = "button2";
-            button2.Size = new Size(128, 47);
-            button2.TabIndex = 28;
-            button2.Text = "Cancelar";
-            button2.TextAlign = ContentAlignment.MiddleRight;
-            button2.UseVisualStyleBackColor = false;
+            btnCancelar.AutoSize = true;
+            btnCancelar.BackColor = Color.Gainsboro;
+            btnCancelar.Font = new Font("Footlight MT Light", 14.25F);
+            btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
+            btnCancelar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCancelar.Location = new Point(275, 361);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(128, 47);
+            btnCancelar.TabIndex = 28;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.TextAlign = ContentAlignment.MiddleRight;
+            btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnGuardar_Click;
             // 
             // label7
             // 
@@ -207,23 +213,60 @@
             label7.Font = new Font("Footlight MT Light", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label7.Location = new Point(53, 49);
             label7.Name = "label7";
-            label7.Size = new Size(77, 20);
+            label7.Size = new Size(57, 20);
             label7.TabIndex = 29;
-            label7.Text = "Nombre:";
+            label7.Text = "Clave:";
+            // 
+            // txtClave
+            // 
+            txtClave.BackColor = Color.Wheat;
+            txtClave.BorderStyle = BorderStyle.FixedSingle;
+            txtClave.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtClave.Location = new Point(136, 41);
+            txtClave.Name = "txtClave";
+            txtClave.Size = new Size(267, 28);
+            txtClave.TabIndex = 30;
+            // 
+            // pbImagen
+            // 
+            pbImagen.Location = new Point(462, 41);
+            pbImagen.Name = "pbImagen";
+            pbImagen.Size = new Size(134, 84);
+            pbImagen.TabIndex = 31;
+            pbImagen.TabStop = false;
+            // 
+            // btnCargarImagen
+            // 
+            btnCargarImagen.AutoSize = true;
+            btnCargarImagen.BackColor = Color.Gainsboro;
+            btnCargarImagen.Font = new Font("Footlight MT Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnCargarImagen.Image = (Image)resources.GetObject("btnCargarImagen.Image");
+            btnCargarImagen.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCargarImagen.Location = new Point(462, 145);
+            btnCargarImagen.Name = "btnCargarImagen";
+            btnCargarImagen.Size = new Size(155, 47);
+            btnCargarImagen.TabIndex = 32;
+            btnCargarImagen.Text = "Cargar Imagen";
+            btnCargarImagen.TextAlign = ContentAlignment.MiddleRight;
+            btnCargarImagen.UseVisualStyleBackColor = false;
+            btnCargarImagen.Click += btnCargarImagen_Click;
             // 
             // FrmProducto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Peru;
-            ClientSize = new Size(571, 420);
+            ClientSize = new Size(642, 420);
+            Controls.Add(btnCargarImagen);
+            Controls.Add(pbImagen);
+            Controls.Add(txtClave);
             Controls.Add(label7);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(btnCancelar);
+            Controls.Add(btnAceptar);
             Controls.Add(nudStock);
             Controls.Add(nudDescuento);
             Controls.Add(nudPrecio);
-            Controls.Add(checkBox1);
+            Controls.Add(chkActivo);
             Controls.Add(txtDescripcion);
             Controls.Add(txtNombre);
             Controls.Add(label6);
@@ -237,6 +280,7 @@
             ((System.ComponentModel.ISupportInitialize)nudPrecio).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudDescuento).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudStock).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbImagen).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -251,12 +295,15 @@
         private Label label6;
         private TextBox txtNombre;
         private TextBox txtDescripcion;
-        private CheckBox checkBox1;
+        private CheckBox chkActivo;
         private NumericUpDown nudPrecio;
         private NumericUpDown nudDescuento;
         private NumericUpDown nudStock;
-        private Button button1;
-        private Button button2;
+        private Button btnAceptar;
+        private Button btnCancelar;
         private Label label7;
+        private TextBox txtClave;
+        private PictureBox pbImagen;
+        private Button btnCargarImagen;
     }
 }

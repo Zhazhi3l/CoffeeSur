@@ -17,7 +17,7 @@ namespace CoffeeSur.UI
     public partial class FrmUsuario : Form
     {
         UsuarioService servicio = new UsuarioService();
-        private int? idSeleccionado = null; // Guarda el IdUsuario del usuario seleccionado
+        private int? idSeleccionado = null; 
 
         public FrmUsuario()
         {

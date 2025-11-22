@@ -14,49 +14,74 @@ namespace CoffeeSur.UI
 {
     public partial class FrmProducto : Form
     {
-        private ProductoService _productoService = new ProductoService();
-
         public FrmProducto()
         {
             InitializeComponent();
         }
 
-        private void btnRegistrar_Click(object sender, EventArgs e)
+        private void btnCargarImagen_Click(object sender, EventArgs e)
         {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Imágenes|*.jpg;*.jpeg;*.png;*.bmp";
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                pbImagen.Image = System.Drawing.Image.FromFile(ofd.FileName);
+            }
+        }
+
+        private byte[] ConvertirImagenABytes()
+        {
+            if (pbImagen.Image == null) return null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                pbImagen.Image.Save(ms, pbImagen.Image.RawFormat);
+                return ms.ToArray();
+            }
+        }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            Producto producto = new Producto
+            {
+                Clave = txtClave.Text,
+                Nombre = txtNombre.Text,
+                Descripcion = txtDescripcion.Text,
+                Precio = nudPrecio.Value,
+                Stock = (int)nudStock.Value,
+                Descuento = nudDescuento.Value,
+                Imagen = ConvertirImagenABytes(),
+                Activo = chkActivo.Checked
+            };
+
             try
             {
-                Producto nuevo = new Producto()
-                {
-                    Nombre = txtNombre.Text.Trim(),
-                    Precio = Convert.ToDecimal(txtPrecio.Text.Trim()),
-                    Stock = Convert.ToInt32(txtStock.Text.Trim())
-                };
+                ProductoService service = new ProductoService();
+                service.RegistrarNuevoProducto(producto);
 
-                _productoService.RegistrarNuevoProducto(nuevo);
-
-                MessageBox.Show("Producto registrado correctamente.", "Éxito",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                LimpiarFormulario();
-            }
-            catch (FormatException)
-            {
-                MessageBox.Show("Verifique que el precio y el stock tengan valores numéricos válidos.",
-                    "Error de formato", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Producto registrado correctamente");
+                LimpiarCampos();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
 
-        private void LimpiarFormulario()
+        private void LimpiarCampos()
         {
+            txtClave.Clear();
             txtNombre.Clear();
-            txtPrecio.Clear();
-            txtStock.Clear();
+            txtDescripcion.Clear();
+            nudPrecio.Value = 0;
+            nudStock.Value = 0;
+            nudDescuento.Value = 0;
+            chkActivo.Checked = false;
+            pbImagen.Image = null;
         }
 
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
