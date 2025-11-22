@@ -43,6 +43,7 @@
             nudStock = new NumericUpDown();
             button1 = new Button();
             button2 = new Button();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudDescuento).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudStock).BeginInit();
@@ -102,7 +103,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Footlight MT Light", 20.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label6.Location = new Point(110, 22);
+            label6.Location = new Point(136, 9);
             label6.Name = "label6";
             label6.Size = new Size(235, 29);
             label6.TabIndex = 15;
@@ -200,12 +201,23 @@
             button2.TextAlign = ContentAlignment.MiddleRight;
             button2.UseVisualStyleBackColor = false;
             // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Footlight MT Light", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label7.Location = new Point(53, 49);
+            label7.Name = "label7";
+            label7.Size = new Size(77, 20);
+            label7.TabIndex = 29;
+            label7.Text = "Nombre:";
+            // 
             // FrmProducto
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Peru;
             ClientSize = new Size(571, 420);
+            Controls.Add(label7);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(nudStock);
@@ -245,5 +257,6 @@
         private NumericUpDown nudStock;
         private Button button1;
         private Button button2;
+        private Label label7;
     }
 }

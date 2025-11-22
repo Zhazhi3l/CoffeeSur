@@ -29,20 +29,20 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmGestionUsuarios));
-            dataGridView1 = new DataGridView();
+            dgvUsuario = new DataGridView();
             btnAgregar = new Button();
             btnModificar = new Button();
             btnEliminar = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvUsuario).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dgvUsuario
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(115, 157);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(353, 150);
-            dataGridView1.TabIndex = 0;
+            dgvUsuario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvUsuario.Location = new Point(115, 157);
+            dgvUsuario.Name = "dgvUsuario";
+            dgvUsuario.Size = new Size(353, 150);
+            dgvUsuario.TabIndex = 0;
             // 
             // btnAgregar
             // 
@@ -98,17 +98,17 @@
             Controls.Add(btnEliminar);
             Controls.Add(btnModificar);
             Controls.Add(btnAgregar);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvUsuario);
             Name = "FrmGestionUsuarios";
             Text = "FrmGestionUsuarios";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvUsuario).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView dgvUsuario;
         private Button btnAgregar;
         private Button btnModificar;
         private Button btnEliminar;

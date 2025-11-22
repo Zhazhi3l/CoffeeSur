@@ -58,6 +58,5 @@ namespace CoffeeSur.UI
             txtStock.Clear();
         }
 
-        
     }
 }

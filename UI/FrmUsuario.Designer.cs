@@ -1,4 +1,5 @@
-﻿namespace CoffeeSur.UI
+﻿
+namespace CoffeeSur.UI
 {
     partial class FrmUsuario
     {
@@ -33,16 +34,16 @@
             label4 = new Label();
             label5 = new Label();
             label6 = new Label();
-            button1 = new Button();
-            button3 = new Button();
             txtNombre = new TextBox();
             txtApellido = new TextBox();
             label2 = new Label();
-            txtUsername = new TextBox();
+            txtUser = new TextBox();
             txtPassword = new TextBox();
             label3 = new Label();
-            cboRol = new ComboBox();
-            checkBox1 = new CheckBox();
+            cmbRol = new ComboBox();
+            chkActivo = new CheckBox();
+            btnAceptar = new Button();
+            btnCancelar = new Button();
             SuspendLayout();
             // 
             // label1
@@ -85,30 +86,6 @@
             label6.TabIndex = 5;
             label6.Text = "Apellidos:";
             // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            button1.AutoSize = true;
-            button1.ForeColor = Color.DarkGoldenrod;
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(125, 362);
-            button1.Name = "button1";
-            button1.Size = new Size(60, 59);
-            button1.TabIndex = 6;
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            button3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            button3.AutoSize = true;
-            button3.ForeColor = Color.DarkGoldenrod;
-            button3.Image = (Image)resources.GetObject("button3.Image");
-            button3.Location = new Point(257, 362);
-            button3.Name = "button3";
-            button3.Size = new Size(69, 56);
-            button3.TabIndex = 8;
-            button3.UseVisualStyleBackColor = true;
-            // 
             // txtNombre
             // 
             txtNombre.BackColor = Color.Khaki;
@@ -139,15 +116,15 @@
             label2.TabIndex = 14;
             label2.Text = "Gestión de Usuario";
             // 
-            // txtUsername
+            // txtUser
             // 
-            txtUsername.BackColor = Color.Khaki;
-            txtUsername.BorderStyle = BorderStyle.FixedSingle;
-            txtUsername.Font = new Font("Yu Gothic", 9.75F);
-            txtUsername.Location = new Point(134, 171);
-            txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(263, 28);
-            txtUsername.TabIndex = 15;
+            txtUser.BackColor = Color.Khaki;
+            txtUser.BorderStyle = BorderStyle.FixedSingle;
+            txtUser.Font = new Font("Yu Gothic", 9.75F);
+            txtUser.Location = new Point(134, 171);
+            txtUser.Name = "txtUser";
+            txtUser.Size = new Size(263, 28);
+            txtUser.TabIndex = 15;
             // 
             // txtPassword
             // 
@@ -170,29 +147,59 @@
             label3.TabIndex = 17;
             label3.Text = "Rol:";
             // 
-            // cboRol
+            // cmbRol
             // 
-            cboRol.BackColor = Color.Khaki;
-            cboRol.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboRol.Font = new Font("Yu Gothic", 9.75F);
-            cboRol.FormattingEnabled = true;
-            cboRol.Items.AddRange(new object[] { "Admin", "Empleado" });
-            cboRol.Location = new Point(134, 262);
-            cboRol.Name = "cboRol";
-            cboRol.Size = new Size(263, 25);
-            cboRol.TabIndex = 18;
+            cmbRol.BackColor = Color.Khaki;
+            cmbRol.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbRol.Font = new Font("Yu Gothic", 9.75F);
+            cmbRol.FormattingEnabled = true;
+            cmbRol.Items.AddRange(new object[] { "Admin", "Empleado" });
+            cmbRol.Location = new Point(134, 262);
+            cmbRol.Name = "cmbRol";
+            cmbRol.Size = new Size(263, 25);
+            cmbRol.TabIndex = 18;
             // 
-            // checkBox1
+            // chkActivo
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Font = new Font("Footlight MT Light", 14.25F);
-            checkBox1.Location = new Point(134, 306);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(77, 24);
-            checkBox1.TabIndex = 24;
-            checkBox1.Text = "Activo";
-            checkBox1.TextAlign = ContentAlignment.MiddleCenter;
-            checkBox1.UseVisualStyleBackColor = true;
+            chkActivo.AutoSize = true;
+            chkActivo.Font = new Font("Footlight MT Light", 14.25F);
+            chkActivo.Location = new Point(134, 306);
+            chkActivo.Name = "chkActivo";
+            chkActivo.Size = new Size(77, 24);
+            chkActivo.TabIndex = 24;
+            chkActivo.Text = "Activo";
+            chkActivo.TextAlign = ContentAlignment.MiddleCenter;
+            chkActivo.UseVisualStyleBackColor = true;
+            // 
+            // btnAceptar
+            // 
+            btnAceptar.AutoSize = true;
+            btnAceptar.BackColor = Color.Gainsboro;
+            btnAceptar.Font = new Font("Footlight MT Light", 14.25F);
+            btnAceptar.Image = (Image)resources.GetObject("btnAceptar.Image");
+            btnAceptar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAceptar.Location = new Point(61, 355);
+            btnAceptar.Name = "btnAceptar";
+            btnAceptar.Size = new Size(118, 47);
+            btnAceptar.TabIndex = 28;
+            btnAceptar.Text = "Aceptar";
+            btnAceptar.TextAlign = ContentAlignment.MiddleRight;
+            btnAceptar.UseVisualStyleBackColor = false;
+            // 
+            // btnCancelar
+            // 
+            btnCancelar.AutoSize = true;
+            btnCancelar.BackColor = Color.Gainsboro;
+            btnCancelar.Font = new Font("Footlight MT Light", 14.25F);
+            btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
+            btnCancelar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnCancelar.Location = new Point(214, 355);
+            btnCancelar.Name = "btnCancelar";
+            btnCancelar.Size = new Size(128, 47);
+            btnCancelar.TabIndex = 29;
+            btnCancelar.Text = "Cancelar";
+            btnCancelar.TextAlign = ContentAlignment.MiddleRight;
+            btnCancelar.UseVisualStyleBackColor = false;
             // 
             // FrmUsuario
             // 
@@ -200,16 +207,16 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.DarkGoldenrod;
             ClientSize = new Size(513, 430);
-            Controls.Add(checkBox1);
-            Controls.Add(cboRol);
+            Controls.Add(btnCancelar);
+            Controls.Add(btnAceptar);
+            Controls.Add(chkActivo);
+            Controls.Add(cmbRol);
             Controls.Add(label3);
             Controls.Add(txtPassword);
-            Controls.Add(txtUsername);
+            Controls.Add(txtUser);
             Controls.Add(label2);
             Controls.Add(txtApellido);
             Controls.Add(txtNombre);
-            Controls.Add(button3);
-            Controls.Add(button1);
             Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -220,21 +227,26 @@
             PerformLayout();
         }
 
+        private void SuspendLayout()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         private Label label1;
         private Label label4;
         private Label label5;
         private Label label6;
-        private Button button1;
-        private Button button3;
         private TextBox txtNombre;
         private TextBox txtApellido;
         private Label label2;
-        private TextBox txtUsername;
+        private TextBox txtUser;
         private TextBox txtPassword;
         private Label label3;
-        private ComboBox cboRol;
-        private CheckBox checkBox1;
+        private ComboBox cmbRol;
+        private CheckBox chkActivo;
+        private Button btnAceptar;
+        private Button btnCancelar;
     }
 }
