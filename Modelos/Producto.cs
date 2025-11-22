@@ -9,6 +9,7 @@ namespace CoffeeSur.Modelos
     public class Producto
     {
         public int IdProducto { get; set; }
+        public string Clave { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public decimal Precio { get; set; }
@@ -16,5 +17,6 @@ namespace CoffeeSur.Modelos
         public decimal Descuento { get; set; }
         public byte[] Imagen { get; set; }
         public bool Activo { get; set; }
+        
     }
 }

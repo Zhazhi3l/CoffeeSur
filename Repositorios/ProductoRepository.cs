@@ -29,6 +29,7 @@ namespace CoffeeSur.Repositorios
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
+                    cmd.Parameters.AddWithValue("@p_Clave", producto.Clave ?? "");
                     cmd.Parameters.AddWithValue("@p_Nombre", producto.Nombre);
                     cmd.Parameters.AddWithValue("@p_Descripcion", producto.Descripcion);
                     cmd.Parameters.AddWithValue("@p_Precio", producto.Precio);
@@ -59,6 +60,9 @@ namespace CoffeeSur.Repositorios
             {
                 using (MySqlCommand cmd = new MySqlCommand("sp_ActualizarProducto", conex))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@p_Clave", producto.Clave ?? "");
                     cmd.Parameters.AddWithValue("@p_Nombre", producto.Nombre);
                     cmd.Parameters.AddWithValue("@p_Descripcion", producto.Descripcion);
                     cmd.Parameters.AddWithValue("@p_Precio", producto.Precio);
@@ -122,6 +126,7 @@ namespace CoffeeSur.Repositorios
                             p = new Producto
                             {
                                 IdProducto = reader.GetInt32("IdProducto"),
+                                Clave = reader.GetString("Clave"),
                                 Nombre = reader.GetString("Nombre"),
                                 Precio = reader.GetDecimal("Precio"),
                                 Stock = reader.GetInt32("Stock"),
