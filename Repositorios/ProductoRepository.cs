@@ -180,5 +180,42 @@ namespace CoffeeSur.Repositorios
             }
             return productos;
         }
+        public Producto ObtenerPorClave(string clave)
+        {
+            Producto p = null;
+            using (MySqlConnection conex = _conexion.GetConexion())
+            {
+                using (MySqlCommand cmd = new MySqlCommand("sp_ObtenerProductoPorClave", conex))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@clave", clave);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            p = new Producto
+                            {
+                                IdProducto = reader.GetInt32("IdProducto"),
+                                Clave = reader.GetString("Clave"),
+                                Nombre = reader.GetString("Nombre"),
+                                Precio = reader.GetDecimal("Precio"),
+                                Stock = reader.GetInt32("Stock"),
+                                Descuento = reader.IsDBNull(reader.GetOrdinal("Descuento")) ? 0 : reader.GetDecimal("Descuento"),
+                                Descripcion = reader.IsDBNull(reader.GetOrdinal("Descripcion")) ? "" : reader.GetString("Descripcion"),
+                                Activo = reader.GetBoolean("Activo")
+                            };
+                            if (!reader.IsDBNull(reader.GetOrdinal("Imagen")))
+                            {
+                                p.Imagen = (byte[])reader["Imagen"];
+                            }
+                        }
+                    }
+                }
+            }
+            return p;
+        }
+
+
     }
 }

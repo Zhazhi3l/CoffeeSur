@@ -94,14 +94,86 @@ namespace CoffeeSur.Repositorios
             }
         }
 
-        public Venta ObtenerVentaPorId()
-        {
 
+        public Venta ObtenerVentaPorId(int idVenta)
+        {
+            Venta venta = null;
+            using (MySqlConnection conx = _conexion.GetConexion())
+            {
+                using (MySqlCommand cmd = new MySqlCommand("sp_ObtenerVentaPorId", conx))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@p_IdVenta", idVenta);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            venta = new Venta
+                            {
+                                IdVenta = Convert.ToInt32(reader["IdVenta"]),
+                                IdUsuario = Convert.ToInt32(reader["IdUsuario"]),
+                                FechaVenta = Convert.ToDateTime(reader["FechaVenta"]),
+                                Total = Convert.ToDecimal(reader["Total"]),
+                                Detalles = new List<DetalleVenta>()
+                            };
+                        }
+                    }
+                }
+
+                if (venta == null)
+                    return null;
+
+                using (MySqlCommand cmdDetalles = new MySqlCommand("sp_ObtenerDetallesVenta", conx))
+                {
+                    cmdDetalles.CommandType = CommandType.StoredProcedure;
+                    cmdDetalles.Parameters.AddWithValue("@p_IdVenta", idVenta);
+
+                    using (MySqlDataReader readerDetalles = cmdDetalles.ExecuteReader())
+                    {
+                        while (readerDetalles.Read())
+                        {
+                            venta.Detalles.Add(new DetalleVenta
+                            {
+                                IdDetalleVenta = Convert.ToInt32(readerDetalles["IdDetalleVenta"]),
+                                IdVenta = Convert.ToInt32(readerDetalles["IdVenta"]),
+                                IdProducto = Convert.ToInt32(readerDetalles["IdProducto"]),
+                                Cantidad = Convert.ToInt32(readerDetalles["Cantidad"]),
+                                PrecioUnitario = Convert.ToDecimal(readerDetalles["PrecioUnitario"]),
+                                Subtotal = Convert.ToDecimal(readerDetalles["Subtotal"])
+                            });
+                        }
+                    }
+                }
+            }
+            return venta;
         }
 
         public List<Venta> ObtenerTodas()
         {
-
+            List<Venta> ventas = new List<Venta>();
+            using (MySqlConnection conx = _conexion.GetConexion())
+            {
+                using (MySqlCommand cmd = new MySqlCommand("sp_ListarVentas", conx))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ventas.Add(new Venta
+                            {
+                                IdVenta = Convert.ToInt32(reader["IdVenta"]),
+                                IdUsuario = Convert.ToInt32(reader["IdUsuario"]),
+                                FechaVenta = Convert.ToDateTime(reader["FechaVenta"]),
+                                Total = Convert.ToDecimal(reader["Total"]),
+                                Detalles = new List<DetalleVenta>()
+                            });
+                        }
+                    }
+                }
+            }
+            return ventas;
         }
 
         /// <summary>

@@ -85,5 +85,41 @@ namespace CoffeeSur.Servicios
 
             return _ventaRepo.ObtenerVentasPorProductoPorPeriodo(fechaInicio, finAjustado);
         }
+
+        /// <summary>
+        /// Devuelve el historial completo de todas las ventas.
+        /// </summary>
+        /// <returns>Una lista con todas las ventas.</returns>
+        /// <exception cref="Exception"></exception>
+        public List<Venta> ObtenerTodasVentas()
+        {
+            try
+            {
+                return _ventaRepo.ObtenerTodas();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener el historial de ventas: " + ex.Message);
+            }
+        }
+
+        public Venta BuscarVentaPorId(int idVenta)
+        {
+            if (idVenta <= 0)
+                throw new Exception("El ID de la venta no es válido.");
+
+            try
+            {
+                Venta venta = _ventaRepo.ObtenerVentaPorId(idVenta);
+                if (venta == null)
+                    throw new Exception("No se encontró ninguna venta con el ID proporcionado.");
+                return venta;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar la venta: " + ex.Message);
+            }
+        }
+
     }
 }

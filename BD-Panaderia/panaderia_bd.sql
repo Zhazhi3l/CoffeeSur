@@ -272,6 +272,33 @@ BEGIN
     WHERE IdProducto = p_IdProducto;
 END$$
 
+CREATE PROCEDURE sp_ListarVentas()
+BEGIN
+    SELECT IdVenta, IdUsuario, FechaVenta, Total
+    FROM Ventas
+    ORDER BY FechaVenta DESC;
+END$$
+
+CREATE PROCEDURE sp_ObtenerVentaPorId(
+    IN p_IdVenta INT
+)
+BEGIN
+    SELECT IdVenta, IdUsuario, FechaVenta, Total
+    FROM Ventas
+    WHERE IdVenta = p_IdVenta;
+END$$
+
+CREATE PROCEDURE sp_ObtenerDetallesVenta(
+    IN p_IdVenta INT
+)
+BEGIN
+    SELECT IdDetalleVenta, IdVenta, IdProducto, Cantidad, PrecioUnitario, Subtotal
+    FROM DetalleVenta
+    WHERE IdVenta = p_IdVenta;
+END$$
+
+-- === REPORTES DE VENTAS ===
+
 -- Reporte de Ventas por Producto en un período
 CREATE PROCEDURE sp_ReporteVentasPorProducto(
     IN p_FechaInicio DATETIME,
@@ -279,8 +306,8 @@ CREATE PROCEDURE sp_ReporteVentasPorProducto(
 )
 BEGIN
     SELECT 
-        p.Clave
-        p.Nombre AS Producto,-- Aquí tengo duda, no se si es la clave del producto o su Id
+        p.Clave,
+        p.Nombre AS Producto, -- Aquí tengo duda, no se si es la clave del producto o su Id
         SUM(d.Cantidad) AS Unidades,
         SUM(d.Subtotal) AS Monto
     FROM DetalleVenta d

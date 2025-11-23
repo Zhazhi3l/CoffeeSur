@@ -47,6 +47,34 @@ namespace CoffeeSur.Servicios
             }
         }
 
+        public Producto ObtenerProductoPorId(int IdProducto)
+        {
+            if (IdProducto <= 0)
+                throw new Exception("El ID del producto no es válido.");
+
+            return _repoProducto.ObtenerPorId(IdProducto);
+        }
+
+        public Producto BuscarProductoPorClave(string clave)
+        {
+            if (string.IsNullOrWhiteSpace(clave))
+                throw new ArgumentException("La clave del producto no puede estar vacía.");
+
+            try
+            {
+                Producto producto = _repoProducto.ObtenerPorClave(clave);
+
+                if (producto == null)
+                    throw new Exception("No se encontró ningún producto con la clave proporcionada.");
+                
+                return producto;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar el producto por clave: " + ex.Message);
+            }
+        }
+
         /// <summary>
         /// Método para modificar un producto existente. Rrecibe un objeto Producto con los datos actualizados.
         /// Los datos originales se obtienen de la base de datos usando el IdProducto y de ahí se actualizan los campos.
