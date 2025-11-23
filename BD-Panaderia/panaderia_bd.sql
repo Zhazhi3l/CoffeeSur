@@ -174,6 +174,7 @@ DELIMITER ;
 -- 2.2. STORED PROCEDURES: PRODUCTOS
 -- ==================================
 
+DELIMITER $$
 -- Insertar Producto
 CREATE PROCEDURE sp_InsertarProducto(
     IN p_Clave VARCHAR(50),
@@ -223,6 +224,14 @@ CREATE PROCEDURE sp_EliminarProducto(
 BEGIN
     UPDATE Productos SET Activo = 0 WHERE IdProducto = p_IdProducto;
 END$$
+
+-- Listar Productos
+CREATE PROCEDURE sp_ListarProductos()
+BEGIN
+    SELECT IdProducto, Clave, Nombre, Descripcion, Precio, Stock, Descuento, Activo, Imagen
+    FROM Productos;
+END$$
+DELIMITER ;
 
 -- =============================================
 -- 2.3 STORED PROCEDURES: VENTAS (Transacciones)

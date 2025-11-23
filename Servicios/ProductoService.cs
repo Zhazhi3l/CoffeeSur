@@ -128,6 +128,27 @@ namespace CoffeeSur.Servicios
         }
 
         /// <summary>
+        /// Lista todos los productos disponibles en la base de datos.
+        /// </summary>
+        /// <returns>Una lista de productos.</returns>
+        /// <exception cref="Exception"></exception>
+        public List<Producto> ObtenerTodosProductos()
+        {
+            try
+            {
+                return _repoProducto.ObtenerTodos();
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception("Error de base de datos: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener productos: " + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Verifica si existe stock suficiente para realizar una venta.
         /// Realiza la consulta a la base de datos para obtener el stock actual
         /// trayendo el producto por su ID.
@@ -186,6 +207,19 @@ namespace CoffeeSur.Servicios
                 // Guardamos como PNG.
                 img.Save(ms, ImageFormat.Png);
                 return ms.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Recibe los bytes de la BD y reconstruye la Imagen para el Front.
+        /// </summary>
+        public Image ConvertirBytesAImagen(byte[] bytes)
+        {
+            if (bytes == null || bytes.Length == 0) return null;
+
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                return Image.FromStream(ms);
             }
         }
     }
