@@ -13,7 +13,7 @@ namespace CoffeeSur.Servicios
     /// </summary>
     public class UsuarioService
     {
-        private UsuarioRepository _repoUsuario = new UsuarioRepository();
+        private readonly UsuarioRepository _repoUsuario = new UsuarioRepository();
 
         /// <summary>
         /// Registra un usuario nuevo validando campos obligatorios.

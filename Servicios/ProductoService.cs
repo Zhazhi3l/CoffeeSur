@@ -16,7 +16,7 @@ namespace CoffeeSur.Servicios
     /// </summary>
     public class ProductoService
     {
-        private ProductoRepository _repoProducto = new ProductoRepository();
+        private readonly ProductoRepository _repoProducto = new ProductoRepository();
 
         /// <summary>
         /// Valida y registra un nuevo producto.
@@ -211,8 +211,10 @@ namespace CoffeeSur.Servicios
         }
 
         /// <summary>
-        /// Recibe los bytes de la BD y reconstruye la Imagen para el Front.
+        /// Recibe un arreglo de bytes proveniente de la base de datos y lo convierte a un objeto Image.
         /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns>Un objeto Image con la imagen preparada para PictureBox.</returns>
         public Image ConvertirBytesAImagen(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0) return null;

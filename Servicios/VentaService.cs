@@ -13,8 +13,8 @@ namespace CoffeeSur.Servicios
     /// </summary>
     public class VentaService
     {
-        private VentaRepository _ventaRepo = new VentaRepository();
-        private ProductoRepository _productoRepo = new ProductoRepository();
+        private readonly VentaRepository _ventaRepo = new VentaRepository();
+        private readonly ProductoRepository _productoRepo = new ProductoRepository();
 
         /// <summary>
         /// Procesa una nueva venta validando stock y calculando totales.

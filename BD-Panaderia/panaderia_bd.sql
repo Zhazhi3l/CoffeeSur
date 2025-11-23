@@ -233,9 +233,10 @@ BEGIN
 END$$
 DELIMITER ;
 
--- =============================================
--- 2.3 STORED PROCEDURES: VENTAS (Transacciones)
--- =============================================
+-- ==============================
+-- 2.3 STORED PROCEDURES: VENTAS 
+-- ==============================
+DELIMITER $$
 
 CREATE PROCEDURE sp_InsertarVenta(
     IN p_IdUsuario INT,
@@ -271,6 +272,28 @@ BEGIN
     WHERE IdProducto = p_IdProducto;
 END$$
 
+-- Reporte de Ventas por Producto en un período
+CREATE PROCEDURE sp_ReporteVentasPorProducto(
+    IN p_FechaInicio DATETIME,
+    IN p_FechaFin DATETIME
+)
+BEGIN
+    SELECT 
+        p.Clave
+        p.Nombre AS Producto,-- Aquí tengo duda, no se si es la clave del producto o su Id
+        SUM(d.Cantidad) AS Unidades,
+        SUM(d.Subtotal) AS Monto
+    FROM DetalleVenta d
+    JOIN Ventas v 
+        ON d.IdVenta = v.IdVenta
+    JOIN Productos p 
+        ON d.IdProducto = p.IdProducto
+    WHERE v.FechaVenta BETWEEN p_FechaInicio AND p_FechaFin
+    GROUP BY p.IdProducto, p.Nombre
+    ORDER BY CantidadVendida DESC;
+END$$
+
+DELIMITER ;
 -- -----------------------------------------------------------------------------------------------
 -- 3. TRIGGERS DE AUDITORÍA
 
