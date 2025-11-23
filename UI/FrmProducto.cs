@@ -10,53 +10,53 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace CoffeeSur.UI
 {
     public partial class FrmProducto : Form
     {
-        private readonly ProductoService _service = new ProductoService();
-
-        private int _idProductoEditar = 0;
+        private ProductoService _servicio = new ProductoService();
+        private Producto _productoEditar = null;
 
         public FrmProducto()
         {
             InitializeComponent();
         }
 
-        public FrmProducto(Producto productoEditar)
+        public FrmProducto(Producto prodEditar)
         {
             InitializeComponent();
-            CargarProductoEnFormulario(productoEditar);
-            _idProductoEditar = productoEditar.IdProducto;
+            _productoEditar = prodEditar;
         }
 
-        private void CargarProductoEnFormulario(Producto p)
+        private void FrmProducto_Load(object sender, EventArgs e)
         {
-            txtClave.Text = p.Clave;
-            txtNombre.Text = p.Nombre;
-            txtDescripcion.Text = p.Descripcion;
-            nudPrecio.Value = p.Precio;
-            nudStock.Value = p.Stock;
-            nudDescuento.Value = p.Descuento;
-            chkActivo.Checked = p.Activo;
+            if (_productoEditar != null)
+                CargarDatos();
+        }
 
-            if (p.Imagen != null)
-            {
-                using (MemoryStream ms = new MemoryStream(p.Imagen))
-                {
-                    pbImagen.Image = System.Drawing.Image.FromStream(ms);
-                }
-            }
+        private void CargarDatos()
+        {
+            txtClave.Text = _productoEditar.Clave;
+            txtNombre.Text = _productoEditar.Nombre;
+            txtDescripcion.Text = _productoEditar.Descripcion;
+            nudPrecio.Value = _productoEditar.Precio;
+            nudStock.Value = _productoEditar.Stock;
+            nudDescuento.Value = _productoEditar.Descuento;
+            chkActivo.Checked = _productoEditar.Activo;
+
+            if (_productoEditar.Imagen != null)
+                pbImagen.Image = _servicio.ConvertirBytesAImagen(_productoEditar.Imagen);
         }
 
         private void btnCargarImagen_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Imágenes|*.jpg;*.jpeg;*.png;*.bmp";
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "Imágenes|*.png;*.jpg;*.jpeg";
 
-            if (ofd.ShowDialog() == DialogResult.OK)
+            if (dlg.ShowDialog() == DialogResult.OK)
             {
-                pbImagen.Image = System.Drawing.Image.FromFile(ofd.FileName);
+                pbImagen.Image = Image.FromFile(dlg.FileName);
             }
         }
 
@@ -64,9 +64,9 @@ namespace CoffeeSur.UI
         {
             try
             {
-                Producto producto = new Producto
+                Producto p = new Producto()
                 {
-                    IdProducto = _idProductoEditar, 
+                    IdProducto = _productoEditar?.IdProducto ?? 0,
                     Clave = txtClave.Text,
                     Nombre = txtNombre.Text,
                     Descripcion = txtDescripcion.Text,
@@ -74,44 +74,33 @@ namespace CoffeeSur.UI
                     Stock = (int)nudStock.Value,
                     Descuento = nudDescuento.Value,
                     Activo = chkActivo.Checked,
-                    Imagen = _service.ConvertirImagenABytes(pbImagen.Image)
+                    Imagen = pbImagen.Image != null
+                        ? _servicio.ConvertirImagenABytes(pbImagen.Image)
+                        : null
                 };
 
-                if (_idProductoEditar == 0)
+                if (_productoEditar == null)
                 {
-                    _service.RegistrarNuevoProducto(producto);
-                    MessageBox.Show("Producto registrado correctamente.");
+                    _servicio.RegistrarNuevoProducto(p);
                 }
                 else
                 {
-                    _service.ModificarProductoExistente(producto);
-                    MessageBox.Show("Producto modificado correctamente.");
+                    _servicio.ModificarProductoExistente(p);
                 }
 
-                LimpiarCampos();
+                MessageBox.Show("Producto guardado correctamente.");
+                DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error al guardar: " + ex.Message);
             }
-        }
-
-        private void LimpiarCampos()
-        {
-            txtClave.Clear();
-            txtNombre.Clear();
-            txtDescripcion.Clear();
-            nudPrecio.Value = 0;
-            nudStock.Value = 0;
-            nudDescuento.Value = 0;
-            chkActivo.Checked = false;
-            pbImagen.Image = null;
-            _idProductoEditar = 0;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            DialogResult = DialogResult.Cancel;
         }
     }
 }
+

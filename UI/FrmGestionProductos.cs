@@ -15,7 +15,7 @@ namespace CoffeeSur.UI
 {
     public partial class FrmGestionProductos : Form
     {
-        private readonly ProductoService _service = new ProductoService();
+        private ProductoService _servicio = new ProductoService();
 
         public FrmGestionProductos()
         {
@@ -24,16 +24,23 @@ namespace CoffeeSur.UI
 
         private void FrmGestionProductos_Load(object sender, EventArgs e)
         {
-            CargarProductos();   
+            CargarProductos();
         }
 
         private void CargarProductos()
         {
-            dgvProductos.DataSource = _service.Listar();
-            dgvProductos.ClearSelection();
+            try
+            {
+                dgvProductos.DataSource = _servicio.ObtenerTodosProductos();
+                dgvProductos.ClearSelection();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar productos: " + ex.Message);
+            }
         }
 
-        private Producto ObtenerProductoSeleccionado()
+        private Producto GetProductoSeleccionado()
         {
             if (dgvProductos.SelectedRows.Count == 0)
                 return null;
@@ -41,44 +48,60 @@ namespace CoffeeSur.UI
             return dgvProductos.SelectedRows[0].DataBoundItem as Producto;
         }
 
-        private void btnNuevo_Click(object sender, EventArgs e)
+        private void btnAgregar_Click(object sender, EventArgs e)
         {
             FrmProducto frm = new FrmProducto();
-            frm.ShowDialog();
-            CargarProductos();  // Se actualiza solo
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                CargarProductos();
+            }
         }
 
-        private void btnEditar_Click(object sender, EventArgs e)
+        private void btnModificar_Click(object sender, EventArgs e)
         {
-            Producto seleccionado = ObtenerProductoSeleccionado();
+            Producto prod = GetProductoSeleccionado();
 
-            if (seleccionado == null)
+            if (prod == null)
             {
-                MessageBox.Show("Seleccione un producto para editar.");
+                MessageBox.Show("Seleccione un producto de la lista.");
                 return;
             }
 
-            FrmProducto frm = new FrmProducto(seleccionado);
-            frm.ShowDialog();
-            CargarProductos(); 
+            FrmProducto frm = new FrmProducto(prod);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                CargarProductos();
+            }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            Producto seleccionado = ObtenerProductoSeleccionado();
+            Producto prod = GetProductoSeleccionado();
 
-            if (seleccionado == null)
+            if (prod == null)
             {
-                MessageBox.Show("Seleccione un producto para eliminar.");
+                MessageBox.Show("Seleccione un producto de la lista.");
                 return;
             }
 
-            if (MessageBox.Show("¿Desea eliminar este producto?",
-                "Confirmar", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            var resp = MessageBox.Show(
+                $"¿Seguro que desea eliminar el producto '{prod.Nombre}'?",
+                "Confirmación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (resp == DialogResult.Yes)
             {
-                _service.EliminarProducto(seleccionado.IdProducto);
-                MessageBox.Show("Producto eliminado.");
-                CargarProductos(); 
+                try
+                {
+                    _servicio.EliminarProducto(prod.IdProducto);
+                    CargarProductos();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar: " + ex.Message);
+                }
             }
         }
     }

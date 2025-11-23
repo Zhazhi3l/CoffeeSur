@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoffeeSur.Modelos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,24 +13,32 @@ namespace CoffeeSur.UI
 {
     public partial class FrmMenu : Form
     {
-        public FrmMenu()
+        private Usuario usuarioLogueado;
+
+        public FrmMenu(Usuario usuario)
         {
             InitializeComponent();
+            usuarioLogueado = usuario;
+
+            lblUsuario.Text = $"ADMIN: {usuario.Nombre} {usuario.Apellido}";
         }
 
-        private void btnGestProd_Click(object sender, EventArgs e)
+        private void btnGestionUsuarios_Click(object sender, EventArgs e)
         {
-
+            FrmGestionUsuarios frm = new FrmGestionUsuarios();
+            frm.ShowDialog();
         }
 
-        private void btnGestUsu_Click(object sender, EventArgs e)
+        private void btnGestionProductos_Click(object sender, EventArgs e)
         {
-
+            FrmGestionProductos frm = new FrmGestionProductos();
+            frm.ShowDialog();
         }
 
-        private void btnGestVent_Click(object sender, EventArgs e)
+        private void btnGestionVentas_Click(object sender, EventArgs e)
         {
-
+            FrmVentas frm = new FrmVentas();
+            frm.ShowDialog();
         }
     }
 }

@@ -31,9 +31,9 @@ namespace CoffeeSur.UI
             try
             {
                 UsuarioRepository repo = new UsuarioRepository();
-                var lista = repo.ObtenerTodosLosUsuarios();
+                var lista = repo.ObternerTodos();
 
-                dgvUsuarios.DataSource = lista;
+                dgvUsuario.DataSource = lista;
             }
             catch (Exception ex)
             {
@@ -51,15 +51,15 @@ namespace CoffeeSur.UI
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            if (dgvUsuarios.CurrentRow == null)
+            if (dgvUsuario.CurrentRow == null)
             {
                 MessageBox.Show("Selecciona un usuario.");
                 return;
             }
 
-            int id = Convert.ToInt32(dgvUsuarios.CurrentRow.Cells["IdUsuario"].Value);
+            int id = Convert.ToInt32(dgvUsuario.CurrentRow.Cells["IdUsuario"].Value);
 
-            FrmUsuario frm = new FrmUsuario(id); // edición
+            FrmUsuario frm = new FrmUsuario(id);
             frm.ShowDialog();
 
             CargarUsuarios();
@@ -83,6 +83,11 @@ namespace CoffeeSur.UI
                 MessageBox.Show("Usuario eliminado.");
                 CargarUsuarios();
             }
+        }
+
+        private void btnEliminar_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

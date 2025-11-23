@@ -29,68 +29,79 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMenu));
-            btnGestUsu = new Button();
-            btnGestProd = new Button();
-            btnGestVent = new Button();
+            btnGestionUsuarios = new Button();
+            btnGestionProductos = new Button();
+            btnGestionVentas = new Button();
+            lblUsuario = new Label();
             SuspendLayout();
             // 
-            // btnGestUsu
+            // btnGestionUsuarios
             // 
-            btnGestUsu.AutoSize = true;
-            btnGestUsu.BackColor = Color.PaleGoldenrod;
-            btnGestUsu.Font = new Font("Footlight MT Light", 14.25F);
-            btnGestUsu.Image = (Image)resources.GetObject("btnGestUsu.Image");
-            btnGestUsu.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestUsu.Location = new Point(58, 42);
-            btnGestUsu.Name = "btnGestUsu";
-            btnGestUsu.Size = new Size(219, 47);
-            btnGestUsu.TabIndex = 0;
-            btnGestUsu.Text = "Gestión de Usuarios";
-            btnGestUsu.TextAlign = ContentAlignment.MiddleRight;
-            btnGestUsu.UseVisualStyleBackColor = false;
-            btnGestUsu.Click += btnGestUsu_Click;
+            btnGestionUsuarios.AutoSize = true;
+            btnGestionUsuarios.BackColor = Color.PaleGoldenrod;
+            btnGestionUsuarios.Font = new Font("Footlight MT Light", 14.25F);
+            btnGestionUsuarios.Image = (Image)resources.GetObject("btnGestionUsuarios.Image");
+            btnGestionUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGestionUsuarios.Location = new Point(104, 48);
+            btnGestionUsuarios.Name = "btnGestionUsuarios";
+            btnGestionUsuarios.Size = new Size(219, 47);
+            btnGestionUsuarios.TabIndex = 0;
+            btnGestionUsuarios.Text = "Gestión de Usuarios";
+            btnGestionUsuarios.TextAlign = ContentAlignment.MiddleRight;
+            btnGestionUsuarios.UseVisualStyleBackColor = false;
             // 
-            // btnGestProd
+            // btnGestionProductos
             // 
-            btnGestProd.AutoSize = true;
-            btnGestProd.BackColor = Color.PaleGoldenrod;
-            btnGestProd.Font = new Font("Footlight MT Light", 14.25F);
-            btnGestProd.Image = (Image)resources.GetObject("btnGestProd.Image");
-            btnGestProd.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestProd.Location = new Point(58, 110);
-            btnGestProd.Name = "btnGestProd";
-            btnGestProd.Size = new Size(219, 47);
-            btnGestProd.TabIndex = 1;
-            btnGestProd.Text = "Gestión de Productos";
-            btnGestProd.TextAlign = ContentAlignment.MiddleRight;
-            btnGestProd.UseVisualStyleBackColor = false;
-            btnGestProd.Click += btnGestProd_Click;
+            btnGestionProductos.AutoSize = true;
+            btnGestionProductos.BackColor = Color.PaleGoldenrod;
+            btnGestionProductos.Font = new Font("Footlight MT Light", 14.25F);
+            btnGestionProductos.Image = (Image)resources.GetObject("btnGestionProductos.Image");
+            btnGestionProductos.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGestionProductos.Location = new Point(104, 116);
+            btnGestionProductos.Name = "btnGestionProductos";
+            btnGestionProductos.Size = new Size(219, 47);
+            btnGestionProductos.TabIndex = 1;
+            btnGestionProductos.Text = "Gestión de Productos";
+            btnGestionProductos.TextAlign = ContentAlignment.MiddleRight;
+            btnGestionProductos.UseVisualStyleBackColor = false;
+            btnGestionProductos.Click += btnGestionProductos_Click;
             // 
-            // btnGestVent
+            // btnGestionVentas
             // 
-            btnGestVent.AutoSize = true;
-            btnGestVent.BackColor = Color.PaleGoldenrod;
-            btnGestVent.Font = new Font("Footlight MT Light", 14.25F);
-            btnGestVent.Image = (Image)resources.GetObject("btnGestVent.Image");
-            btnGestVent.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestVent.Location = new Point(58, 175);
-            btnGestVent.Name = "btnGestVent";
-            btnGestVent.Size = new Size(219, 47);
-            btnGestVent.TabIndex = 2;
-            btnGestVent.Text = "Gestión de Ventas";
-            btnGestVent.TextAlign = ContentAlignment.MiddleRight;
-            btnGestVent.UseVisualStyleBackColor = false;
-            btnGestVent.Click += btnGestVent_Click;
+            btnGestionVentas.AutoSize = true;
+            btnGestionVentas.BackColor = Color.PaleGoldenrod;
+            btnGestionVentas.Font = new Font("Footlight MT Light", 14.25F);
+            btnGestionVentas.Image = (Image)resources.GetObject("btnGestionVentas.Image");
+            btnGestionVentas.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGestionVentas.Location = new Point(104, 181);
+            btnGestionVentas.Name = "btnGestionVentas";
+            btnGestionVentas.Size = new Size(219, 47);
+            btnGestionVentas.TabIndex = 2;
+            btnGestionVentas.Text = "Gestión de Ventas";
+            btnGestionVentas.TextAlign = ContentAlignment.MiddleRight;
+            btnGestionVentas.UseVisualStyleBackColor = false;
+            btnGestionVentas.Click += btnGestionVentas_Click;
+            // 
+            // lblUsuario
+            // 
+            lblUsuario.AutoSize = true;
+            lblUsuario.Font = new Font("Footlight MT Light", 14.25F);
+            lblUsuario.Location = new Point(12, 9);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(57, 20);
+            lblUsuario.TabIndex = 3;
+            lblUsuario.Text = "label1";
             // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.BurlyWood;
-            ClientSize = new Size(337, 450);
-            Controls.Add(btnGestVent);
-            Controls.Add(btnGestProd);
-            Controls.Add(btnGestUsu);
+            ClientSize = new Size(427, 303);
+            Controls.Add(lblUsuario);
+            Controls.Add(btnGestionVentas);
+            Controls.Add(btnGestionProductos);
+            Controls.Add(btnGestionUsuarios);
             Name = "FrmMenu";
             Text = "FrmMenu";
             ResumeLayout(false);
@@ -99,8 +110,9 @@
 
         #endregion
 
-        private Button btnGestUsu;
-        private Button btnGestProd;
-        private Button btnGestVent;
+        private Button btnGestionUsuarios;
+        private Button btnGestionProductos;
+        private Button btnGestionVentas;
+        private Label lblUsuario;
     }
 }
