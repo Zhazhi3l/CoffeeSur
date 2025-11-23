@@ -70,7 +70,13 @@ namespace CoffeeSur.Servicios
                 throw new Exception("Error al modificar usuario: " + ex.Message);
             }
         }
-        
+
+        /// <summary>
+        /// Elimina un usuario por su nombre de usuario.
+        /// </summary>
+        /// <param name="username">Username de usuario a eliminar</param>
+        /// <returns>Devuelve True si se logró eliminar exitosamente.</returns>
+        /// <exception cref="Exception"></exception>
         public bool EliminarUsuario(string username)
         {
             try
@@ -89,6 +95,50 @@ namespace CoffeeSur.Servicios
             catch (Exception ex)
             {
                 throw new Exception("Error al eliminar usuario: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Valida las credenciales de un usuario para loggearse.
+        /// </summary>
+        /// <param name="username">Username del usuario a validar.</param>
+        /// <param name="password">Password(sin hashear) del usuario a validar.</param>
+        /// <returns>Un usuario con todos sus datos, excepto la contraseña.</returns>
+        /// <exception cref="Exception"></exception>
+        public Usuario ValidarLogin(string username, string password)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+                    throw new Exception("El nombre de usuario y la contraseña son obligatorios.");
+
+                Usuario usuario = _repoUsuario.ValidarLogin(username, password);
+                if (usuario == null)
+                    throw new Exception("Credenciales inválidas o usuario inactivo.");
+
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al validar login: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Devuelve una lista con todos los usuarios registrados en la BD con todos sus datos,
+        /// excepto la contraseña.
+        /// </summary>
+        /// <returns>Una lista de Usuarios.</returns>
+        /// <exception cref="Exception"></exception>
+        public List<Usuario> ObtenerTodosUsuarios()
+        {
+            try
+            {
+                return _repoUsuario.ObternerTodos();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener la lista de usuarios: " + ex.Message);
             }
         }
     }
