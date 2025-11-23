@@ -1,4 +1,5 @@
-﻿using CoffeeSur.Modelos;
+﻿using CoffeeSur.DTO;
+using CoffeeSur.Modelos;
 using CoffeeSur.Repositorios;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,30 @@ namespace CoffeeSur.Servicios
             {
                 throw new Exception("Error al procesar la venta", ex);
             }
+        }
+
+        /// <summary>
+        /// Genera un reporte de ventas por producto en un periodo determinado.
+        /// </summary>
+        /// <param name="fechaInicio">DateTime Fecha de inicio del periodo.</param>
+        /// <param name="fechaFin">DateTime Fecha de fin del periodo.</param>
+        /// <returns>Devuelve una lista que representa el reporte de venta.</returns>
+        /// <exception cref="Exception"></exception>
+        public List<ReporteVentaProductoDTO> ReporteVentaPorProducto(DateTime fechaInicio, DateTime fechaFin)
+        {
+            if (fechaInicio > fechaFin)
+                throw new Exception("La fecha de inicio no puede ser mayor que la fecha de fin.");
+
+            if (fechaFin > DateTime.Now)
+                throw new Exception("La fecha de fin no puede ser mayor que la fecha actual.");
+
+            if (fechaInicio > DateTime.Now)
+                throw new Exception("La fecha de inicio no puede ser mayor que la fecha actual.");
+
+            // Asegurar que se busque hasta el último segundo del día.
+            DateTime finAjustado = new DateTime(fechaFin.Year, fechaFin.Month, fechaFin.Day, 23, 59, 59);
+
+            return _ventaRepo.ObtenerVentasPorProductoPorPeriodo(fechaInicio, finAjustado);
         }
     }
 }

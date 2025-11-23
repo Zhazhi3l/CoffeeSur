@@ -1,4 +1,5 @@
-﻿using CoffeeSur.Modelos;
+﻿using CoffeeSur.DTO;
+using CoffeeSur.Modelos;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -91,6 +92,57 @@ namespace CoffeeSur.Repositorios
                     throw new Exception("Error en la transacción de venta: " + ex.Message, ex);
                 }
             }
+        }
+
+        public Venta ObtenerVentaPorId()
+        {
+
+        }
+
+        public List<Venta> ObtenerTodas()
+        {
+
+        }
+
+        /// <summary>
+        /// Genera un reporte de ventas por producto en un periodo determinado
+        /// directamente desde la base de datos.
+        /// </summary>
+        /// <param name="fechaInicio">DateTime fecha de inicio.</param>
+        /// <param name="fechaFin">DateTime fecha de fin</param>
+        /// <returns>Una lista de un reporte. Cada fila contiene:
+        ///             Clave de producto.
+        ///             Nombre del producto.
+        ///             Suma de las unidades vendidas de ese producto.
+        ///             Suma de venta total de ese producto.
+        /// </returns>
+        public List<ReporteVentaProductoDTO> ObtenerVentasPorProductoPorPeriodo(DateTime fechaInicio, DateTime fechaFin)
+        {
+            List<ReporteVentaProductoDTO> reporte = new List<ReporteVentaProductoDTO>();
+            using (MySqlConnection conx = _conexion.GetConexion())
+            {
+                using (MySqlCommand cmd = new MySqlCommand("sp_ReporteVentasPorProducto", conx))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@p_FechaInicio", fechaInicio);
+                    cmd.Parameters.AddWithValue("@p_FechaFin", fechaFin);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            reporte.Add(new ReporteVentaProductoDTO
+                            {
+                                ClaveProducto = reader["ClaveProducto"].ToString(),
+                                Nombre = reader["Nombre"].ToString(),
+                                Unidades = Convert.ToInt32(reader["Unidades"]),
+                                Monto = Convert.ToDecimal(reader["Monto"])
+                            });
+                        }
+                    }
+                }
+            }
+            return reporte;
         }
     }
 }
