@@ -15,24 +15,22 @@ namespace CoffeeSur
         public ProductoCard()
         {
             InitializeComponent();
-            this.Click += Control_Click;
-            foreach (Control c in this.Controls)
-                c.Click += Control_Click;
+            this.Click += PropagarClick;
+            foreach (Control c in Controls)
+                c.Click += PropagarClick;
         }
 
-        // Ajuste de nulabilidad en sender y e
-        private void Control_Click(object? sender, EventArgs? e)
+        private void PropagarClick(object? sender, EventArgs? e)
         {
             ProductoClick?.Invoke(this, EventArgs.Empty);
         }
 
-        // Evento ahora nullable
         public event EventHandler? ProductoClick;
 
         public string Nombre
         {
             get => lblNombre.Text;
-            set => lblNombre.Text = value;
+            set => lblNombre.Text = value ?? "";
         }
 
         public decimal Precio
@@ -43,10 +41,12 @@ namespace CoffeeSur
 
         public Image Imagen
         {
-            get => picImagen.Image;
+            get => picImagen.Image!;
             set
             {
-                picImagen.Image?.Dispose();
+                if (picImagen.Image != null && picImagen.Image != value)
+                    picImagen.Image.Dispose();
+
                 picImagen.Image = value;
             }
         }

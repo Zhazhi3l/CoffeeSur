@@ -41,7 +41,7 @@
             nudPrecio = new NumericUpDown();
             nudDescuento = new NumericUpDown();
             nudStock = new NumericUpDown();
-            btnAceptar = new Button();
+            btnGuardar = new Button();
             btnCancelar = new Button();
             label7 = new Label();
             txtClave = new TextBox();
@@ -175,21 +175,21 @@
             nudStock.Size = new Size(157, 28);
             nudStock.TabIndex = 26;
             // 
-            // btnAceptar
+            // btnGuardar
             // 
-            btnAceptar.AutoSize = true;
-            btnAceptar.BackColor = Color.Gainsboro;
-            btnAceptar.Font = new Font("Footlight MT Light", 14.25F);
-            btnAceptar.Image = (Image)resources.GetObject("btnAceptar.Image");
-            btnAceptar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAceptar.Location = new Point(82, 361);
-            btnAceptar.Name = "btnAceptar";
-            btnAceptar.Size = new Size(118, 47);
-            btnAceptar.TabIndex = 27;
-            btnAceptar.Text = "Aceptar";
-            btnAceptar.TextAlign = ContentAlignment.MiddleRight;
-            btnAceptar.UseVisualStyleBackColor = false;
-            btnAceptar.Click += btnGuardar_Click;
+            btnGuardar.AutoSize = true;
+            btnGuardar.BackColor = Color.Gainsboro;
+            btnGuardar.Font = new Font("Footlight MT Light", 14.25F);
+            btnGuardar.Image = (Image)resources.GetObject("btnGuardar.Image");
+            btnGuardar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnGuardar.Location = new Point(82, 361);
+            btnGuardar.Name = "btnGuardar";
+            btnGuardar.Size = new Size(118, 47);
+            btnGuardar.TabIndex = 27;
+            btnGuardar.Text = "Guardar";
+            btnGuardar.TextAlign = ContentAlignment.MiddleRight;
+            btnGuardar.UseVisualStyleBackColor = false;
+            btnGuardar.Click += btnGuardar_Click;
             // 
             // btnCancelar
             // 
@@ -205,7 +205,7 @@
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.MiddleRight;
             btnCancelar.UseVisualStyleBackColor = false;
-            btnCancelar.Click += btnGuardar_Click;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // label7
             // 
@@ -262,7 +262,7 @@
             Controls.Add(txtClave);
             Controls.Add(label7);
             Controls.Add(btnCancelar);
-            Controls.Add(btnAceptar);
+            Controls.Add(btnGuardar);
             Controls.Add(nudStock);
             Controls.Add(nudDescuento);
             Controls.Add(nudPrecio);
@@ -299,7 +299,7 @@
         private NumericUpDown nudPrecio;
         private NumericUpDown nudDescuento;
         private NumericUpDown nudStock;
-        private Button btnAceptar;
+        private Button btnGuardar;
         private Button btnCancelar;
         private Label label7;
         private TextBox txtClave;
