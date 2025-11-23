@@ -41,7 +41,7 @@
             btnGestUsu.Font = new Font("Footlight MT Light", 14.25F);
             btnGestUsu.Image = (Image)resources.GetObject("btnGestUsu.Image");
             btnGestUsu.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestUsu.Location = new Point(181, 45);
+            btnGestUsu.Location = new Point(58, 42);
             btnGestUsu.Name = "btnGestUsu";
             btnGestUsu.Size = new Size(219, 47);
             btnGestUsu.TabIndex = 0;
@@ -57,7 +57,7 @@
             btnGestProd.Font = new Font("Footlight MT Light", 14.25F);
             btnGestProd.Image = (Image)resources.GetObject("btnGestProd.Image");
             btnGestProd.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestProd.Location = new Point(181, 115);
+            btnGestProd.Location = new Point(58, 110);
             btnGestProd.Name = "btnGestProd";
             btnGestProd.Size = new Size(219, 47);
             btnGestProd.TabIndex = 1;
@@ -73,7 +73,7 @@
             btnGestVent.Font = new Font("Footlight MT Light", 14.25F);
             btnGestVent.Image = (Image)resources.GetObject("btnGestVent.Image");
             btnGestVent.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestVent.Location = new Point(181, 189);
+            btnGestVent.Location = new Point(58, 175);
             btnGestVent.Name = "btnGestVent";
             btnGestVent.Size = new Size(219, 47);
             btnGestVent.TabIndex = 2;
@@ -87,7 +87,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.BurlyWood;
-            ClientSize = new Size(584, 450);
+            ClientSize = new Size(337, 450);
             Controls.Add(btnGestVent);
             Controls.Add(btnGestProd);
             Controls.Add(btnGestUsu);
