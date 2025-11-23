@@ -53,7 +53,7 @@ CREATE TABLE DetalleVenta (
     FOREIGN KEY (IdProducto) REFERENCES Productos(IdProducto)
 );
 
--- Tabla de Auditoría
+-- Tabla de Auditoría_Productos
 CREATE TABLE AuditoriaProductos (
     IdAuditoria     INT AUTO_INCREMENT PRIMARY KEY,
     IdProducto      INT,
@@ -104,7 +104,7 @@ CREATE TABLE detalle_compra (
 
 DELIMITER $$
 
--- Insertar Usuario (Con Hashing SHA2)
+-- Insertar Usuario
 CREATE PROCEDURE sp_InsertarUsuario(
     IN p_Nombre VARCHAR(100),
     IN p_Apellido VARCHAR(100),
@@ -149,18 +149,26 @@ BEGIN
     WHERE Username = p_Username;
 END$$
 
--- Login (Validación)
 CREATE PROCEDURE sp_ValidarLogin(
     IN p_Username VARCHAR(50),
     IN p_Password VARCHAR(256)
 )
 BEGIN
-    SELECT IdUsuario, Nombre, Apellido, Rol, Activo 
+    SELECT IdUsuario, Nombre, Apellido, Rol, Activo
     FROM Usuarios
     WHERE Username = p_Username 
-      AND Password = SHA2(p_Password, 256) 
+      AND Password = SHA2(p_Password, 256) -- Compara con el Hash
       AND Activo = 1;
 END$$
+
+-- Listar Usuarios 
+CREATE PROCEDURE sp_ListarUsuarios()
+BEGIN
+    SELECT IdUsuario, Nombre, Apellido, Username, Rol, Activo
+    FROM Usuarios;
+END$$
+
+DELIMITER ;
 
 -- ==================================
 -- 2.2. STORED PROCEDURES: PRODUCTOS
@@ -223,7 +231,7 @@ END$$
 CREATE PROCEDURE sp_InsertarVenta(
     IN p_IdUsuario INT,
     IN p_Total DECIMAL(10,2),
-    OUT p_IdVentaGenerado INT -- Parámetro de Salida vital para C#
+    OUT p_IdVentaGenerado INT -- Parámetro de Salida vital para el BackEnd
 )
 BEGIN
     INSERT INTO Ventas (IdUsuario, Total, FechaVenta)
