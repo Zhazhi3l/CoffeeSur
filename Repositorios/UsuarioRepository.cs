@@ -160,5 +160,32 @@ namespace CoffeeSur.Repositorios
             }
             return usuarios;
         }
+
+        public Usuario ObtenerUsuarioPorId(int id)
+        {
+            Usuario u = null;
+            using (MySqlConnection conx = _conexion.GetConexion())
+            {
+                using (MySqlCommand cmd = new MySqlCommand("sp_ObtenerUsuarioPorId", conx))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@p_IdUsuario", id);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        u = new Usuario
+                        {
+                            IdUsuario = reader.GetInt32("IdUsuario"),
+                            Nombre = reader.GetString("Nombre"),
+                            Apellido = reader.GetString("Apellido"),
+                            Username = reader.GetString("Username"),
+                            Rol = reader.GetString("Rol"),
+                            Activo = reader.GetBoolean("Activo")
+                        };
+                    }
+                }
+            }
+            return u;
+        }
     }
 }

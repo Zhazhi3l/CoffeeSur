@@ -161,6 +161,16 @@ BEGIN
       AND Activo = 1;
 END$$
 
+-- Usuario por Id
+CREATE PROCEDURE sp_ObtenerUsuarioPorId(
+    IN p_IdUsuario INT
+)
+BEGIN
+    SELECT IdUsuario, Nombre, Apellido, Username, Rol, Activo
+    FROM Usuarios  -- Asegúrate que coincida con el nombre real de tu tabla (Usuarios/Empleado/Users)
+    WHERE IdUsuario = p_IdUsuario;
+END$$
+
 -- Listar Usuarios 
 CREATE PROCEDURE sp_ListarUsuarios()
 BEGIN
@@ -231,7 +241,15 @@ BEGIN
     SELECT IdProducto, Clave, Nombre, Descripcion, Precio, Stock, Descuento, Activo, Imagen
     FROM Productos;
 END$$
-DELIMITER ;
+
+CREATE PROCEDURE sp_ObtenerProductoPorClave(
+    IN p_Clave VARCHAR(50)
+)
+BEGIN
+    SELECT IdProducto, Clave, Nombre, Descripcion, Precio, Stock, Descuento, Activo, Imagen
+    FROM Productos
+    WHERE Clave = p_Clave;
+END$$
 
 -- ==============================
 -- 2.3 STORED PROCEDURES: VENTAS 
@@ -341,8 +359,6 @@ DELIMITER ;
 
 -- -----------------------------------------------------------------------------------------------
 
--- 4. FUNCIONES Y REPORTES
-
 -- Función para ventas del día
 DELIMITER $$
 CREATE FUNCTION fn_VentasHoy()
@@ -357,29 +373,6 @@ BEGIN
 END $$
 DELIMITER ;
 
--- Función para producto más vendido
-DELIMITER $$
-CREATE FUNCTION fn_ProductoMasVendido(p_FechaInicio DATE, p_FechaFin DATE)
-RETURNS VARCHAR(30)
-DETERMINISTIC
-BEGIN
-    DECLARE producto_nombre VARCHAR(30);
-    
-    SELECT p.Nombre INTO producto_nombre
-    FROM detalle_venta dv
-    JOIN productos p ON dv.ProductoID = p.ProductoID
-    JOIN ventas v ON dv.VentaID = v.VentaID
-    WHERE v.FechaVenta BETWEEN p_FechaInicio AND p_FechaFin
-    GROUP BY p.ProductoID
-    ORDER BY SUM(dv.Cantidad) DESC
-    LIMIT 1;
-    
-    RETURN COALESCE(producto_nombre, 'No hay ventas');
-END $$
-DELIMITER ;
-
--- Función para total de ventas por empleado
-DELIMITER $$
 CREATE FUNCTION fn_TotalVentasEmpleado(p_UserID INT, p_FechaInicio DATE, p_FechaFin DATE)
 RETURNS DECIMAL(10,2)
 DETERMINISTIC

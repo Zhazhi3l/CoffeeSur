@@ -125,6 +125,35 @@ namespace CoffeeSur.Servicios
         }
 
         /// <summary>
+        /// Devuelve un usuario buscandolo por su ID.
+        /// </summary>
+        /// <param name="idUsuario">Valor int siendo el Id del usuario.</param>
+        /// <returns>Un Usuario con todos sus datos, excepto contraseña.</returns>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="Exception"></exception>
+        public Usuario BuscarUsuarioPorId(int idUsuario)
+        {
+            if (idUsuario <= 0)
+            {
+                throw new ArgumentException("El ID del usuario no es válido.");
+            }
+
+            try
+            {
+                Usuario usuario = _repoUsuario.ObtenerUsuarioPorId(idUsuario);
+
+                if (usuario == null)
+                    throw new Exception("No se encontró ningún usuario con ese ID.");
+
+                return usuario;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar el usuario: " + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Devuelve una lista con todos los usuarios registrados en la BD con todos sus datos,
         /// excepto la contraseña.
         /// </summary>
@@ -141,5 +170,7 @@ namespace CoffeeSur.Servicios
                 throw new Exception("Error al obtener la lista de usuarios: " + ex.Message);
             }
         }
+
+
     }
 }
