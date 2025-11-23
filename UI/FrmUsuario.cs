@@ -12,118 +12,112 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
-namespace CoffeeSur.UI 
+
+namespace CoffeeSur.UI
 {
     public partial class FrmUsuario : Form
     {
-        UsuarioService servicio = new UsuarioService();
-        private int? idSeleccionado = null; 
+        private readonly UsuarioService _usuarioService = new UsuarioService();
+        private Usuario _usuarioEditar = null;  
 
         public FrmUsuario()
         {
             InitializeComponent();
-            CargarRoles();
-            CargarUsuarios();
+            cmbRol.Items.Add("Admin");
+            cmbRol.Items.Add("Empleado");
         }
 
-        private void CargarRoles()
+        public FrmUsuario(Usuario usuario) : this()
         {
-            cboRol.Items.Clear();
-            cboRol.Items.Add("Admin");
-            cboRol.Items.Add("Empleado");
-            cboRol.SelectedIndex = 0;
+            _usuarioEditar = usuario;
+            CargarDatosUsuario();
         }
 
-        private void CargarUsuarios()
+        private void CargarDatosUsuario()
         {
-            dgvUsuarios.DataSource = null;
-            var lista = servicio.ObtenerTodosLosUsuarios(); // Si tienes este método
-            dgvUsuarios.DataSource = lista;
-
-            dgvUsuarios.Columns["Password"].Visible = false; // Ocultar password
-            dgvUsuarios.Columns["IdUsuario"].Visible = false; // Ocultar Id
+            txtNombre.Text = _usuarioEditar.Nombre;
+            txtApellido.Text = _usuarioEditar.Apellido;
+            txtUser.Text = _usuarioEditar.Username;
+            txtPassword.Text = _usuarioEditar.Password;
+            cmbRol.Text = _usuarioEditar.Rol;
+            chkActivo.Checked = _usuarioEditar.Activo;
         }
 
-        // Cuando el usuario selecciona una fila
-        private void dgvUsuarios_SelectionChanged(object sender, EventArgs e)
+        private void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (dgvUsuarios.CurrentRow != null)
+            try
             {
-                Usuario u = (Usuario)dgvUsuarios.CurrentRow.DataBoundItem;
-                idSeleccionado = u.IdUsuario;
-                txtNombre.Text = u.Nombre;
-                txtApellido.Text = u.Apellido;
-                txtUsername.Text = u.Username;
-                txtPassword.Text = ""; // Password no se carga
-                cboRol.SelectedItem = u.Rol;
-                checkBox1.Checked = u.Activo;
+                if (ValidarDatos() == false)
+                    return;
+
+                if (_usuarioEditar == null)
+                    RegistrarUsuario();
+                else
+                    EditarUsuario();
+
+                MessageBox.Show("Usuario guardado correctamente", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnModificar_Click(object sender, EventArgs e)
+        private bool ValidarDatos()
         {
-            if (idSeleccionado == null)
+            if (txtNombre.Text.Trim() == "" ||
+                txtApellido.Text.Trim() == "" ||
+                txtUser.Text.Trim() == "" ||
+                (_usuarioEditar == null && txtPassword.Text.Trim() == ""))
             {
-                MessageBox.Show("Selecciona un usuario primero");
-                return;
+                MessageBox.Show("Complete todos los campos obligatorios.");
+                return false;
             }
 
-            Usuario u = new Usuario()
+            if (cmbRol.SelectedIndex == -1)
             {
-                IdUsuario = idSeleccionado.Value,
+                MessageBox.Show("Seleccione un rol.");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void RegistrarUsuario()
+        {
+            Usuario nuevo = new Usuario()
+            {
                 Nombre = txtNombre.Text.Trim(),
                 Apellido = txtApellido.Text.Trim(),
                 Username = txtUser.Text.Trim(),
-                Password = string.IsNullOrWhiteSpace(txtPassword.Text) ? null : txtPassword.Text.Trim(),
+                Password = txtPassword.Text.Trim(),
                 Rol = cmbRol.SelectedItem.ToString(),
                 Activo = chkActivo.Checked
             };
 
-            try
-            {
-                servicio.ModificarUsuarioExistente(u);
-                MessageBox.Show("Usuario modificado correctamente");
-                Limpiar();
-                CargarUsuarios();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
+            _usuarioService.RegistrarNuevoUsuario(nuevo);
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+        private void EditarUsuario()
         {
-            if (string.IsNullOrWhiteSpace(txtUser.Text))
-            {
-                MessageBox.Show("Selecciona un usuario primero");
-                return;
-            }
+            _usuarioEditar.Nombre = txtNombre.Text.Trim();
+            _usuarioEditar.Apellido = txtApellido.Text.Trim();
+            _usuarioEditar.Username = txtUser.Text.Trim();
 
-            try
-            {
-                servicio.EliminarUsuario(txtUser.Text);
-                MessageBox.Show("Usuario eliminado");
-                Limpiar();
-                CargarUsuarios();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
+            _usuarioEditar.Password = txtPassword.Text.Trim() == "" ? null : txtPassword.Text.Trim();
+
+            _usuarioEditar.Rol = cmbRol.SelectedItem.ToString();
+            _usuarioEditar.Activo = chkActivo.Checked;
+
+            _usuarioService.ModificarUsuarioExistente(_usuarioEditar);
         }
 
-        private void Limpiar()
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
-            txtNombre.Text = "";
-            txtApellido.Text = "";
-            txtUser.Text = "";
-            txtPassword.Text = "";
-            cmbRol.SelectedIndex = 0;
-            chkActivo.Checked = true;
-            idSeleccionado = null;
+            this.Close();
         }
     }
-
 }
 

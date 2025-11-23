@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
             label1 = new Label();
             label2 = new Label();
-            txtClave = new TextBox();
-            textBox1 = new TextBox();
-            btnIngresar = new Button();
+            txtUsuario = new TextBox();
+            txtPassword = new TextBox();
+            btnLogin = new Button();
             SuspendLayout();
             // 
             // label1
@@ -56,41 +56,42 @@
             label2.TabIndex = 3;
             label2.Text = "Contraseña:";
             // 
-            // txtClave
+            // txtUsuario
             // 
-            txtClave.BackColor = Color.Silver;
-            txtClave.BorderStyle = BorderStyle.FixedSingle;
-            txtClave.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtClave.Location = new Point(94, 67);
-            txtClave.Name = "txtClave";
-            txtClave.Size = new Size(267, 28);
-            txtClave.TabIndex = 31;
+            txtUsuario.BackColor = Color.Silver;
+            txtUsuario.BorderStyle = BorderStyle.FixedSingle;
+            txtUsuario.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUsuario.Location = new Point(94, 67);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(267, 28);
+            txtUsuario.TabIndex = 31;
             // 
-            // textBox1
+            // txtPassword
             // 
-            textBox1.BackColor = Color.Silver;
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(122, 114);
-            textBox1.Name = "textBox1";
-            textBox1.PasswordChar = '*';
-            textBox1.Size = new Size(239, 28);
-            textBox1.TabIndex = 32;
+            txtPassword.BackColor = Color.Silver;
+            txtPassword.BorderStyle = BorderStyle.FixedSingle;
+            txtPassword.Font = new Font("Yu Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPassword.Location = new Point(122, 114);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new Size(239, 28);
+            txtPassword.TabIndex = 32;
             // 
-            // btnIngresar
+            // btnLogin
             // 
-            btnIngresar.AutoSize = true;
-            btnIngresar.BackColor = Color.Gainsboro;
-            btnIngresar.Font = new Font("Footlight MT Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnIngresar.Image = (Image)resources.GetObject("btnIngresar.Image");
-            btnIngresar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnIngresar.Location = new Point(94, 178);
-            btnIngresar.Name = "btnIngresar";
-            btnIngresar.Size = new Size(112, 47);
-            btnIngresar.TabIndex = 33;
-            btnIngresar.Text = "Ingresar";
-            btnIngresar.TextAlign = ContentAlignment.MiddleRight;
-            btnIngresar.UseVisualStyleBackColor = false;
+            btnLogin.AutoSize = true;
+            btnLogin.BackColor = Color.Gainsboro;
+            btnLogin.Font = new Font("Footlight MT Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnLogin.Image = (Image)resources.GetObject("btnLogin.Image");
+            btnLogin.ImageAlign = ContentAlignment.MiddleLeft;
+            btnLogin.Location = new Point(122, 167);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(112, 47);
+            btnLogin.TabIndex = 33;
+            btnLogin.Text = "Ingresar";
+            btnLogin.TextAlign = ContentAlignment.MiddleRight;
+            btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnLogin_Click;
             // 
             // FrmLogin
             // 
@@ -98,9 +99,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(403, 261);
-            Controls.Add(btnIngresar);
-            Controls.Add(textBox1);
-            Controls.Add(txtClave);
+            Controls.Add(btnLogin);
+            Controls.Add(txtPassword);
+            Controls.Add(txtUsuario);
             Controls.Add(label2);
             Controls.Add(label1);
             Name = "FrmLogin";
@@ -113,8 +114,8 @@
 
         private Label label1;
         private Label label2;
-        private TextBox txtClave;
-        private TextBox textBox1;
-        private Button btnIngresar;
+        private TextBox txtUsuario;
+        private TextBox txtPassword;
+        private Button btnLogin;
     }
 }
