@@ -164,6 +164,7 @@ namespace CoffeeSur.Repositorios
         public Usuario ObtenerUsuarioPorId(int id)
         {
             Usuario u = null;
+
             using (MySqlConnection conx = _conexion.GetConexion())
             {
                 using (MySqlCommand cmd = new MySqlCommand("sp_ObtenerUsuarioPorId", conx))
@@ -173,19 +174,24 @@ namespace CoffeeSur.Repositorios
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        u = new Usuario
+                        if (reader.Read())
                         {
-                            IdUsuario = reader.GetInt32("IdUsuario"),
-                            Nombre = reader.GetString("Nombre"),
-                            Apellido = reader.GetString("Apellido"),
-                            Username = reader.GetString("Username"),
-                            Rol = reader.GetString("Rol"),
-                            Activo = reader.GetBoolean("Activo")
-                        };
+                            u = new Usuario
+                            {
+                                IdUsuario = reader.GetInt32("IdUsuario"),
+                                Nombre = reader.GetString("Nombre"),
+                                Apellido = reader.GetString("Apellido"),
+                                Username = reader.GetString("Username"),
+                                Rol = reader.GetString("Rol"),
+                                Activo = reader.GetBoolean("Activo")
+                            };
+                        }
                     }
                 }
             }
+
             return u;
         }
+
     }
 }

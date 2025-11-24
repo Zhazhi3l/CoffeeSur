@@ -15,7 +15,7 @@ namespace CoffeeSur.UI
 {
     public partial class FrmProducto : Form
     {
-        private ProductoService _servicio = new ProductoService();
+        private readonly ProductoService _productoService = new ProductoService();
         private Producto _productoEditar = null;
 
         public FrmProducto()
@@ -23,19 +23,13 @@ namespace CoffeeSur.UI
             InitializeComponent();
         }
 
-        public FrmProducto(Producto prodEditar)
+        public FrmProducto(Producto producto) : this()
         {
-            InitializeComponent();
-            _productoEditar = prodEditar;
+            _productoEditar = producto;
+            CargarDatosProducto();
         }
 
-        private void FrmProducto_Load(object sender, EventArgs e)
-        {
-            if (_productoEditar != null)
-                CargarDatos();
-        }
-
-        private void CargarDatos()
+        private void CargarDatosProducto()
         {
             txtClave.Text = _productoEditar.Clave;
             txtNombre.Text = _productoEditar.Nombre;
@@ -46,7 +40,7 @@ namespace CoffeeSur.UI
             chkActivo.Checked = _productoEditar.Activo;
 
             if (_productoEditar.Imagen != null)
-                pbImagen.Image = _servicio.ConvertirBytesAImagen(_productoEditar.Imagen);
+                pbImagen.Image = _productoService.ConvertirBytesAImagen(_productoEditar.Imagen);
         }
 
         private void btnCargarImagen_Click(object sender, EventArgs e)
@@ -64,42 +58,54 @@ namespace CoffeeSur.UI
         {
             try
             {
+                if (!ValidarDatos()) return;
+
                 Producto p = new Producto()
                 {
                     IdProducto = _productoEditar?.IdProducto ?? 0,
-                    Clave = txtClave.Text,
-                    Nombre = txtNombre.Text,
-                    Descripcion = txtDescripcion.Text,
+                    Clave = txtClave.Text.Trim(),
+                    Nombre = txtNombre.Text.Trim(),
+                    Descripcion = txtDescripcion.Text.Trim(),
                     Precio = nudPrecio.Value,
                     Stock = (int)nudStock.Value,
                     Descuento = nudDescuento.Value,
                     Activo = chkActivo.Checked,
                     Imagen = pbImagen.Image != null
-                        ? _servicio.ConvertirImagenABytes(pbImagen.Image)
-                        : null
+                        ? _productoService.ConvertirImagenABytes(pbImagen.Image)
+                        : _productoEditar?.Imagen 
                 };
 
                 if (_productoEditar == null)
-                {
-                    _servicio.RegistrarNuevoProducto(p);
-                }
+                    _productoService.RegistrarNuevoProducto(p);
                 else
-                {
-                    _servicio.ModificarProductoExistente(p);
-                }
+                    _productoService.ModificarProductoExistente(p);
 
-                MessageBox.Show("Producto guardado correctamente.");
-                DialogResult = DialogResult.OK;
+                MessageBox.Show("Producto guardado correctamente", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private bool ValidarDatos()
+        {
+            if (string.IsNullOrWhiteSpace(txtClave.Text) ||
+                string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                nudPrecio.Value <= 0)
+            {
+                MessageBox.Show("Complete todos los campos obligatorios y que el precio sea mayor a 0.");
+                return false;
+            }
+
+            return true;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

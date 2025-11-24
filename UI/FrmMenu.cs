@@ -37,7 +37,7 @@ namespace CoffeeSur.UI
 
         private void btnGestionVentas_Click(object sender, EventArgs e)
         {
-            FrmVentas frm = new FrmVentas();
+            FrmGestionVentas frm = new FrmGestionVentas();
             frm.ShowDialog();
         }
     }

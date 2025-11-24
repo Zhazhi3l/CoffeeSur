@@ -18,7 +18,7 @@ namespace CoffeeSur.UI
     public partial class FrmUsuario : Form
     {
         private readonly UsuarioService _usuarioService = new UsuarioService();
-        private Usuario _usuarioEditar = null;  
+        private Usuario _usuarioEditar = null;
 
         public FrmUsuario()
         {

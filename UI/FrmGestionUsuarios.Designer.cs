@@ -38,10 +38,15 @@
             // 
             // dgvUsuario
             // 
+            dgvUsuario.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader;
+            dgvUsuario.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvUsuario.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvUsuario.Location = new Point(115, 157);
+            dgvUsuario.Dock = DockStyle.Bottom;
+            dgvUsuario.Location = new Point(0, 300);
+            dgvUsuario.MultiSelect = false;
             dgvUsuario.Name = "dgvUsuario";
-            dgvUsuario.Size = new Size(353, 150);
+            dgvUsuario.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvUsuario.Size = new Size(584, 150);
             dgvUsuario.TabIndex = 0;
             // 
             // btnAgregar
@@ -58,6 +63,7 @@
             btnAgregar.Text = "Agregar";
             btnAgregar.TextAlign = ContentAlignment.MiddleRight;
             btnAgregar.UseVisualStyleBackColor = false;
+            btnAgregar.Click += btnAgregar_Click;
             // 
             // btnModificar
             // 
@@ -73,6 +79,7 @@
             btnModificar.Text = "Modificar";
             btnModificar.TextAlign = ContentAlignment.MiddleRight;
             btnModificar.UseVisualStyleBackColor = false;
+            btnModificar.Click += btnModificar_Click;
             // 
             // btnEliminar
             // 
@@ -88,7 +95,7 @@
             btnEliminar.Text = "Eliminar";
             btnEliminar.TextAlign = ContentAlignment.MiddleRight;
             btnEliminar.UseVisualStyleBackColor = false;
-            btnEliminar.Click += btnEliminar_Click_1;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // FrmGestionUsuarios
             // 
