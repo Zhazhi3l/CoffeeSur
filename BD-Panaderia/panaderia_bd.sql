@@ -63,6 +63,33 @@ CREATE TABLE AuditoriaProductos (
     Detalles        TEXT
 );
 
+CREATE TABLE AuditoriaUsuarios (
+    IdAuditoria     INT AUTO_INCREMENT PRIMARY KEY,
+    IdUsuario       INT,
+    Accion          VARCHAR(20),
+    Fecha           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UsuarioBD       VARCHAR(50),
+    Detalles        TEXT
+);
+
+CREATE TABLE AuditoriaVentas (
+    IdAuditoria     INT AUTO_INCREMENT PRIMARY KEY,
+    IdVenta       INT,
+    Accion          VARCHAR(20),
+    Fecha           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UsuarioBD       VARCHAR(50),
+    Detalles        TEXT
+);
+
+CREATE TABLE AuditoriaDetallesVenta (
+    IdAuditoria     INT AUTO_INCREMENT PRIMARY KEY,
+    IdDetalleVenta  INT,
+    Accion          VARCHAR(20),
+    Fecha           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UsuarioBD       VARCHAR(50),
+    Detalles        TEXT
+);
+
 /*
 -- Tabla de categorías de productos
 CREATE TABLE categorias (
