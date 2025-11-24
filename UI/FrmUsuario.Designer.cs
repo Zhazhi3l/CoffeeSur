@@ -153,7 +153,6 @@ namespace CoffeeSur.UI
             cmbRol.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbRol.Font = new Font("Yu Gothic", 9.75F);
             cmbRol.FormattingEnabled = true;
-            cmbRol.Items.AddRange(new object[] { "Admin", "Empleado" });
             cmbRol.Location = new Point(134, 262);
             cmbRol.Name = "cmbRol";
             cmbRol.Size = new Size(263, 25);
@@ -185,6 +184,7 @@ namespace CoffeeSur.UI
             btnAceptar.Text = "Aceptar";
             btnAceptar.TextAlign = ContentAlignment.MiddleRight;
             btnAceptar.UseVisualStyleBackColor = false;
+            btnAceptar.Click += btnAceptar_Click;
             // 
             // btnCancelar
             // 
@@ -200,6 +200,7 @@ namespace CoffeeSur.UI
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.MiddleRight;
             btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // FrmUsuario
             // 
@@ -225,11 +226,6 @@ namespace CoffeeSur.UI
             Text = "FrmUsuario";
             ResumeLayout(false);
             PerformLayout();
-        }
-
-        private void SuspendLayout()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

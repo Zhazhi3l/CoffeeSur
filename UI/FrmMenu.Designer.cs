@@ -49,6 +49,7 @@
             btnGestionUsuarios.Text = "Gestión de Usuarios";
             btnGestionUsuarios.TextAlign = ContentAlignment.MiddleRight;
             btnGestionUsuarios.UseVisualStyleBackColor = false;
+            btnGestionUsuarios.Click += btnGestionUsuarios_Click;
             // 
             // btnGestionProductos
             // 
