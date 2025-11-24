@@ -344,6 +344,32 @@ BEGIN
     WHERE IdVenta = p_IdVenta;
 END$$
 
+-- =============================================
+-- 2.4. STORED PROCEDURES: AUDITORÍA
+-- =============================================
+
+CREATE PROCEDURE sp_ObtenerAuditoriaProductos()
+BEGIN
+    SELECT IdAuditoria, IdProducto, Accion, Fecha, UsuarioBD, Detalles
+    FROM AuditoriaProductos
+    ORDER BY Fecha DESC;
+END$$
+
+CREATE PROCEDURE sp_ObtenerAuditoriaUsuarios()
+BEGIN
+    SELECT IdAuditoria, IdUsuario, Accion, Fecha, UsuarioBD, Detalles
+    FROM AuditoriaUsuarios
+    ORDER BY Fecha DESC;
+END$$
+
+CREATE PROCEDURE sp_ObtenerAuditoriaVentas()
+BEGIN
+    SELECT IdAuditoria, IdVenta, Accion, Fecha, UsuarioBD, Detalles
+    FROM AuditoriaVentas
+    ORDER BY Fecha DESC;
+END$$
+
+
 -- === REPORTES DE VENTAS ===
 
 -- Reporte de Ventas por Producto en un período
