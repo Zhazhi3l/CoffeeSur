@@ -103,6 +103,14 @@ namespace CoffeeSur.Servicios
             }
         }
 
+
+        /// <summary>
+        /// Busca una venta por su id junto con su atributo detalle ventas.
+        /// </summary>
+        /// <param name="idVenta">Valor int del id de la venta.</param>
+        /// <returns>Una venta con todos sus atributos y su atributo 
+        ///             DetallesVenta con una lista llena de los detalles de esa venta.</returns>
+        /// <exception cref="Exception"></exception>
         public Venta BuscarVentaPorId(int idVenta)
         {
             if (idVenta <= 0)

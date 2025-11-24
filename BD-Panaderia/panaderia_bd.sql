@@ -63,12 +63,14 @@ CREATE TABLE AuditoriaProductos (
     Detalles        TEXT
 );
 
+/*
 -- Tabla de categorías de productos
 CREATE TABLE categorias (
     CategoriaID     INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
     Nombre          VARCHAR(50)     NOT NULL,
     Descripcion     TEXT
 );
+*/
 
 /*
 -- Tabla de compras/proveedores
