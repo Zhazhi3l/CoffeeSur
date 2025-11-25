@@ -61,6 +61,7 @@ namespace CoffeeSur.Repositorios
                 using (MySqlCommand cmd = new MySqlCommand("sp_ActualizarProducto", conex))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.Parameters.AddWithValue("@p_IdProducto", producto.IdProducto);
                     cmd.Parameters.AddWithValue("@p_Clave", producto.Clave ?? "");
                     cmd.Parameters.AddWithValue("@p_Nombre", producto.Nombre);

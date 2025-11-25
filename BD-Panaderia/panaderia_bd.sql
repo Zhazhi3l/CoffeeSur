@@ -183,7 +183,7 @@ CREATE PROCEDURE sp_ValidarLogin(
     IN p_Password VARCHAR(256)
 )
 BEGIN
-    SELECT IdUsuario, Nombre, Apellido, Rol, Activo
+    SELECT IdUsuario, Nombre, Apellido, username, Rol, Activo
     FROM Usuarios
     WHERE Username = p_Username 
       AND Password = SHA2(p_Password, 256) -- Compara con el Hash
@@ -448,7 +448,7 @@ CREATE PROCEDURE sp_ReporteProductosPorPeriodo(
 BEGIN
     SELECT 
         p.ProductoID,
-        p.Nombre as Producto,
+        p.Nombre usuariosas Producto,
         SUM(dv.Cantidad) as CantidadVendida,
         SUM(dv.Subtotal) as TotalVendido
     FROM detalle_venta dv

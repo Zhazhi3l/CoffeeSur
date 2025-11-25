@@ -216,5 +216,19 @@ namespace CoffeeSur.Repositorios
             }
             return reporte;
         }
+
+        public List<ReporteComparacionProductos> ObtenerComparacionDeProductosEntreMeses(int idProductos, DateTime fechaUno, DateTime fechaDos)
+        {
+            List<ReporteComparacionProductos> reporte = new List<ReporteComparacionProductos>();
+            using (MySqlConnection conx = _conexion.GetConexion())
+            {
+                using(MySqlCommand cmd = new MySqlCommand("sp_ReporteComparativoProductos", conx))
+                {
+                    cmd.Parameters.AddWithValue("@p_IdProducto", idProductos);
+                    cmd.Parameters.AddWithValue("@p_FechaUno", fechaUno);
+
+                }
+            }
+        }
     }
 }
