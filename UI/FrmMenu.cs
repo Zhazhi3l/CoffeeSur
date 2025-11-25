@@ -40,5 +40,18 @@ namespace CoffeeSur.UI
             FrmGestionVentas frm = new FrmGestionVentas();
             frm.ShowDialog();
         }
+
+        private void btnReportePorPedido_Click(object sender, EventArgs e)
+        {
+
+            FrmReportePorPeriodo frm = new FrmReportePorPeriodo();
+            frm.ShowDialog();
+        }
+
+        private void btnReporteComparativo_Click(object sender, EventArgs e)
+        {
+            FrmReporteComparativo frm = new FrmReporteComparativo();
+            frm.ShowDialog();
+        }
     }
 }

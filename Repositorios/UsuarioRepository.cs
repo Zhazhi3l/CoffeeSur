@@ -84,7 +84,7 @@ namespace CoffeeSur.Repositorios
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@pUsername", username);
+                    cmd.Parameters.AddWithValue("@p_Username", username);
 
                     int filasAfectads = cmd.ExecuteNonQuery();
                     return filasAfectads > 0;

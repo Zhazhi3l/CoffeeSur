@@ -12,44 +12,37 @@ namespace CoffeeSur
 {
     public partial class ProductoCard : UserControl
     {
-        public ProductoCard()
-        {
-            InitializeComponent();
-            this.Click += PropagarClick;
-            foreach (Control c in Controls)
-                c.Click += PropagarClick;
-        }
+        public event EventHandler ProductoClick;
 
-        private void PropagarClick(object? sender, EventArgs? e)
-        {
-            ProductoClick?.Invoke(this, EventArgs.Empty);
-        }
-
-        public event EventHandler? ProductoClick;
+        public int IdProducto { get; set; }
 
         public string Nombre
         {
             get => lblNombre.Text;
-            set => lblNombre.Text = value ?? "";
+            set => lblNombre.Text = value;
         }
 
         public decimal Precio
         {
-            get => decimal.TryParse(lblPrecio.Text.Replace("$", ""), out var p) ? p : 0;
-            set => lblPrecio.Text = $"${value:0.00}";
+            get => decimal.Parse(lblPrecio.Text.Replace("$", ""));
+            set => lblPrecio.Text = "$" + value.ToString("0.00");
         }
 
         public Image Imagen
         {
-            get => picImagen.Image!;
-            set
-            {
-                if (picImagen.Image != null && picImagen.Image != value)
-                    picImagen.Image.Dispose();
+            get => picImagen.Image;
+            set => picImagen.Image = value;
+        }
 
-                picImagen.Image = value;
-            }
+        public ProductoCard()
+        {
+            InitializeComponent();
+            this.Click += (s, e) => ProductoClick?.Invoke(this, EventArgs.Empty);
+            picImagen.Click += (s, e) => ProductoClick?.Invoke(this, EventArgs.Empty);
+            lblNombre.Click += (s, e) => ProductoClick?.Invoke(this, EventArgs.Empty);
+            lblPrecio.Click += (s, e) => ProductoClick?.Invoke(this, EventArgs.Empty);
         }
     }
+
 }
 
