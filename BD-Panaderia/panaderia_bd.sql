@@ -81,14 +81,6 @@ CREATE TABLE AuditoriaVentas (
     Detalles        TEXT
 );
 
-CREATE TABLE AuditoriaDetallesVenta (
-    IdAuditoria     INT AUTO_INCREMENT PRIMARY KEY,
-    IdDetalleVenta  INT,
-    Accion          VARCHAR(20),
-    Fecha           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UsuarioBD       VARCHAR(50),
-    Detalles        TEXT
-);
 
 /*
 -- Tabla de categorías de productos
@@ -397,20 +389,165 @@ DELIMITER ;
 -- -----------------------------------------------------------------------------------------------
 -- 3. TRIGGERS DE AUDITORÍA
 
+-- =============================================
+-- TRIGGERS DE AUDITORÍA PARA PRODUCTOS
+-- =============================================
+
+DELIMITER $$
+CREATE TRIGGER trg_Auditoria_InsertProducto
+AFTER INSERT ON Productos
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioBD, Detalles)
+    VALUES (
+        NEW.IdProducto, 
+        'INSERT', 
+        USER(), 
+        CONCAT('Nuevo producto: ', NEW.Nombre, ' | Clave: ', NEW.Clave, ' | Precio: ', NEW.Precio, ' | Stock: ', NEW.Stock)
+    );
+END$$
+
+
 DELIMITER $$
 CREATE TRIGGER trg_Auditoria_UpdateProducto
 AFTER UPDATE ON Productos
 FOR EACH ROW
 BEGIN
-    INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioDB, Detalles)
+    DECLARE detalles TEXT;
+    
+    SET detalles = CONCAT(
+        'Producto actualizado: ', NEW.Nombre,
+        ' | Cambios: ',
+        IF(OLD.Clave != NEW.Clave, CONCAT('Clave: ', OLD.Clave, ' , Nueva Clave: ', NEW.Clave, '; '), ''),
+        IF(OLD.Nombre != NEW.Nombre, CONCAT('Nombre: ', OLD.Nombre, ' , Nuevo Nombre: ', NEW.Nombre, '; '), ''),
+        IF(OLD.Precio != NEW.Precio, CONCAT('Precio: ', OLD.Precio, ' , Nuevo Precio: ', NEW.Precio, '; '), ''),
+        IF(OLD.Stock != NEW.Stock, CONCAT('Stock: ', OLD.Stock, ' , Nuevo Stock: ', NEW.Stock, '; '), ''),
+        IF(OLD.Activo != NEW.Activo, CONCAT('Activo: ', OLD.Activo, ' , Nuevo Activo: ', NEW.Activo, '; '), '')
+    );
+    
+    INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioBD, Detalles)
+    VALUES (NEW.IdProducto, 'UPDATE', USER(), detalles);
+END$$
+
+
+CREATE TRIGGER trg_Auditoria_DeleteProducto
+AFTER UPDATE ON Productos
+FOR EACH ROW
+BEGIN
+    IF OLD.Activo = 1 AND NEW.Activo = 0 THEN
+        INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioBD, Detalles)
+        VALUES (
+            OLD.IdProducto, 
+            'DELETE', 
+            USER(), 
+            CONCAT('Producto desactivado: ', OLD.Nombre, ' | Clave: ', OLD.Clave)
+        );
+    END IF;
+END$$
+
+-- =============================================
+-- TRIGGERS DE AUDITORÍA PARA USUARIOS
+-- =============================================
+
+
+CREATE TRIGGER trg_Auditoria_InsertUsuario
+AFTER INSERT ON Usuarios
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaUsuarios (IdUsuario, Accion, UsuarioBD, Detalles)
     VALUES (
-        NEW.IdProducto, 
-        'UPDATE', 
+        NEW.IdUsuario, 
+        'INSERT', 
         USER(), 
-        CONCAT('Stock anterior: ', OLD.Stock, ', Nuevo: ', NEW.Stock, '. Precio ant: ', OLD.Precio, ', Nuevo: ', NEW.Precio)
+        CONCAT('Nuevo usuario: ', NEW.Nombre, ' ', NEW.Apellido, ' | Username: ', NEW.Username, ' | Rol: ', NEW.Rol)
     );
 END$$
-DELIMITER ;
+
+
+CREATE TRIGGER trg_Auditoria_UpdateUsuario
+AFTER UPDATE ON Usuarios
+FOR EACH ROW
+BEGIN
+    DECLARE detalles TEXT;
+    
+    SET detalles = CONCAT(
+        'Usuario actualizado: ', NEW.Nombre, ' ', NEW.Apellido,
+        ' | Cambios: ',
+        IF(OLD.Nombre != NEW.Nombre, CONCAT('Nombre: ', OLD.Nombre, ' , Nuevo Nombre: ', NEW.Nombre, '; '), ''),
+        IF(OLD.Apellido != NEW.Apellido, CONCAT('Apellido: ', OLD.Apellido, ' , Nuevo Apellido: ', NEW.Apellido, '; '), ''),
+        IF(OLD.Username != NEW.Username, CONCAT('Username: ', OLD.Username, ' , Nuevo Username: ', NEW.Username, '; '), ''),
+        IF(OLD.Rol != NEW.Rol, CONCAT('Rol: ', OLD.Rol, ' , Nuevo Rol: ', NEW.Rol, '; '), ''),
+        IF(OLD.Activo != NEW.Activo, CONCAT('Activo: ', OLD.Activo, ' Nuevo Activo: ', NEW.Activo, '; '), '')
+    );
+    
+    INSERT INTO AuditoriaUsuarios (IdUsuario, Accion, UsuarioBD, Detalles)
+    VALUES (NEW.IdUsuario, 'UPDATE', USER(), detalles);
+END$$
+
+
+CREATE TRIGGER trg_Auditoria_DeleteUsuario
+AFTER UPDATE ON Usuarios
+FOR EACH ROW
+BEGIN
+    IF OLD.Activo = 1 AND NEW.Activo = 0 THEN
+        INSERT INTO AuditoriaUsuarios (IdUsuario, Accion, UsuarioBD, Detalles)
+        VALUES (
+            OLD.IdUsuario, 
+            'DELETE', 
+            USER(), 
+            CONCAT('Usuario desactivado: ', OLD.Nombre, ' ', OLD.Apellido, ' | Username: ', OLD.Username)
+        );
+    END IF;
+END$$
+
+-- =============================================
+-- TRIGGERS DE AUDITORÍA PARA VENTAS
+-- =============================================
+
+CREATE TRIGGER trg_Auditoria_InsertVenta
+AFTER INSERT ON Ventas
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaVentas (IdVenta, Accion, UsuarioBD, Detalles)
+    VALUES (
+        NEW.IdVenta, 
+        'INSERT', 
+        USER(), 
+        CONCAT('Nueva venta registrada | Total: $', NEW.Total, ' | Fecha: ', NEW.FechaVenta)
+    );
+END$$
+
+
+CREATE TRIGGER trg_Auditoria_UpdateVenta
+AFTER UPDATE ON Ventas
+FOR EACH ROW
+BEGIN
+    DECLARE detalles TEXT;
+    
+    SET detalles = CONCAT(
+        'Venta actualizada ID: ', NEW.IdVenta,
+        ' | Cambios: ',
+        IF(OLD.Total != NEW.Total, CONCAT('Total: $', OLD.Total, ' , Nuevo Total: $', NEW.Total, '; '), ''),
+        IF(OLD.IdUsuario != NEW.IdUsuario, CONCAT('Vendedor cambiado; '), '')
+    );
+    
+    INSERT INTO AuditoriaVentas (IdVenta, Accion, UsuarioBD, Detalles)
+    VALUES (NEW.IdVenta, 'UPDATE', USER(), detalles);
+END$$
+
+
+CREATE TRIGGER trg_Auditoria_DeleteVenta
+AFTER DELETE ON Ventas
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaVentas (IdVenta, Accion, UsuarioBD, Detalles)
+    VALUES (
+        OLD.IdVenta, 
+        'DELETE', 
+        USER(), 
+        CONCAT('Venta eliminada ID: ', OLD.IdVenta, ' | Total: $', OLD.Total, ' | Fecha: ', OLD.FechaVenta)
+    );
+END$$
 
 -- -----------------------------------------------------------------------------------------------
 
