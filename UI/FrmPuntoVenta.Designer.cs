@@ -39,7 +39,8 @@
             lblLineaVenta = new Label();
             flpProductos = new FlowLayoutPanel();
             pnlDetalle = new Panel();
-            button1 = new Button();
+            lblDetalleId = new Label();
+            btnMenos = new Button();
             btnMas = new Button();
             lblDetallePrecio = new Label();
             lblDetalleNombre = new Label();
@@ -124,12 +125,12 @@
             flpProductos.Name = "flpProductos";
             flpProductos.Size = new Size(638, 461);
             flpProductos.TabIndex = 1;
-            flpProductos.Paint += flpProductos_Paint;
             // 
             // pnlDetalle
             // 
             pnlDetalle.BackColor = Color.Wheat;
-            pnlDetalle.Controls.Add(button1);
+            pnlDetalle.Controls.Add(lblDetalleId);
+            pnlDetalle.Controls.Add(btnMenos);
             pnlDetalle.Controls.Add(btnMas);
             pnlDetalle.Controls.Add(lblDetallePrecio);
             pnlDetalle.Controls.Add(lblDetalleNombre);
@@ -140,18 +141,28 @@
             pnlDetalle.Size = new Size(200, 461);
             pnlDetalle.TabIndex = 2;
             // 
-            // button1
+            // lblDetalleId
             // 
-            button1.AutoSize = true;
-            button1.BackColor = Color.PaleGoldenrod;
-            button1.Font = new Font("Footlight MT Light", 14.25F);
-            button1.Image = (Image)resources.GetObject("button1.Image");
-            button1.Location = new Point(107, 213);
-            button1.Name = "button1";
-            button1.Size = new Size(58, 47);
-            button1.TabIndex = 4;
-            button1.TextAlign = ContentAlignment.MiddleRight;
-            button1.UseVisualStyleBackColor = false;
+            lblDetalleId.AutoSize = true;
+            lblDetalleId.Location = new Point(43, 112);
+            lblDetalleId.Name = "lblDetalleId";
+            lblDetalleId.Size = new Size(0, 15);
+            lblDetalleId.TabIndex = 5;
+            lblDetalleId.Visible = false;
+            // 
+            // btnMenos
+            // 
+            btnMenos.AutoSize = true;
+            btnMenos.BackColor = Color.PaleGoldenrod;
+            btnMenos.Font = new Font("Footlight MT Light", 14.25F);
+            btnMenos.Image = (Image)resources.GetObject("btnMenos.Image");
+            btnMenos.Location = new Point(107, 213);
+            btnMenos.Name = "btnMenos";
+            btnMenos.Size = new Size(58, 47);
+            btnMenos.TabIndex = 4;
+            btnMenos.TextAlign = ContentAlignment.MiddleRight;
+            btnMenos.UseVisualStyleBackColor = false;
+            btnMenos.Click += btnMenos_Click;
             // 
             // btnMas
             // 
@@ -159,36 +170,38 @@
             btnMas.BackColor = Color.PaleGoldenrod;
             btnMas.Font = new Font("Footlight MT Light", 14.25F);
             btnMas.Image = (Image)resources.GetObject("btnMas.Image");
-            btnMas.Location = new Point(30, 213);
+            btnMas.Location = new Point(34, 207);
             btnMas.Name = "btnMas";
             btnMas.Size = new Size(52, 47);
             btnMas.TabIndex = 3;
             btnMas.TextAlign = ContentAlignment.MiddleRight;
             btnMas.UseVisualStyleBackColor = false;
+            btnMas.Click += btnMas_Click;
             // 
             // lblDetallePrecio
             // 
             lblDetallePrecio.AutoSize = true;
-            lblDetallePrecio.Location = new Point(69, 181);
+            lblDetallePrecio.Location = new Point(43, 161);
             lblDetallePrecio.Name = "lblDetallePrecio";
-            lblDetallePrecio.Size = new Size(38, 15);
+            lblDetallePrecio.Size = new Size(73, 15);
             lblDetallePrecio.TabIndex = 2;
-            lblDetallePrecio.Text = "label1";
+            lblDetallePrecio.Text = "Precio: $0.00";
             // 
             // lblDetalleNombre
             // 
             lblDetalleNombre.AutoSize = true;
-            lblDetalleNombre.Location = new Point(65, 141);
+            lblDetalleNombre.Location = new Point(43, 136);
             lblDetalleNombre.Name = "lblDetalleNombre";
-            lblDetalleNombre.Size = new Size(38, 15);
+            lblDetalleNombre.Size = new Size(122, 15);
             lblDetalleNombre.TabIndex = 1;
-            lblDetalleNombre.Text = "label1";
+            lblDetalleNombre.Text = "Nombre del producto";
             // 
             // picDetalle
             // 
-            picDetalle.Location = new Point(65, 59);
+            picDetalle.BackgroundImageLayout = ImageLayout.Zoom;
+            picDetalle.Location = new Point(43, 19);
             picDetalle.Name = "picDetalle";
-            picDetalle.Size = new Size(100, 50);
+            picDetalle.Size = new Size(122, 90);
             picDetalle.TabIndex = 0;
             picDetalle.TabStop = false;
             // 
@@ -218,6 +231,7 @@
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.MiddleRight;
             btnCancelar.UseVisualStyleBackColor = false;
+            btnCancelar.Click += btnCancelar_Click;
             // 
             // btnCobrar
             // 
@@ -233,6 +247,7 @@
             btnCobrar.Text = "Cobrar";
             btnCobrar.TextAlign = ContentAlignment.MiddleRight;
             btnCobrar.UseVisualStyleBackColor = false;
+            btnCobrar.Click += btnCobrar_Click;
             // 
             // lblTotal
             // 
@@ -323,7 +338,7 @@
         private Label lblDetallePrecio;
         private Label lblDetalleNombre;
         private Button btnMas;
-        private Button button1;
+        private Button btnMenos;
         private Panel panel1;
         private Label lblTotal;
         private Button btnCancelar;
@@ -333,5 +348,6 @@
         private Label lblFecha;
         private Label lblHora;
         private System.Windows.Forms.Timer Timer;
+        private Label lblDetalleId;
     }
 }
