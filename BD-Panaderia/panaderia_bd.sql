@@ -622,3 +622,58 @@ BEGIN
     ORDER BY CantidadVendida DESC;
 END $$
 DELIMITER ;
+
+-- Reporte comparativo de productos
+DELIMITER $$
+CREATE PROCEDURE sp_ReporteComparativoProductos(
+    IN p_IdProducto INT,
+    IN p_Mes1 INT,    -- 1-12
+    IN p_Anio1 INT,   -- 2024, 2025, etc.
+    IN p_Mes2 INT,    -- 1-12  
+    IN p_Anio2 INT    -- 2024, 2025, etc.
+)
+BEGIN
+    SELECT 
+        p.IdProducto AS 'Id',
+        p.Nombre AS 'Producto',
+        CONCAT('$ ', FORMAT(p.Precio, 2)) AS 'Precio',
+        CONCAT('$ ', FORMAT(
+            COALESCE((
+                SELECT SUM(dv.Subtotal) 
+                FROM DetalleVenta dv JOIN Ventas v ON dv.IdVenta = v.IdVenta 
+                WHERE dv.IdProducto = p.IdProducto 
+                AND MONTH(v.FechaVenta) = p_Mes1 
+                AND YEAR(v.FechaVenta) = p_Anio1
+            ), 0), 2)
+        ) AS 'Ventas_Mes1',
+        CONCAT(
+            CASE p_Mes1
+                WHEN 1 THEN 'Enero' WHEN 2 THEN 'Febrero' WHEN 3 THEN 'Marzo' WHEN 4 THEN 'Abril'
+                WHEN 5 THEN 'Mayo' WHEN 6 THEN 'Junio' WHEN 7 THEN 'Julio' WHEN 8 THEN 'Agosto'
+                WHEN 9 THEN 'Septiembre' WHEN 10 THEN 'Octubre' WHEN 11 THEN 'Noviembre' WHEN 12 THEN 'Diciembre'
+            END, ' ', p_Anio1
+        ) AS 'Mes1',
+        CONCAT('$ ', FORMAT(
+            COALESCE((
+                SELECT SUM(dv.Subtotal) 
+                FROM DetalleVenta dv JOIN Ventas v ON dv.IdVenta = v.IdVenta 
+                WHERE dv.IdProducto = p.IdProducto 
+                AND MONTH(v.FechaVenta) = p_Mes2 
+                AND YEAR(v.FechaVenta) = p_Anio2
+            ), 0), 2)
+        ) AS 'Ventas_Mes2',
+        CONCAT(
+            CASE p_Mes2
+                WHEN 1 THEN 'Enero' WHEN 2 THEN 'Febrero' WHEN 3 THEN 'Marzo' WHEN 4 THEN 'Abril'
+                WHEN 5 THEN 'Mayo' WHEN 6 THEN 'Junio' WHEN 7 THEN 'Julio' WHEN 8 THEN 'Agosto'
+                WHEN 9 THEN 'Septiembre' WHEN 10 THEN 'Octubre' WHEN 11 THEN 'Noviembre' WHEN 12 THEN 'Diciembre'
+            END, ' ', p_Anio2
+        ) AS 'Mes2'
+    FROM Productos p
+    WHERE p.IdProducto = p_IdProducto;
+END$$
+DELIMITER ;
+
+-- Ejemplo: 
+-- Para comparar Noviembre 2025 y Octubre 2025 del producto con ID 98
+-- CALL sp_ReporteComparativoProductos(98, 11, 2025, 10, 2025);
