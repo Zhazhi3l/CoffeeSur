@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace CoffeeSur.UI
 {
-	public partial class FrmReporteComparativo : Form
+	public partial class FrmAuditorias : Form
 	{
-		public FrmReporteComparativo()
+		public FrmAuditorias()
 		{
 			InitializeComponent();
 		}
 
-		private void cmbMes1_SelectedIndexChanged(object sender, EventArgs e)
+		private void btnUsuarios_Click(object sender, EventArgs e)
 		{
 
 		}
