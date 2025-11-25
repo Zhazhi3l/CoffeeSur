@@ -63,12 +63,33 @@ CREATE TABLE AuditoriaProductos (
     Detalles        TEXT
 );
 
+CREATE TABLE AuditoriaUsuarios (
+    IdAuditoria     INT AUTO_INCREMENT PRIMARY KEY,
+    IdUsuario       INT,
+    Accion          VARCHAR(20),
+    Fecha           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UsuarioBD       VARCHAR(50),
+    Detalles        TEXT
+);
+
+CREATE TABLE AuditoriaVentas (
+    IdAuditoria     INT AUTO_INCREMENT PRIMARY KEY,
+    IdVenta       INT,
+    Accion          VARCHAR(20),
+    Fecha           TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UsuarioBD       VARCHAR(50),
+    Detalles        TEXT
+);
+
+
+/*
 -- Tabla de categorías de productos
 CREATE TABLE categorias (
     CategoriaID     INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
     Nombre          VARCHAR(50)     NOT NULL,
     Descripcion     TEXT
 );
+*/
 
 /*
 -- Tabla de compras/proveedores
@@ -315,6 +336,32 @@ BEGIN
     WHERE IdVenta = p_IdVenta;
 END$$
 
+-- =============================================
+-- 2.4. STORED PROCEDURES: AUDITORÍA
+-- =============================================
+
+CREATE PROCEDURE sp_ObtenerAuditoriaProductos()
+BEGIN
+    SELECT IdAuditoria, IdProducto, Accion, Fecha, UsuarioBD, Detalles
+    FROM AuditoriaProductos
+    ORDER BY Fecha DESC;
+END$$
+
+CREATE PROCEDURE sp_ObtenerAuditoriaUsuarios()
+BEGIN
+    SELECT IdAuditoria, IdUsuario, Accion, Fecha, UsuarioBD, Detalles
+    FROM AuditoriaUsuarios
+    ORDER BY Fecha DESC;
+END$$
+
+CREATE PROCEDURE sp_ObtenerAuditoriaVentas()
+BEGIN
+    SELECT IdAuditoria, IdVenta, Accion, Fecha, UsuarioBD, Detalles
+    FROM AuditoriaVentas
+    ORDER BY Fecha DESC;
+END$$
+
+
 -- === REPORTES DE VENTAS ===
 
 -- Reporte de Ventas por Producto en un período
@@ -342,20 +389,165 @@ DELIMITER ;
 -- -----------------------------------------------------------------------------------------------
 -- 3. TRIGGERS DE AUDITORÍA
 
+-- =============================================
+-- TRIGGERS DE AUDITORÍA PARA PRODUCTOS
+-- =============================================
+
+DELIMITER $$
+CREATE TRIGGER trg_Auditoria_InsertProducto
+AFTER INSERT ON Productos
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioBD, Detalles)
+    VALUES (
+        NEW.IdProducto, 
+        'INSERT', 
+        USER(), 
+        CONCAT('Nuevo producto: ', NEW.Nombre, ' | Clave: ', NEW.Clave, ' | Precio: ', NEW.Precio, ' | Stock: ', NEW.Stock)
+    );
+END$$
+
+
 DELIMITER $$
 CREATE TRIGGER trg_Auditoria_UpdateProducto
 AFTER UPDATE ON Productos
 FOR EACH ROW
 BEGIN
-    INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioDB, Detalles)
+    DECLARE detalles TEXT;
+    
+    SET detalles = CONCAT(
+        'Producto actualizado: ', NEW.Nombre,
+        ' | Cambios: ',
+        IF(OLD.Clave != NEW.Clave, CONCAT('Clave: ', OLD.Clave, ' , Nueva Clave: ', NEW.Clave, '; '), ''),
+        IF(OLD.Nombre != NEW.Nombre, CONCAT('Nombre: ', OLD.Nombre, ' , Nuevo Nombre: ', NEW.Nombre, '; '), ''),
+        IF(OLD.Precio != NEW.Precio, CONCAT('Precio: ', OLD.Precio, ' , Nuevo Precio: ', NEW.Precio, '; '), ''),
+        IF(OLD.Stock != NEW.Stock, CONCAT('Stock: ', OLD.Stock, ' , Nuevo Stock: ', NEW.Stock, '; '), ''),
+        IF(OLD.Activo != NEW.Activo, CONCAT('Activo: ', OLD.Activo, ' , Nuevo Activo: ', NEW.Activo, '; '), '')
+    );
+    
+    INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioBD, Detalles)
+    VALUES (NEW.IdProducto, 'UPDATE', USER(), detalles);
+END$$
+
+
+CREATE TRIGGER trg_Auditoria_DeleteProducto
+AFTER UPDATE ON Productos
+FOR EACH ROW
+BEGIN
+    IF OLD.Activo = 1 AND NEW.Activo = 0 THEN
+        INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioBD, Detalles)
+        VALUES (
+            OLD.IdProducto, 
+            'DELETE', 
+            USER(), 
+            CONCAT('Producto desactivado: ', OLD.Nombre, ' | Clave: ', OLD.Clave)
+        );
+    END IF;
+END$$
+
+-- =============================================
+-- TRIGGERS DE AUDITORÍA PARA USUARIOS
+-- =============================================
+
+
+CREATE TRIGGER trg_Auditoria_InsertUsuario
+AFTER INSERT ON Usuarios
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaUsuarios (IdUsuario, Accion, UsuarioBD, Detalles)
     VALUES (
-        NEW.IdProducto, 
-        'UPDATE', 
+        NEW.IdUsuario, 
+        'INSERT', 
         USER(), 
-        CONCAT('Stock anterior: ', OLD.Stock, ', Nuevo: ', NEW.Stock, '. Precio ant: ', OLD.Precio, ', Nuevo: ', NEW.Precio)
+        CONCAT('Nuevo usuario: ', NEW.Nombre, ' ', NEW.Apellido, ' | Username: ', NEW.Username, ' | Rol: ', NEW.Rol)
     );
 END$$
-DELIMITER ;
+
+
+CREATE TRIGGER trg_Auditoria_UpdateUsuario
+AFTER UPDATE ON Usuarios
+FOR EACH ROW
+BEGIN
+    DECLARE detalles TEXT;
+    
+    SET detalles = CONCAT(
+        'Usuario actualizado: ', NEW.Nombre, ' ', NEW.Apellido,
+        ' | Cambios: ',
+        IF(OLD.Nombre != NEW.Nombre, CONCAT('Nombre: ', OLD.Nombre, ' , Nuevo Nombre: ', NEW.Nombre, '; '), ''),
+        IF(OLD.Apellido != NEW.Apellido, CONCAT('Apellido: ', OLD.Apellido, ' , Nuevo Apellido: ', NEW.Apellido, '; '), ''),
+        IF(OLD.Username != NEW.Username, CONCAT('Username: ', OLD.Username, ' , Nuevo Username: ', NEW.Username, '; '), ''),
+        IF(OLD.Rol != NEW.Rol, CONCAT('Rol: ', OLD.Rol, ' , Nuevo Rol: ', NEW.Rol, '; '), ''),
+        IF(OLD.Activo != NEW.Activo, CONCAT('Activo: ', OLD.Activo, ' Nuevo Activo: ', NEW.Activo, '; '), '')
+    );
+    
+    INSERT INTO AuditoriaUsuarios (IdUsuario, Accion, UsuarioBD, Detalles)
+    VALUES (NEW.IdUsuario, 'UPDATE', USER(), detalles);
+END$$
+
+
+CREATE TRIGGER trg_Auditoria_DeleteUsuario
+AFTER UPDATE ON Usuarios
+FOR EACH ROW
+BEGIN
+    IF OLD.Activo = 1 AND NEW.Activo = 0 THEN
+        INSERT INTO AuditoriaUsuarios (IdUsuario, Accion, UsuarioBD, Detalles)
+        VALUES (
+            OLD.IdUsuario, 
+            'DELETE', 
+            USER(), 
+            CONCAT('Usuario desactivado: ', OLD.Nombre, ' ', OLD.Apellido, ' | Username: ', OLD.Username)
+        );
+    END IF;
+END$$
+
+-- =============================================
+-- TRIGGERS DE AUDITORÍA PARA VENTAS
+-- =============================================
+
+CREATE TRIGGER trg_Auditoria_InsertVenta
+AFTER INSERT ON Ventas
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaVentas (IdVenta, Accion, UsuarioBD, Detalles)
+    VALUES (
+        NEW.IdVenta, 
+        'INSERT', 
+        USER(), 
+        CONCAT('Nueva venta registrada | Total: $', NEW.Total, ' | Fecha: ', NEW.FechaVenta)
+    );
+END$$
+
+
+CREATE TRIGGER trg_Auditoria_UpdateVenta
+AFTER UPDATE ON Ventas
+FOR EACH ROW
+BEGIN
+    DECLARE detalles TEXT;
+    
+    SET detalles = CONCAT(
+        'Venta actualizada ID: ', NEW.IdVenta,
+        ' | Cambios: ',
+        IF(OLD.Total != NEW.Total, CONCAT('Total: $', OLD.Total, ' , Nuevo Total: $', NEW.Total, '; '), ''),
+        IF(OLD.IdUsuario != NEW.IdUsuario, CONCAT('Vendedor cambiado; '), '')
+    );
+    
+    INSERT INTO AuditoriaVentas (IdVenta, Accion, UsuarioBD, Detalles)
+    VALUES (NEW.IdVenta, 'UPDATE', USER(), detalles);
+END$$
+
+
+CREATE TRIGGER trg_Auditoria_DeleteVenta
+AFTER DELETE ON Ventas
+FOR EACH ROW
+BEGIN
+    INSERT INTO AuditoriaVentas (IdVenta, Accion, UsuarioBD, Detalles)
+    VALUES (
+        OLD.IdVenta, 
+        'DELETE', 
+        USER(), 
+        CONCAT('Venta eliminada ID: ', OLD.IdVenta, ' | Total: $', OLD.Total, ' | Fecha: ', OLD.FechaVenta)
+    );
+END$$
 
 -- -----------------------------------------------------------------------------------------------
 
@@ -430,3 +622,58 @@ BEGIN
     ORDER BY CantidadVendida DESC;
 END $$
 DELIMITER ;
+
+-- Reporte comparativo de productos
+DELIMITER $$
+CREATE PROCEDURE sp_ReporteComparativoProductos(
+    IN p_IdProducto INT,
+    IN p_Mes1 INT,    -- 1-12
+    IN p_Anio1 INT,   -- 2024, 2025, etc.
+    IN p_Mes2 INT,    -- 1-12  
+    IN p_Anio2 INT    -- 2024, 2025, etc.
+)
+BEGIN
+    SELECT 
+        p.IdProducto AS 'Id',
+        p.Nombre AS 'Producto',
+        CONCAT('$ ', FORMAT(p.Precio, 2)) AS 'Precio',
+        CONCAT('$ ', FORMAT(
+            COALESCE((
+                SELECT SUM(dv.Subtotal) 
+                FROM DetalleVenta dv JOIN Ventas v ON dv.IdVenta = v.IdVenta 
+                WHERE dv.IdProducto = p.IdProducto 
+                AND MONTH(v.FechaVenta) = p_Mes1 
+                AND YEAR(v.FechaVenta) = p_Anio1
+            ), 0), 2)
+        ) AS 'Ventas_Mes1',
+        CONCAT(
+            CASE p_Mes1
+                WHEN 1 THEN 'Enero' WHEN 2 THEN 'Febrero' WHEN 3 THEN 'Marzo' WHEN 4 THEN 'Abril'
+                WHEN 5 THEN 'Mayo' WHEN 6 THEN 'Junio' WHEN 7 THEN 'Julio' WHEN 8 THEN 'Agosto'
+                WHEN 9 THEN 'Septiembre' WHEN 10 THEN 'Octubre' WHEN 11 THEN 'Noviembre' WHEN 12 THEN 'Diciembre'
+            END, ' ', p_Anio1
+        ) AS 'Mes1',
+        CONCAT('$ ', FORMAT(
+            COALESCE((
+                SELECT SUM(dv.Subtotal) 
+                FROM DetalleVenta dv JOIN Ventas v ON dv.IdVenta = v.IdVenta 
+                WHERE dv.IdProducto = p.IdProducto 
+                AND MONTH(v.FechaVenta) = p_Mes2 
+                AND YEAR(v.FechaVenta) = p_Anio2
+            ), 0), 2)
+        ) AS 'Ventas_Mes2',
+        CONCAT(
+            CASE p_Mes2
+                WHEN 1 THEN 'Enero' WHEN 2 THEN 'Febrero' WHEN 3 THEN 'Marzo' WHEN 4 THEN 'Abril'
+                WHEN 5 THEN 'Mayo' WHEN 6 THEN 'Junio' WHEN 7 THEN 'Julio' WHEN 8 THEN 'Agosto'
+                WHEN 9 THEN 'Septiembre' WHEN 10 THEN 'Octubre' WHEN 11 THEN 'Noviembre' WHEN 12 THEN 'Diciembre'
+            END, ' ', p_Anio2
+        ) AS 'Mes2'
+    FROM Productos p
+    WHERE p.IdProducto = p_IdProducto;
+END$$
+DELIMITER ;
+
+-- Ejemplo: 
+-- Para comparar Noviembre 2025 y Octubre 2025 del producto con ID 98
+-- CALL sp_ReporteComparativoProductos(98, 11, 2025, 10, 2025);

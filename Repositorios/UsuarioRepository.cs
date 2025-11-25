@@ -161,6 +161,13 @@ namespace CoffeeSur.Repositorios
             return usuarios;
         }
 
+        /// <summary>
+        /// Método que busca un usuario por su ID en la BD.
+        /// </summary>
+        /// <param name="id">Valor int de un Id de un usuario.</param>
+        /// <returns>Un usuario con todos sus datos, excepto contraseña.
+        ///         Si no lo encuentra, devuelve null.
+        /// </returns>
         public Usuario ObtenerUsuarioPorId(int id)
         {
             Usuario u = null;
