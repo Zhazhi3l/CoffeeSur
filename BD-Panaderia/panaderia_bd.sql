@@ -175,7 +175,7 @@ CREATE PROCEDURE sp_ValidarLogin(
     IN p_Password VARCHAR(256)
 )
 BEGIN
-    SELECT IdUsuario, Nombre, Apellido, username, Rol, Activo
+    SELECT IdUsuario, Nombre, Apellido, Username, Rol, Activo
     FROM Usuarios
     WHERE Username = p_Username 
       AND Password = SHA2(p_Password, 256) -- Compara con el Hash
