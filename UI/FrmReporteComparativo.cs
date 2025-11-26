@@ -21,69 +21,167 @@ namespace CoffeeSur.UI
         public FrmReporteComparativo()
         {
             InitializeComponent();
+            ConfigurarGridSeleccion();
+            // ConfigurarGrafico();
         }
 
         private void FrmReporteComparativo_Load(object sender, EventArgs e)
         {
-            CargarProductos();
-
+            // CargarCatalogoVisual();
         }
 
+        private void ConfigurarGridSeleccion()
+        {
+            dgvListaProductos.AllowUserToAddRows = false;
+            dgvListaProductos.ReadOnly = true;
+            dgvListaProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvListaProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvListaProductos.RowHeadersVisible = false;
 
-        // Pendiente de validación
+            if (dgvListaProductos.Columns.Count == 0)
+            {
+                dgvListaProductos.Columns.Add("IdProducto", "ID");
+                dgvListaProductos.Columns["IdProducto"].Visible = false; // Oculto
+                dgvListaProductos.Columns.Add("Nombre", "Producto Seleccionado");
+            }
+        }
+        /*
+        private void ConfigurarGrafico()
+        {
+            chartComparativo.Series.Clear();
+            chartComparativo.Titles.Clear();
+            chartComparativo.ChartAreas.Clear();
+
+            // Área del gráfico
+            ChartArea area = new ChartArea("AreaComparativa");
+            area.AxisX.Interval = 1; // Mostrar todas las etiquetas del eje X
+            area.AxisY.LabelStyle.Format = "C0"; // Formato moneda sin decimales
+            area.AxisX.MajorGrid.LineColor = Color.LightGray;
+            area.AxisY.MajorGrid.LineColor = Color.LightGray;
+
+            chartComparativo.ChartAreas.Add(area);
+
+            // Leyenda y Título
+            chartComparativo.Legends.Add(new Legend("Leyenda"));
+            chartComparativo.Titles.Add("Comparativo de Ventas Mensuales");
+        }
+
         private void CargarCatalogoVisual()
         {
+            flpCOntendedorProductos.Controls.Clear();
             try
             {
-                List<Producto> lista = _servicioProducto.ObtenerTodosProductos();
+                List<Producto> productos = _servicioProducto.ObtenerTodosProductos();
+
+                foreach (var p in productos)
+                {
+                    ProductoCard card = new ProductoCard();
+
+                    card.IdProducto = p.IdProducto;
+                    card.Nombre = p.Nombre;
+                    card.Precio = p.Precio;
+
+                    if (p.Imagen != null)
+                    {
+                        card.Imagen = _servicioProducto.ConvertirBytesAImagen(p.Imagen);
+                    }
+
+                    card.ProductoClick += (s, args) =>
+                    {
+                        AgregarProductoAlGrid(p);
+                    };
+
+                    flpCOntendedorProductos.Controls.Add(card);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar productos: " + ex.Message);
+                MessageBox.Show("Error al cargar catálogo: " + ex.Message);
             }
         }
 
-        private void AgregarAlGrid(Producto prod)
+        private void AgregarProductoAlGrid(Producto producto)
         {
-            // Evitar duplicados en la lista de selección
-            foreach (DataGridViewRow row in dgvSeleccionados.Rows)
+            foreach (DataGridViewRow row in dgvListaProductos.Rows)
             {
-                if (Convert.ToInt32(row.Cells["IdProducto"].Value) == prod.IdProducto)
+                if (Convert.ToInt32(row.Cells["IdProducto"].Value) == producto.IdProducto)
                 {
-                    // Si ya está, no hacemos nada (o podrías hacer un efecto visual)
                     return;
                 }
             }
 
-            // Agregar a la lista "Global"
-            dgvSeleccionados.Rows.Add(prod.IdProducto, prod.Nombre);
+            int indiceFila = dgvListaProductos.Rows.Add(producto.IdProducto, producto.Nombre);
+            dgvListaProductos.Rows[indiceFila].Tag = producto;
         }
 
-        // Pendiente de validación
-        private void DibujarGrafico(List<ReporteComparacionProductosDTO> datos)
+        // PEndiente de validación
+        private void btnAnalizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<Producto> productosParaAnalizar = new List<Producto>();
+
+                foreach (DataGridViewRow row in dgvListaProductos.Rows)
+                {
+                    if (row.Tag is Producto prod)
+                    {
+                        productosParaAnalizar.Add(prod);
+                    }
+                }
+
+                if (productosParaAnalizar.Count == 0)
+                {
+                    MessageBox.Show("Seleccione al menos un producto del catálogo (Pestaña 1).");
+                    return;
+                }
+
+                var datosReporte = _servicioVenta.GenerarReporteComparativo(
+                    productosParaAnalizar,
+                    dtpFecha1.Value,
+                    dtpFecha2.Value
+                    );
+
+                if (datosReporte.Count == 0)
+                {
+                    MessageBox.Show("No hay ventas registradas en esas fechas para los productos seleccionados.");
+                    return;
+                }
+
+                // DibujarGraficoBarras(datosReporte);
+                tbCntrlSeleccionYAnalisis.SelectedIndex = 1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar análisis: " + ex.Message);
+            }
+        }
+
+        /*
+        private void DibujarGraficoBarras(List<ReporteComparativoDTO> datos)
         {
             chartComparativo.Series.Clear();
 
-            // Definimos los nombres de las series basados en las fechas elegidas
-            string serieMes1 = dtpFecha1.Value.ToString("MMMM yyyy");
-            string serieMes2 = dtpFecha2.Value.ToString("MMMM yyyy");
+            // Nombres de las series dinámicos (Ej: "Noviembre 2023")
+            string nombreSerie1 = dtpInicio.Value.ToString("MMMM yyyy");
+            string nombreSerie2 = dtpFin.Value.ToString("MMMM yyyy");
 
-            // Serie 1
-            Series s1 = new Series(serieMes1);
-            s1.ChartType = SeriesChartType.Column; // Barras
-            s1.Color = Color.CornflowerBlue;
-            s1.IsValueShownAsLabel = true; // Mostrar numerito arriba de la barra
+            // Serie 1 (Mes Inicio)
+            Series s1 = new Series(nombreSerie1);
+            s1.ChartType = SeriesChartType.Column; // Barras verticales
+            s1.Color = Color.RoyalBlue;
+            s1.IsValueShownAsLabel = true; // Muestra el valor ($) arriba de la barra
 
-            // Serie 2
-            Series s2 = new Series(serieMes2);
+            // Serie 2 (Mes Fin)
+            Series s2 = new Series(nombreSerie2);
             s2.ChartType = SeriesChartType.Column;
-            s2.Color = Color.Salmon;
+            s2.Color = Color.DarkOrange;
             s2.IsValueShownAsLabel = true;
 
-            // Llenado de puntos
+            // Llenar puntos
             foreach (var item in datos)
             {
-                // Eje X: Nombre Producto, Eje Y: Monto
+                // Eje X: Nombre Producto (item.NombreProducto)
+                // Eje Y: Monto (item.VentaMes1 / item.VentaMes2)
                 s1.Points.AddXY(item.NombreProducto, item.VentaMes1);
                 s2.Points.AddXY(item.NombreProducto, item.VentaMes2);
             }
@@ -91,49 +189,14 @@ namespace CoffeeSur.UI
             chartComparativo.Series.Add(s1);
             chartComparativo.Series.Add(s2);
         }
-
-
-        // PEndiente de validación
-        private void btnAnalizar_Click(object sender, EventArgs e)
+        */
+        
+        
+        private void btnDescartar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                // 1. Obtener IDs desde el Grid externo
-                List<int> idsParaAnalizar = new List<int>();
-
-                foreach (DataGridViewRow row in dgvSeleccionados.Rows)
-                {
-                    idsParaAnalizar.Add(Convert.ToInt32(row.Cells["IdProducto"].Value));
-                }
-
-                if (idsParaAnalizar.Count == 0)
-                {
-                    MessageBox.Show("Selecciona productos del catálogo (Pestaña 1) primero.");
-                    tabControl1.SelectedIndex = 0; // Mover al usuario a la selección
-                    return;
-                }
-
-                // 2. Llamar al Backend (Service)
-                var datos = _ventaService.GenerarReporteComparativo(
-                    idsParaAnalizar,
-                    dtpInicio.Value,
-                    dtpFin.Value
-                );
-
-                if (datos.Count == 0)
-                {
-                    MessageBox.Show("No hay ventas registradas en esas fechas para los productos seleccionados.");
-                    return;
-                }
-
-                // 3. Dibujar y Cambiar Tab
-                DibujarGraficoBarras(datos);
-                tabControl1.SelectedIndex = 1; // Mover al usuario a la gráfica
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al generar análisis: " + ex.Message);
-            }
+            dgvListaProductos.Rows.Clear();
+            // chartComparativo.Series.Clear();
+            tbCntrlSeleccionYAnalisis.SelectedIndex = 0;
         }
     }
 }

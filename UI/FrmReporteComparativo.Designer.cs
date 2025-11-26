@@ -38,16 +38,18 @@
             label1 = new Label();
             dtpFecha1 = new DateTimePicker();
             dgvListaProductos = new DataGridView();
-            tableLayoutPanel6 = new TableLayoutPanel();
-            btnAnalizar = new Button();
-            tabControl1 = new TabControl();
-            tabPageSelecProductos = new TabPage();
-            tableLayoutPanel7 = new TableLayoutPanel();
-            tabPageEstadistica = new TabPage();
             ID = new DataGridViewTextBoxColumn();
             Nombre = new DataGridViewTextBoxColumn();
             Clave = new DataGridViewTextBoxColumn();
+            tableLayoutPanel6 = new TableLayoutPanel();
             btnDescartar = new Button();
+            btnAnalizar = new Button();
+            tbCntrlSeleccionYAnalisis = new TabControl();
+            tabPageSelecProductos = new TabPage();
+            tableLayoutPanel7 = new TableLayoutPanel();
+            flpCOntendedorProductos = new FlowLayoutPanel();
+            tabPageEstadistica = new TabPage();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -55,8 +57,10 @@
             tableLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaProductos).BeginInit();
             tableLayoutPanel6.SuspendLayout();
-            tabControl1.SuspendLayout();
+            tbCntrlSeleccionYAnalisis.SuspendLayout();
             tabPageSelecProductos.SuspendLayout();
+            tableLayoutPanel7.SuspendLayout();
+            tabPageEstadistica.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -84,7 +88,7 @@
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
             tableLayoutPanel2.Controls.Add(dgvListaProductos, 0, 1);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel6, 0, 3);
-            tableLayoutPanel2.Controls.Add(tabControl1, 1, 0);
+            tableLayoutPanel2.Controls.Add(tbCntrlSeleccionYAnalisis, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(27, 33);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -195,81 +199,6 @@
             dgvListaProductos.Size = new Size(294, 314);
             dgvListaProductos.TabIndex = 1;
             // 
-            // tableLayoutPanel6
-            // 
-            tableLayoutPanel6.ColumnCount = 2;
-            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.Controls.Add(btnDescartar, 1, 0);
-            tableLayoutPanel6.Controls.Add(btnAnalizar, 0, 0);
-            tableLayoutPanel6.Dock = DockStyle.Fill;
-            tableLayoutPanel6.Location = new Point(3, 483);
-            tableLayoutPanel6.Name = "tableLayoutPanel6";
-            tableLayoutPanel6.RowCount = 1;
-            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel6.Size = new Size(294, 48);
-            tableLayoutPanel6.TabIndex = 2;
-            // 
-            // btnAnalizar
-            // 
-            btnAnalizar.Dock = DockStyle.Fill;
-            btnAnalizar.Location = new Point(3, 3);
-            btnAnalizar.Name = "btnAnalizar";
-            btnAnalizar.Size = new Size(141, 42);
-            btnAnalizar.TabIndex = 1;
-            btnAnalizar.Text = "Analizar";
-            btnAnalizar.UseVisualStyleBackColor = true;
-            btnAnalizar.Click += btnAnalizar_Click;
-            // 
-            // tabControl1
-            // 
-            tabControl1.Controls.Add(tabPageSelecProductos);
-            tabControl1.Controls.Add(tabPageEstadistica);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(303, 3);
-            tabControl1.Name = "tabControl1";
-            tableLayoutPanel2.SetRowSpan(tabControl1, 4);
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(553, 528);
-            tabControl1.TabIndex = 3;
-            // 
-            // tabPageSelecProductos
-            // 
-            tabPageSelecProductos.Controls.Add(tableLayoutPanel7);
-            tabPageSelecProductos.Location = new Point(4, 29);
-            tabPageSelecProductos.Name = "tabPageSelecProductos";
-            tabPageSelecProductos.Padding = new Padding(3);
-            tabPageSelecProductos.Size = new Size(545, 495);
-            tabPageSelecProductos.TabIndex = 0;
-            tabPageSelecProductos.Text = "Seleccionar productos";
-            tabPageSelecProductos.UseVisualStyleBackColor = true;
-            // 
-            // tableLayoutPanel7
-            // 
-            tableLayoutPanel7.ColumnCount = 3;
-            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
-            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90F));
-            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
-            tableLayoutPanel7.Dock = DockStyle.Fill;
-            tableLayoutPanel7.Location = new Point(3, 3);
-            tableLayoutPanel7.Name = "tableLayoutPanel7";
-            tableLayoutPanel7.RowCount = 3;
-            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
-            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
-            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
-            tableLayoutPanel7.Size = new Size(539, 489);
-            tableLayoutPanel7.TabIndex = 0;
-            // 
-            // tabPageEstadistica
-            // 
-            tabPageEstadistica.Location = new Point(4, 29);
-            tabPageEstadistica.Name = "tabPageEstadistica";
-            tabPageEstadistica.Padding = new Padding(3);
-            tabPageEstadistica.Size = new Size(545, 495);
-            tabPageEstadistica.TabIndex = 1;
-            tabPageEstadistica.Text = "Ventana de estadísticas";
-            tabPageEstadistica.UseVisualStyleBackColor = true;
-            // 
             // ID
             // 
             ID.FillWeight = 56.1497345F;
@@ -294,6 +223,21 @@
             Clave.Name = "Clave";
             Clave.ReadOnly = true;
             // 
+            // tableLayoutPanel6
+            // 
+            tableLayoutPanel6.ColumnCount = 2;
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.Controls.Add(btnDescartar, 1, 0);
+            tableLayoutPanel6.Controls.Add(btnAnalizar, 0, 0);
+            tableLayoutPanel6.Dock = DockStyle.Fill;
+            tableLayoutPanel6.Location = new Point(3, 483);
+            tableLayoutPanel6.Name = "tableLayoutPanel6";
+            tableLayoutPanel6.RowCount = 1;
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.Size = new Size(294, 48);
+            tableLayoutPanel6.TabIndex = 2;
+            // 
             // btnDescartar
             // 
             btnDescartar.Dock = DockStyle.Fill;
@@ -303,6 +247,86 @@
             btnDescartar.TabIndex = 2;
             btnDescartar.Text = "Descartar";
             btnDescartar.UseVisualStyleBackColor = true;
+            btnDescartar.Click += btnDescartar_Click;
+            // 
+            // btnAnalizar
+            // 
+            btnAnalizar.Dock = DockStyle.Fill;
+            btnAnalizar.Location = new Point(3, 3);
+            btnAnalizar.Name = "btnAnalizar";
+            btnAnalizar.Size = new Size(141, 42);
+            btnAnalizar.TabIndex = 1;
+            btnAnalizar.Text = "Analizar";
+            btnAnalizar.UseVisualStyleBackColor = true;
+            btnAnalizar.Click += btnAnalizar_Click;
+            // 
+            // tbCntrlSeleccionYAnalisis
+            // 
+            tbCntrlSeleccionYAnalisis.Controls.Add(tabPageSelecProductos);
+            tbCntrlSeleccionYAnalisis.Controls.Add(tabPageEstadistica);
+            tbCntrlSeleccionYAnalisis.Dock = DockStyle.Fill;
+            tbCntrlSeleccionYAnalisis.Location = new Point(303, 3);
+            tbCntrlSeleccionYAnalisis.Name = "tbCntrlSeleccionYAnalisis";
+            tableLayoutPanel2.SetRowSpan(tbCntrlSeleccionYAnalisis, 4);
+            tbCntrlSeleccionYAnalisis.SelectedIndex = 0;
+            tbCntrlSeleccionYAnalisis.Size = new Size(553, 528);
+            tbCntrlSeleccionYAnalisis.TabIndex = 3;
+            // 
+            // tabPageSelecProductos
+            // 
+            tabPageSelecProductos.Controls.Add(tableLayoutPanel7);
+            tabPageSelecProductos.Location = new Point(4, 29);
+            tabPageSelecProductos.Name = "tabPageSelecProductos";
+            tabPageSelecProductos.Padding = new Padding(3);
+            tabPageSelecProductos.Size = new Size(545, 495);
+            tabPageSelecProductos.TabIndex = 0;
+            tabPageSelecProductos.Text = "Seleccionar productos";
+            tabPageSelecProductos.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel7
+            // 
+            tableLayoutPanel7.ColumnCount = 3;
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90F));
+            tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
+            tableLayoutPanel7.Controls.Add(flpCOntendedorProductos, 1, 1);
+            tableLayoutPanel7.Dock = DockStyle.Fill;
+            tableLayoutPanel7.Location = new Point(3, 3);
+            tableLayoutPanel7.Name = "tableLayoutPanel7";
+            tableLayoutPanel7.RowCount = 3;
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 90F));
+            tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
+            tableLayoutPanel7.Size = new Size(539, 489);
+            tableLayoutPanel7.TabIndex = 0;
+            // 
+            // flpCOntendedorProductos
+            // 
+            flpCOntendedorProductos.AutoScroll = true;
+            flpCOntendedorProductos.Dock = DockStyle.Fill;
+            flpCOntendedorProductos.Location = new Point(29, 27);
+            flpCOntendedorProductos.Name = "flpCOntendedorProductos";
+            flpCOntendedorProductos.Size = new Size(479, 434);
+            flpCOntendedorProductos.TabIndex = 0;
+            // 
+            // tabPageEstadistica
+            // 
+            tabPageEstadistica.Controls.Add(flowLayoutPanel1);
+            tabPageEstadistica.Location = new Point(4, 29);
+            tabPageEstadistica.Name = "tabPageEstadistica";
+            tabPageEstadistica.Padding = new Padding(3);
+            tabPageEstadistica.Size = new Size(545, 495);
+            tabPageEstadistica.TabIndex = 1;
+            tabPageEstadistica.Text = "Ventana de estadísticas";
+            tabPageEstadistica.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.Location = new Point(3, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(539, 489);
+            flowLayoutPanel1.TabIndex = 0;
             // 
             // FrmReporteComparativo
             // 
@@ -323,8 +347,10 @@
             tableLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvListaProductos).EndInit();
             tableLayoutPanel6.ResumeLayout(false);
-            tabControl1.ResumeLayout(false);
+            tbCntrlSeleccionYAnalisis.ResumeLayout(false);
             tabPageSelecProductos.ResumeLayout(false);
+            tableLayoutPanel7.ResumeLayout(false);
+            tabPageEstadistica.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -342,7 +368,7 @@
         private DataGridView dgvListaProductos;
         private TableLayoutPanel tableLayoutPanel6;
         private Button btnAnalizar;
-        private TabControl tabControl1;
+        private TabControl tbCntrlSeleccionYAnalisis;
         private TabPage tabPageSelecProductos;
         private TabPage tabPageEstadistica;
         private TableLayoutPanel tableLayoutPanel7;
@@ -350,5 +376,7 @@
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Clave;
         private Button btnDescartar;
+        private FlowLayoutPanel flpCOntendedorProductos;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

@@ -45,8 +45,9 @@
             panel1.Controls.Add(picImagen);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(157, 157);
+            panel1.Size = new Size(179, 209);
             panel1.TabIndex = 0;
             // 
             // lblPrecio
@@ -54,9 +55,9 @@
             lblPrecio.AutoSize = true;
             lblPrecio.Dock = DockStyle.Top;
             lblPrecio.Font = new Font("Yu Gothic UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPrecio.Location = new Point(0, 117);
+            lblPrecio.Location = new Point(0, 156);
             lblPrecio.Name = "lblPrecio";
-            lblPrecio.Size = new Size(51, 17);
+            lblPrecio.Size = new Size(64, 23);
             lblPrecio.TabIndex = 2;
             lblPrecio.Text = "\"$0.00\"";
             lblPrecio.TextAlign = ContentAlignment.MiddleCenter;
@@ -66,9 +67,9 @@
             lblNombre.AutoSize = true;
             lblNombre.Dock = DockStyle.Top;
             lblNombre.Font = new Font("Yu Gothic UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblNombre.Location = new Point(0, 100);
+            lblNombre.Location = new Point(0, 133);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(70, 17);
+            lblNombre.Size = new Size(87, 23);
             lblNombre.TabIndex = 1;
             lblNombre.Text = "\"Nombre\"";
             lblNombre.TextAlign = ContentAlignment.MiddleCenter;
@@ -77,19 +78,21 @@
             // 
             picImagen.Dock = DockStyle.Top;
             picImagen.Location = new Point(0, 0);
+            picImagen.Margin = new Padding(3, 4, 3, 4);
             picImagen.Name = "picImagen";
-            picImagen.Size = new Size(155, 100);
+            picImagen.Size = new Size(177, 133);
             picImagen.SizeMode = PictureBoxSizeMode.Zoom;
             picImagen.TabIndex = 0;
             picImagen.TabStop = false;
             // 
             // ProductoCard
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panel1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "ProductoCard";
-            Size = new Size(157, 157);
+            Size = new Size(179, 209);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picImagen).EndInit();

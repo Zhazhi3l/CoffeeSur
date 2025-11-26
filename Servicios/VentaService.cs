@@ -36,7 +36,7 @@ namespace CoffeeSur.Servicios
 
                 foreach (var detalle in venta.Detalles)
                 {
-                    var producto = _productoRepo.ObtenerPorId(detalle.IdProducto);
+                    var producto = _productoService.ObtenerProductoPorId(detalle.IdProducto);
 
                     if (producto == null)
                         throw new Exception($"El producto con ID {detalle.IdProducto} no existe.");
