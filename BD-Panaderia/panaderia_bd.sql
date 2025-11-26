@@ -188,7 +188,7 @@ CREATE PROCEDURE sp_ObtenerUsuarioPorId(
 )
 BEGIN
     SELECT IdUsuario, Nombre, Apellido, Username, Rol, Activo
-    FROM Usuarios  -- Asegúrate que coincida con el nombre real de tu tabla (Usuarios/Empleado/Users)
+    FROM Usuarios  
     WHERE IdUsuario = p_IdUsuario;
 END$$
 
@@ -272,6 +272,7 @@ BEGIN
     WHERE Clave = p_Clave;
 END$$
 
+DELIMITER ;
 -- ==============================
 -- 2.3 STORED PROCEDURES: VENTAS 
 -- ==============================
@@ -336,9 +337,11 @@ BEGIN
     WHERE IdVenta = p_IdVenta;
 END$$
 
+DELIMITER ;
 -- =============================================
 -- 2.4. STORED PROCEDURES: AUDITORÍA
 -- =============================================
+DELIMITER $$
 
 CREATE PROCEDURE sp_ObtenerAuditoriaProductos()
 BEGIN
@@ -361,9 +364,9 @@ BEGIN
     ORDER BY Fecha DESC;
 END$$
 
-
+DELIMITER ;
 -- === REPORTES DE VENTAS ===
-
+DELIMITER $$
 -- Reporte de Ventas por Producto en un período
 CREATE PROCEDURE sp_ReporteVentasPorProducto(
     IN p_FechaInicio DATETIME,
@@ -407,8 +410,6 @@ BEGIN
     );
 END$$
 
-
-DELIMITER $$
 CREATE TRIGGER trg_Auditoria_UpdateProducto
 AFTER UPDATE ON Productos
 FOR EACH ROW
@@ -429,7 +430,6 @@ BEGIN
     VALUES (NEW.IdProducto, 'UPDATE', USER(), detalles);
 END$$
 
-
 CREATE TRIGGER trg_Auditoria_DeleteProducto
 AFTER UPDATE ON Productos
 FOR EACH ROW
@@ -445,10 +445,11 @@ BEGIN
     END IF;
 END$$
 
+DELIMITER ;
 -- =============================================
 -- TRIGGERS DE AUDITORÍA PARA USUARIOS
 -- =============================================
-
+DELIMITER $$
 
 CREATE TRIGGER trg_Auditoria_InsertUsuario
 AFTER INSERT ON Usuarios
@@ -462,7 +463,6 @@ BEGIN
         CONCAT('Nuevo usuario: ', NEW.Nombre, ' ', NEW.Apellido, ' | Username: ', NEW.Username, ' | Rol: ', NEW.Rol)
     );
 END$$
-
 
 CREATE TRIGGER trg_Auditoria_UpdateUsuario
 AFTER UPDATE ON Usuarios
@@ -484,7 +484,6 @@ BEGIN
     VALUES (NEW.IdUsuario, 'UPDATE', USER(), detalles);
 END$$
 
-
 CREATE TRIGGER trg_Auditoria_DeleteUsuario
 AFTER UPDATE ON Usuarios
 FOR EACH ROW
@@ -500,9 +499,11 @@ BEGIN
     END IF;
 END$$
 
+DELIMITER ;
 -- =============================================
 -- TRIGGERS DE AUDITORÍA PARA VENTAS
 -- =============================================
+DELIMITER $$
 
 CREATE TRIGGER trg_Auditoria_InsertVenta
 AFTER INSERT ON Ventas
@@ -516,7 +517,6 @@ BEGIN
         CONCAT('Nueva venta registrada | Total: $', NEW.Total, ' | Fecha: ', NEW.FechaVenta)
     );
 END$$
-
 
 CREATE TRIGGER trg_Auditoria_UpdateVenta
 AFTER UPDATE ON Ventas
@@ -535,7 +535,6 @@ BEGIN
     VALUES (NEW.IdVenta, 'UPDATE', USER(), detalles);
 END$$
 
-
 CREATE TRIGGER trg_Auditoria_DeleteVenta
 AFTER DELETE ON Ventas
 FOR EACH ROW
@@ -549,10 +548,11 @@ BEGIN
     );
 END$$
 
+DELIMITER ;
 -- -----------------------------------------------------------------------------------------------
-
--- Función para ventas del día
 DELIMITER $$
+-- Función para ventas del día
+
 CREATE FUNCTION fn_VentasHoy()
 RETURNS DECIMAL(10,2)
 DETERMINISTIC
@@ -563,25 +563,8 @@ BEGIN
     WHERE DATE(FechaVenta) = CURDATE();
     RETURN total;
 END $$
-DELIMITER ;
-
-CREATE FUNCTION fn_TotalVentasEmpleado(p_UserID INT, p_FechaInicio DATE, p_FechaFin DATE)
-RETURNS DECIMAL(10,2)
-DETERMINISTIC
-BEGIN
-    DECLARE total DECIMAL(10,2);
-    
-    SELECT COALESCE(SUM(Total), 0) INTO total
-    FROM ventas
-    WHERE UserID = p_UserID
-    AND DATE(FechaVenta) BETWEEN p_FechaInicio AND p_FechaFin;
-    
-    RETURN total;
-END $$
-DELIMITER ;
 
 -- Reporte de ventas por período
-DELIMITER $$
 CREATE PROCEDURE sp_ReporteVentas(
     IN p_FechaInicio DATE,
     IN p_FechaFin DATE
@@ -600,10 +583,9 @@ BEGIN
     GROUP BY v.VentaID
     ORDER BY v.FechaVenta DESC;
 END $$
-DELIMITER ;
 
 -- Reporte de productos vendidos
-DELIMITER $$
+
 CREATE PROCEDURE sp_ReporteProductosPorPeriodo(
     IN p_FechaInicio DATE,
     IN p_FechaFin DATE
@@ -611,7 +593,7 @@ CREATE PROCEDURE sp_ReporteProductosPorPeriodo(
 BEGIN
     SELECT 
         p.ProductoID,
-        p.Nombre usuariosas Producto,
+        p.NombreUsuario as Producto,
         SUM(dv.Cantidad) as CantidadVendida,
         SUM(dv.Subtotal) as TotalVendido
     FROM detalle_venta dv
@@ -621,10 +603,8 @@ BEGIN
     GROUP BY p.ProductoID
     ORDER BY CantidadVendida DESC;
 END $$
-DELIMITER ;
 
 -- Reporte comparativo de productos
-DELIMITER $$
 CREATE PROCEDURE sp_ReporteComparativoProductos(
     IN p_IdProducto INT,
     IN p_Fecha1 DATE,
@@ -656,4 +636,5 @@ BEGIN
     FROM Productos p
     WHERE p.IdProducto = p_IdProducto;
 END$$
+
 DELIMITER ;
