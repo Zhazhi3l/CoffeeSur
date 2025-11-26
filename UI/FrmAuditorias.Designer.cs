@@ -64,6 +64,7 @@
 			btnProductos.TabIndex = 2;
 			btnProductos.Text = "Productos";
 			btnProductos.UseVisualStyleBackColor = true;
+			btnProductos.Click += btnProductos_Click;
 			// 
 			// btnVentas
 			// 
@@ -73,6 +74,7 @@
 			btnVentas.TabIndex = 3;
 			btnVentas.Text = "Ventas";
 			btnVentas.UseVisualStyleBackColor = true;
+			btnVentas.Click += btnVentas_Click;
 			// 
 			// dgvAuditorias
 			// 
