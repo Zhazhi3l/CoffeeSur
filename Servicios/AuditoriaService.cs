@@ -24,7 +24,7 @@ namespace CoffeeSur.Servicios
             }
         }
 
-        public List<AuditoriaGenericaDTO> GetHistorialUsuarios()
+        public List<AuditoriaGenericaDTO> ObtenerAuditoriaUsuarios()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace CoffeeSur.Servicios
             }
         }
 
-        public List<AuditoriaGenericaDTO> GetHistorialVentas()
+        public List<AuditoriaGenericaDTO> ObtenerAuditoriaVentas()
         {
             try
             {
