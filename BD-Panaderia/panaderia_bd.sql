@@ -634,8 +634,8 @@ BEGIN
     SELECT 
         p.IdProducto AS 'Id',
         p.Nombre AS 'Producto',
-        CONCAT('$ ', FORMAT(p.Precio, 2)) AS 'Precio',
-        CONCAT('$ ', FORMAT(
+        FORMAT(p.Precio, 2) AS 'Precio',
+        FORMAT(
             COALESCE((
                 SELECT SUM(dv.Subtotal) 
                 FROM DetalleVenta dv JOIN Ventas v ON dv.IdVenta = v.IdVenta 
@@ -643,8 +643,8 @@ BEGIN
                 AND MONTH(v.FechaVenta) = MONTH(p_Fecha1)
                 AND YEAR(v.FechaVenta) = YEAR(p_Fecha1)
             ), 0), 2)
-        ) AS 'Ventas_Mes1',
-        CONCAT('$ ', FORMAT(
+        AS 'Ventas_Mes1',
+        FORMAT(
             COALESCE((
                 SELECT SUM(dv.Subtotal) 
                 FROM DetalleVenta dv JOIN Ventas v ON dv.IdVenta = v.IdVenta 
@@ -652,7 +652,7 @@ BEGIN
                 AND MONTH(v.FechaVenta) = MONTH(p_Fecha2)
                 AND YEAR(v.FechaVenta) = YEAR(p_Fecha2)
             ), 0), 2)
-        ) AS 'Ventas_Mes2'
+        AS 'Ventas_Mes2'
     FROM Productos p
     WHERE p.IdProducto = p_IdProducto;
 END$$

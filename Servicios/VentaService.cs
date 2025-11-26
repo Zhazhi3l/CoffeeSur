@@ -129,5 +129,21 @@ namespace CoffeeSur.Servicios
             }
         }
 
+        public List<ReporteComparacionProductosDTO> GenerarReporteComparativo(List<Producto> productosSeleccionados, DateTime fecha1, DateTime fecha2)
+        {
+            if (productosSeleccionados == null || productosSeleccionados.Count == 0)
+                throw new Exception("La lista de productos para comparar está vacía.");
+
+            // if (fecha1 > DateTime.Now || fecha2 > DateTime.Now)
+            
+           List<int> idsUnicos = productosSeleccionados
+                                    .Select(p => p.IdProducto)
+                                    .Distinct()
+                                    .ToList();
+
+            // 3. Llamada eficiente al repositorio
+            return _ventaRepo.ObtenerComparacionDeProductosEntreMeses(idsUnicos, fecha1, fecha2);
+        }
+
     }
 }

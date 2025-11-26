@@ -217,18 +217,38 @@ namespace CoffeeSur.Repositorios
             return reporte;
         }
 
-        public List<ReporteComparacionProductos> ObtenerComparacionDeProductosEntreMeses(int idProductos, DateTime fechaUno, DateTime fechaDos)
+        public List<ReporteComparacionProductosDTO> ObtenerComparacionDeProductosEntreMeses(List<int> listaIdProductos, DateTime fecha1, DateTime fecha2)
         {
-            List<ReporteComparacionProductos> reporte = new List<ReporteComparacionProductos>();
+            List<ReporteComparacionProductosDTO> reporte = new List<ReporteComparacionProductosDTO>();
             using (MySqlConnection conx = _conexion.GetConexion())
             {
-                using(MySqlCommand cmd = new MySqlCommand("sp_ReporteComparativoProductos", conx))
+                foreach (int idProd in listaIdProductos)
                 {
-                    cmd.Parameters.AddWithValue("@p_IdProducto", idProductos);
-                    cmd.Parameters.AddWithValue("@p_FechaUno", fechaUno);
+                    using (MySqlCommand cmd = new MySqlCommand("sp_ReporteComparativoProductos", conx))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
+                        cmd.Parameters.AddWithValue("@p_IdProducto", idProd);
+                        cmd.Parameters.AddWithValue("@p_Fecha1", fecha1);
+                        cmd.Parameters.AddWithValue("@p_Fecha2", fecha2);
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                reporte.Add(new ReporteComparacionProductosDTO()
+                                {
+                                    IdProducto = reader.GetString("IdProducto"),
+                                    Nombre = reader.GetString("NombreProducto"),
+                                    MontoTotalMesUno = reader.GetDecimal("VentaMes1"),
+                                    MontoTotalMesDos = reader.GetDecimal("VentaMes2")
+                                });
+                            }
+                        }
+                    }
                 }
             }
+            return reporte;
         }
     }
 }
