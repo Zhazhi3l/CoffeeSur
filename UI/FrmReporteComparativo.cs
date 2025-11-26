@@ -190,13 +190,54 @@ namespace CoffeeSur.UI
             chartComparativo.Series.Add(s2);
         }
         */
-        
-        
+
+
         private void btnDescartar_Click(object sender, EventArgs e)
         {
             dgvListaProductos.Rows.Clear();
             // chartComparativo.Series.Clear();
             tbCntrlSeleccionYAnalisis.SelectedIndex = 0;
+        }
+
+        private void btnAnalizar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<Producto> productosParaAnalizar = new List<Producto>();
+
+                foreach (DataGridViewRow row in dgvListaProductos.Rows)
+                {
+                    if (row.Tag is Producto prod)
+                    {
+                        productosParaAnalizar.Add(prod);
+                    }
+                }
+
+                if (productosParaAnalizar.Count == 0)
+                {
+                    MessageBox.Show("Seleccione al menos un producto del catálogo (Pestaña 1).");
+                    return;
+                }
+
+                var datosReporte = _servicioVenta.GenerarReporteComparativo(
+                    productosParaAnalizar,
+                    dtpFecha1.Value,
+                    dtpFecha2.Value
+                    );
+
+                if (datosReporte.Count == 0)
+                {
+                    MessageBox.Show("No hay ventas registradas en esas fechas para los productos seleccionados.");
+                    return;
+                }
+
+                // DibujarGraficoBarras(datosReporte);
+                tbCntrlSeleccionYAnalisis.SelectedIndex = 1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar análisis: " + ex.Message);
+            }
         }
     }
 }
