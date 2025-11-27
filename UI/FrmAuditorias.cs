@@ -20,6 +20,11 @@ namespace CoffeeSur.UI
 			InitializeComponent();
 		}
 
+		private void FrmAuditorias_Load(object sender, EventArgs e)
+		{
+			
+		}
+
 		private void btnUsuarios_Click(object sender, EventArgs e)
 		{
 			CargarAuditoriaUsuarios();
