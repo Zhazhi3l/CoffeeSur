@@ -232,8 +232,10 @@ namespace CoffeeSur.Servicios
 
             using (MemoryStream ms = new MemoryStream())
             {
-                // Guardamos como PNG.
-                img.Save(ms, ImageFormat.Png);
+                using (Bitmap bmp = new Bitmap(img))
+                {
+                    bmp.Save(ms, ImageFormat.Png);
+                }
                 return ms.ToArray();
             }
         }
@@ -249,7 +251,7 @@ namespace CoffeeSur.Servicios
 
             using (MemoryStream ms = new MemoryStream(bytes))
             {
-                return Image.FromStream(ms);
+                return new Bitmap(Image.FromStream(ms));
             }
         }
     }

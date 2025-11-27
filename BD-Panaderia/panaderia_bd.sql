@@ -3,6 +3,9 @@ CREATE DATABASE CoffeeSur;
 USE CoffeeSur;
 
 -- Credenciales de acceso temporal (admin / admin123)
+CREATE USER IF NOT EXISTS 'coffeesur'@'localhost' IDENTIFIED BY 'coffeesur123';
+GRANT ALL PRIVILEGES ON CoffeeSur.* TO 'coffeesur'@'localhost';
+FLUSH PRIVILEGES;
 
 -- ==========
 -- 1. TABLAS 

@@ -50,7 +50,20 @@ namespace CoffeeSur.UI
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                pbImagen.Image = Image.FromFile(dlg.FileName);
+                try
+                {
+                    using (var stream = new FileStream(dlg.FileName, FileMode.Open, FileAccess.Read))
+                    {
+                        using (var imgTemp = Image.FromStream(stream))
+                        {
+                            pbImagen.Image = new Bitmap(imgTemp);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("No se pudo cargar la imagen: " + ex.Message);
+                }
             }
         }
 
