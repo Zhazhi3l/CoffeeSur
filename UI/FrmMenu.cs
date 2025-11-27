@@ -53,5 +53,11 @@ namespace CoffeeSur.UI
             FrmReporteComparativo frm = new FrmReporteComparativo();
             frm.ShowDialog();
         }
+
+        private void btnConsultar_Click(object sender, EventArgs e)
+        {
+            FrmAuditorias frm = new FrmAuditorias();
+            frm.ShowDialog();
+        }
     }
 }

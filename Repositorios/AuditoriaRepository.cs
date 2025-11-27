@@ -13,7 +13,7 @@ namespace CoffeeSur.Repositorios
     {
         private readonly ConexionBD _conexion = new ConexionBD();
 
-        private List<AuditoriaGenericaDTO> EjecutarSPAuditoria(string nombreSP)
+        private List<AuditoriaGenericaDTO> EjecutarSPAuditoria(string nombreSP, string nombreColumnaId)
         {
             List<AuditoriaGenericaDTO> listaAuditorias = new List<AuditoriaGenericaDTO>();
             using (MySqlConnection conx = _conexion.GetConexion())
@@ -28,10 +28,10 @@ namespace CoffeeSur.Repositorios
                             listaAuditorias.Add(new AuditoriaGenericaDTO
                             {
                                 IdAuditoria = Convert.ToInt32(reader["IdAuditoria"]),
-                                IdReferenciaObjeto = Convert.ToInt32(reader["IdReferenciaObjeto"]),
+                                IdReferenciaObjeto = Convert.ToInt32(reader[nombreColumnaId]),
                                 Accion = reader["Accion"].ToString(),
                                 Fecha = Convert.ToDateTime(reader["Fecha"]),
-                                Usuario = reader["Usuario"].ToString(),
+                                Usuario = reader["UsuarioBD"].ToString(),
                                 Detalles = reader.IsDBNull(reader.GetOrdinal("Detalles")) ? "" : reader.GetString("Detalles")
                             });
                         }
@@ -43,17 +43,17 @@ namespace CoffeeSur.Repositorios
 
         public List<AuditoriaGenericaDTO> ObtenerAuditoriaProductos()
         {
-            return EjecutarSPAuditoria("sp_ObtenerAuditoriaProductos");
+            return EjecutarSPAuditoria("sp_ObtenerAuditoriaProductos", "IdProducto");
         }
 
         public List<AuditoriaGenericaDTO> ObtenerAuditoriaUsuarios()
         {
-            return EjecutarSPAuditoria("sp_ObtenerAuditoriaUsuarios");
+            return EjecutarSPAuditoria("sp_ObtenerAuditoriaUsuarios", "IdUsuario");
         }
 
         public List<AuditoriaGenericaDTO> ObtenerAuditoriaVentas()
         {
-            return EjecutarSPAuditoria("sp_ObtenerAuditoriaVentas");
+            return EjecutarSPAuditoria("sp_ObtenerAuditoriaVentas", "IdVenta");
         }
     }
 }

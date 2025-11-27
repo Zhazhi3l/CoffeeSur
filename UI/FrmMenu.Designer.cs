@@ -35,6 +35,7 @@
             lblUsuario = new Label();
             btnReportePorPedido = new Button();
             btnReporteComparatibo = new Button();
+            btnConsultar = new Button();
             SuspendLayout();
             // 
             // btnGestionUsuarios
@@ -118,7 +119,7 @@
             btnReporteComparatibo.Font = new Font("Footlight MT Light", 14.25F);
             btnReporteComparatibo.Image = (Image)resources.GetObject("btnReporteComparatibo.Image");
             btnReporteComparatibo.ImageAlign = ContentAlignment.MiddleLeft;
-            btnReporteComparatibo.Location = new Point(130, 203);
+            btnReporteComparatibo.Location = new Point(278, 201);
             btnReporteComparatibo.Name = "btnReporteComparatibo";
             btnReporteComparatibo.Size = new Size(219, 47);
             btnReporteComparatibo.TabIndex = 5;
@@ -127,12 +128,29 @@
             btnReporteComparatibo.UseVisualStyleBackColor = false;
             btnReporteComparatibo.Click += btnReporteComparativo_Click;
             // 
+            // btnConsultar
+            // 
+            btnConsultar.AutoSize = true;
+            btnConsultar.BackColor = Color.PaleGoldenrod;
+            btnConsultar.Font = new Font("Footlight MT Light", 14.25F);
+            btnConsultar.Image = (Image)resources.GetObject("btnConsultar.Image");
+            btnConsultar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnConsultar.Location = new Point(31, 201);
+            btnConsultar.Name = "btnConsultar";
+            btnConsultar.Size = new Size(219, 47);
+            btnConsultar.TabIndex = 6;
+            btnConsultar.Text = "Consultar Aditorias";
+            btnConsultar.TextAlign = ContentAlignment.MiddleRight;
+            btnConsultar.UseVisualStyleBackColor = false;
+            btnConsultar.Click += btnConsultar_Click;
+            // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.BurlyWood;
             ClientSize = new Size(520, 303);
+            Controls.Add(btnConsultar);
             Controls.Add(btnReporteComparatibo);
             Controls.Add(btnReportePorPedido);
             Controls.Add(lblUsuario);
@@ -153,5 +171,6 @@
         private Label lblUsuario;
         private Button btnReportePorPedido;
         private Button btnReporteComparatibo;
+        private Button btnConsultar;
     }
 }
