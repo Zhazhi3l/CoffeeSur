@@ -40,7 +40,7 @@
 			// 
 			label1.AutoSize = true;
 			label1.Font = new Font("Segoe UI", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-			label1.Location = new Point(362, 9);
+			label1.Location = new Point(480, 9);
 			label1.Name = "label1";
 			label1.Size = new Size(187, 46);
 			label1.TabIndex = 0;
@@ -58,7 +58,7 @@
 			// 
 			// btnProductos
 			// 
-			btnProductos.Location = new Point(341, 103);
+			btnProductos.Location = new Point(474, 103);
 			btnProductos.Name = "btnProductos";
 			btnProductos.Size = new Size(193, 66);
 			btnProductos.TabIndex = 2;
@@ -68,7 +68,7 @@
 			// 
 			// btnVentas
 			// 
-			btnVentas.Location = new Point(612, 103);
+			btnVentas.Location = new Point(886, 103);
 			btnVentas.Name = "btnVentas";
 			btnVentas.Size = new Size(193, 66);
 			btnVentas.TabIndex = 3;
@@ -78,18 +78,19 @@
 			// 
 			// dgvAuditorias
 			// 
+			dgvAuditorias.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 			dgvAuditorias.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			dgvAuditorias.Location = new Point(74, 213);
+			dgvAuditorias.Location = new Point(12, 213);
 			dgvAuditorias.Name = "dgvAuditorias";
 			dgvAuditorias.RowHeadersWidth = 51;
-			dgvAuditorias.Size = new Size(731, 394);
+			dgvAuditorias.Size = new Size(1105, 394);
 			dgvAuditorias.TabIndex = 4;
 			// 
 			// FrmAuditorias
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
-			ClientSize = new Size(910, 675);
+			ClientSize = new Size(1129, 675);
 			Controls.Add(dgvAuditorias);
 			Controls.Add(btnVentas);
 			Controls.Add(btnProductos);
