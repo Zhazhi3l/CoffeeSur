@@ -134,9 +134,13 @@ namespace CoffeeSur.Servicios
             if (productosSeleccionados == null || productosSeleccionados.Count == 0)
                 throw new Exception("La lista de productos para comparar está vacía.");
 
-            // if (fecha1 > DateTime.Now || fecha2 > DateTime.Now)
-            
-           List<int> idsUnicos = productosSeleccionados
+            if (fecha1 > DateTime.Now || fecha2 > DateTime.Now)
+                throw new Exception("Las fechas no pueden ser mayores a la fecha actual.");
+
+            if (fecha1 == fecha2)
+                throw new Exception("Las fechas deben ser diferentes para realizar una comparación.");
+
+            List<int> idsUnicos = productosSeleccionados
                                     .Select(p => p.IdProducto)
                                     .Distinct()
                                     .ToList();

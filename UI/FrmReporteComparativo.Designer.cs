@@ -132,6 +132,7 @@
             // dtpFecha2
             // 
             dtpFecha2.Dock = DockStyle.Fill;
+            dtpFecha2.Format = DateTimePickerFormat.Short;
             dtpFecha2.Location = new Point(3, 38);
             dtpFecha2.Name = "dtpFecha2";
             dtpFecha2.Size = new Size(282, 27);
@@ -174,6 +175,7 @@
             // dtpFecha1
             // 
             dtpFecha1.Dock = DockStyle.Fill;
+            dtpFecha1.Format = DateTimePickerFormat.Short;
             dtpFecha1.Location = new Point(3, 28);
             dtpFecha1.Name = "dtpFecha1";
             dtpFecha1.Size = new Size(282, 27);

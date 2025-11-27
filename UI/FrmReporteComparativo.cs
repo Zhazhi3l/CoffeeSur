@@ -70,10 +70,19 @@ namespace CoffeeSur.UI
 
             // Área del gráfico
             ChartArea area = new ChartArea("AreaComparativa");
-            area.AxisX.Interval = 1; // Mostrar todas las etiquetas del eje X
-            area.AxisY.LabelStyle.Format = "C0"; // Formato moneda sin decimales
+            area.AxisX.Interval = 1; 
+            area.AxisY.LabelStyle.Format = "C0";
             area.AxisX.MajorGrid.LineColor = Color.LightGray;
             area.AxisY.MajorGrid.LineColor = Color.LightGray;
+
+            area.CursorX.IsUserEnabled = true;
+            area.CursorX.IsUserSelectionEnabled = true;
+
+            area.AxisX.ScrollBar.IsPositionedInside = false;
+            area.AxisX.ScrollBar.Enabled = true;
+
+            area.AxisX.ScaleView.Zoomable = true;
+            area.AxisX.ScaleView.SizeType = DateTimeIntervalType.Number;
 
             chartComparativo.ChartAreas.Add(area);
 
