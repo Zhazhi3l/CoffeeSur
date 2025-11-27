@@ -238,7 +238,7 @@ namespace CoffeeSur.Repositorios
                             {
                                 reporte.Add(new ReporteComparacionProductosDTO()
                                 {
-                                    IdProducto = reader.GetString("IdProducto"),
+                                    IdProducto = reader["IdProducto"].ToString(),
                                     Nombre = reader.GetString("NombreProducto"),
                                     MontoTotalMesUno = reader.GetDecimal("VentaMes1"),
                                     MontoTotalMesDos = reader.GetDecimal("VentaMes2")

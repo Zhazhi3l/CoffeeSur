@@ -38,6 +38,9 @@
             label1 = new Label();
             dtpFecha1 = new DateTimePicker();
             dgvListaProductos = new DataGridView();
+            IdProducto = new DataGridViewTextBoxColumn();
+            Nombre = new DataGridViewTextBoxColumn();
+            Clave = new DataGridViewTextBoxColumn();
             tableLayoutPanel6 = new TableLayoutPanel();
             btnDescartar = new Button();
             btnAnalizar = new Button();
@@ -46,10 +49,6 @@
             tableLayoutPanel7 = new TableLayoutPanel();
             flpContendedorProductos = new FlowLayoutPanel();
             tabPageEstadistica = new TabPage();
-            flpEstadistica = new FlowLayoutPanel();
-            IdProducto = new DataGridViewTextBoxColumn();
-            Nombre = new DataGridViewTextBoxColumn();
-            Clave = new DataGridViewTextBoxColumn();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
@@ -60,7 +59,6 @@
             tbCntrlSeleccionYAnalisis.SuspendLayout();
             tabPageSelecProductos.SuspendLayout();
             tableLayoutPanel7.SuspendLayout();
-            tabPageEstadistica.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -199,6 +197,30 @@
             dgvListaProductos.Size = new Size(294, 314);
             dgvListaProductos.TabIndex = 1;
             // 
+            // IdProducto
+            // 
+            IdProducto.FillWeight = 56.1497345F;
+            IdProducto.HeaderText = "ID";
+            IdProducto.MinimumWidth = 6;
+            IdProducto.Name = "IdProducto";
+            IdProducto.ReadOnly = true;
+            // 
+            // Nombre
+            // 
+            Nombre.FillWeight = 121.925133F;
+            Nombre.HeaderText = "Nombre";
+            Nombre.MinimumWidth = 6;
+            Nombre.Name = "Nombre";
+            Nombre.ReadOnly = true;
+            // 
+            // Clave
+            // 
+            Clave.FillWeight = 121.925133F;
+            Clave.HeaderText = "Clave";
+            Clave.MinimumWidth = 6;
+            Clave.Name = "Clave";
+            Clave.ReadOnly = true;
+            // 
             // tableLayoutPanel6
             // 
             tableLayoutPanel6.ColumnCount = 2;
@@ -287,7 +309,6 @@
             // 
             // tabPageEstadistica
             // 
-            tabPageEstadistica.Controls.Add(flpEstadistica);
             tabPageEstadistica.Location = new Point(4, 29);
             tabPageEstadistica.Name = "tabPageEstadistica";
             tabPageEstadistica.Padding = new Padding(3);
@@ -295,38 +316,6 @@
             tabPageEstadistica.TabIndex = 1;
             tabPageEstadistica.Text = "Ventana de estadísticas";
             tabPageEstadistica.UseVisualStyleBackColor = true;
-            // 
-            // flpEstadistica
-            // 
-            flpEstadistica.Dock = DockStyle.Fill;
-            flpEstadistica.Location = new Point(3, 3);
-            flpEstadistica.Name = "flpEstadistica";
-            flpEstadistica.Size = new Size(539, 489);
-            flpEstadistica.TabIndex = 0;
-            // 
-            // IdProducto
-            // 
-            IdProducto.FillWeight = 56.1497345F;
-            IdProducto.HeaderText = "ID";
-            IdProducto.MinimumWidth = 6;
-            IdProducto.Name = "IdProducto";
-            IdProducto.ReadOnly = true;
-            // 
-            // Nombre
-            // 
-            Nombre.FillWeight = 121.925133F;
-            Nombre.HeaderText = "Nombre";
-            Nombre.MinimumWidth = 6;
-            Nombre.Name = "Nombre";
-            Nombre.ReadOnly = true;
-            // 
-            // Clave
-            // 
-            Clave.FillWeight = 121.925133F;
-            Clave.HeaderText = "Clave";
-            Clave.MinimumWidth = 6;
-            Clave.Name = "Clave";
-            Clave.ReadOnly = true;
             // 
             // FrmReporteComparativo
             // 
@@ -350,7 +339,6 @@
             tbCntrlSeleccionYAnalisis.ResumeLayout(false);
             tabPageSelecProductos.ResumeLayout(false);
             tableLayoutPanel7.ResumeLayout(false);
-            tabPageEstadistica.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -374,7 +362,6 @@
         private TableLayoutPanel tableLayoutPanel7;
         private Button btnDescartar;
         private FlowLayoutPanel flpContendedorProductos;
-        private FlowLayoutPanel flpEstadistica;
         private DataGridViewTextBoxColumn IdProducto;
         private DataGridViewTextBoxColumn Nombre;
         private DataGridViewTextBoxColumn Clave;

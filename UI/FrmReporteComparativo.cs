@@ -223,12 +223,7 @@ namespace CoffeeSur.UI
             this.chartComparativo.Name = "chartComparativo";
 
             // Agregarlo a la Pestaña 2 ("tabPageEstadistica")
-            this.flpEstadistica.Controls.Add(this.chartComparativo);
-        }
-
-        private void flpPageEstadistica_Paint(object sender, PaintEventArgs e)
-        {
-
+            this.tabPageEstadistica.Controls.Add(this.chartComparativo);
         }
     }
 }
