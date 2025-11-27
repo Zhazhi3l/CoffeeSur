@@ -136,7 +136,7 @@ namespace CoffeeSur.UI
                 }
             }
 
-            int indiceFila = dgvListaProductos.Rows.Add(producto.IdProducto, producto.Nombre);
+            int indiceFila = dgvListaProductos.Rows.Add(producto.IdProducto, producto.Nombre, producto.Clave);
             dgvListaProductos.Rows[indiceFila].Tag = producto;
         }
 
@@ -183,6 +183,11 @@ namespace CoffeeSur.UI
 
         private void btnAnalizar_Click(object sender, EventArgs e)
         {
+            if (dtpFecha1.Value == dtpFecha2.Value)
+            {
+                MessageBox.Show("Las fechas a comparar no pueden ser iguales.");
+                return;
+            }
             try
             {
                 List<Producto> productosParaAnalizar = new List<Producto>();

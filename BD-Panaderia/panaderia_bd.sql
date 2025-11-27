@@ -615,27 +615,28 @@ CREATE PROCEDURE sp_ReporteComparativoProductos(
 )
 BEGIN
     SELECT 
-        p.IdProducto AS 'Id',
-        p.Nombre AS 'Producto',
-        FORMAT(p.Precio, 2) AS 'Precio',
-        FORMAT(
-            COALESCE((
-                SELECT SUM(dv.Subtotal) 
-                FROM DetalleVenta dv JOIN Ventas v ON dv.IdVenta = v.IdVenta 
-                WHERE dv.IdProducto = p.IdProducto 
-                AND MONTH(v.FechaVenta) = MONTH(p_Fecha1)
-                AND YEAR(v.FechaVenta) = YEAR(p_Fecha1)
-            ), 0), 2)
-        AS 'Ventas_Mes1',
-        FORMAT(
-            COALESCE((
-                SELECT SUM(dv.Subtotal) 
-                FROM DetalleVenta dv JOIN Ventas v ON dv.IdVenta = v.IdVenta 
-                WHERE dv.IdProducto = p.IdProducto 
-                AND MONTH(v.FechaVenta) = MONTH(p_Fecha2)
-                AND YEAR(v.FechaVenta) = YEAR(p_Fecha2)
-            ), 0), 2)
-        AS 'Ventas_Mes2'
+        p.IdProducto,                
+        p.Nombre AS NombreProducto,  
+        p.Precio,                    
+        
+        COALESCE((
+            SELECT SUM(dv.Subtotal) 
+            FROM DetalleVenta dv 
+            JOIN Ventas v ON dv.IdVenta = v.IdVenta 
+            WHERE dv.IdProducto = p.IdProducto 
+            AND MONTH(v.FechaVenta) = MONTH(p_Fecha1)
+            AND YEAR(v.FechaVenta) = YEAR(p_Fecha1)
+        ), 0) AS VentaMes1,
+
+        COALESCE((
+            SELECT SUM(dv.Subtotal) 
+            FROM DetalleVenta dv 
+            JOIN Ventas v ON dv.IdVenta = v.IdVenta 
+            WHERE dv.IdProducto = p.IdProducto 
+            AND MONTH(v.FechaVenta) = MONTH(p_Fecha2)
+            AND YEAR(v.FechaVenta) = YEAR(p_Fecha2)
+        ), 0) AS VentaMes2
+
     FROM Productos p
     WHERE p.IdProducto = p_IdProducto;
 END$$
