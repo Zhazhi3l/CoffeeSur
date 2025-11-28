@@ -69,7 +69,7 @@ namespace CoffeeSur.Servicios
         /// <param name="fechaFin">DateTime Fecha de fin del periodo.</param>
         /// <returns>Devuelve una lista que representa el reporte de venta.</returns>
         /// <exception cref="Exception"></exception>
-        public List<ReporteVentaProductoPorPeriodoDTO> ReporteVentaPorProducto(DateTime fechaInicio, DateTime fechaFin)
+        public List<ReporteVentaProductoPorPeriodoDTO> VentasDeProductosPorPeriodo(DateTime fechaInicio, DateTime fechaFin)
         {
             if (fechaInicio > fechaFin)
                 throw new Exception("La fecha de inicio no puede ser mayor que la fecha de fin.");

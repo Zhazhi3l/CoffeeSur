@@ -221,7 +221,7 @@ namespace CoffeeSur.Repositorios
             List<ReporteVentaProductoPorPeriodoDTO> reporte = new List<ReporteVentaProductoPorPeriodoDTO>();
             using (MySqlConnection conx = _conexion.GetConexion())
             {
-                using (MySqlCommand cmd = new MySqlCommand("sp_ReporteVentasPorProducto", conx))
+                using (MySqlCommand cmd = new MySqlCommand("sp_ReporteVentasPorProductoPorPeriodo", conx))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@p_FechaInicio", fechaInicio);

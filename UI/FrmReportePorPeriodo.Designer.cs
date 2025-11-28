@@ -34,22 +34,17 @@
             label3 = new Label();
             dtpFechaInicio = new DateTimePicker();
             dtpFechaFin = new DateTimePicker();
-            dataGridView1 = new DataGridView();
+            dgvReporteProductos = new DataGridView();
             btnConsultar = new Button();
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel4 = new TableLayoutPanel();
             tableLayoutPanel3 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            tabControl1 = new TabControl();
-            tabPgSelectProd = new TabPage();
-            tabPgReporte = new TabPage();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvReporteProductos).BeginInit();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel4.SuspendLayout();
             tableLayoutPanel3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
-            tabControl1.SuspendLayout();
-            tabPgReporte.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -104,18 +99,20 @@
             dtpFechaFin.Size = new Size(284, 27);
             dtpFechaFin.TabIndex = 5;
             // 
-            // dataGridView1
+            // dgvReporteProductos
             // 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 3);
-            dataGridView1.Margin = new Padding(3, 4, 3, 4);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(852, 236);
-            dataGridView1.TabIndex = 6;
+            dgvReporteProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvReporteProductos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvReporteProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvReporteProductos.Dock = DockStyle.Fill;
+            dgvReporteProductos.Location = new Point(112, 274);
+            dgvReporteProductos.Margin = new Padding(3, 4, 3, 4);
+            dgvReporteProductos.Name = "dgvReporteProductos";
+            dgvReporteProductos.ReadOnly = true;
+            dgvReporteProductos.RowHeadersWidth = 51;
+            dgvReporteProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvReporteProductos.Size = new Size(866, 273);
+            dgvReporteProductos.TabIndex = 6;
             // 
             // btnConsultar
             // 
@@ -144,7 +141,7 @@
             tableLayoutPanel1.Controls.Add(tableLayoutPanel4, 1, 1);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 1, 2);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 3);
-            tableLayoutPanel1.Controls.Add(tabControl1, 1, 4);
+            tableLayoutPanel1.Controls.Add(dgvReporteProductos, 1, 4);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -211,39 +208,6 @@
             tableLayoutPanel2.Size = new Size(866, 79);
             tableLayoutPanel2.TabIndex = 9;
             // 
-            // tabControl1
-            // 
-            tabControl1.Controls.Add(tabPgSelectProd);
-            tabControl1.Controls.Add(tabPgReporte);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(112, 273);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(866, 275);
-            tabControl1.TabIndex = 10;
-            // 
-            // tabPgSelectProd
-            // 
-            tabPgSelectProd.AutoScroll = true;
-            tabPgSelectProd.Location = new Point(4, 29);
-            tabPgSelectProd.Name = "tabPgSelectProd";
-            tabPgSelectProd.Padding = new Padding(3);
-            tabPgSelectProd.Size = new Size(858, 242);
-            tabPgSelectProd.TabIndex = 0;
-            tabPgSelectProd.Text = "Selección de productos";
-            tabPgSelectProd.UseVisualStyleBackColor = true;
-            // 
-            // tabPgReporte
-            // 
-            tabPgReporte.Controls.Add(dataGridView1);
-            tabPgReporte.Location = new Point(4, 29);
-            tabPgReporte.Name = "tabPgReporte";
-            tabPgReporte.Padding = new Padding(3);
-            tabPgReporte.Size = new Size(858, 242);
-            tabPgReporte.TabIndex = 1;
-            tabPgReporte.Text = "Reporte";
-            tabPgReporte.UseVisualStyleBackColor = true;
-            // 
             // FrmReportePorPeriodo
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -254,7 +218,7 @@
             Margin = new Padding(3, 4, 3, 4);
             Name = "FrmReportePorPeriodo";
             Text = "FrmReportePorPeriodo";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvReporteProductos).EndInit();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel4.ResumeLayout(false);
             tableLayoutPanel4.PerformLayout();
@@ -262,8 +226,6 @@
             tableLayoutPanel3.PerformLayout();
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
-            tabControl1.ResumeLayout(false);
-            tabPgReporte.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -274,14 +236,11 @@
         private Label label3;
         private DateTimePicker dtpFechaInicio;
         private DateTimePicker dtpFechaFin;
-        private DataGridView dataGridView1;
+        private DataGridView dgvReporteProductos;
         private Button btnConsultar;
 		private TableLayoutPanel tableLayoutPanel1;
 		private TableLayoutPanel tableLayoutPanel2;
 		private TableLayoutPanel tableLayoutPanel3;
 		private TableLayoutPanel tableLayoutPanel4;
-        private TabControl tabControl1;
-        private TabPage tabPgSelectProd;
-        private TabPage tabPgReporte;
     }
 }
