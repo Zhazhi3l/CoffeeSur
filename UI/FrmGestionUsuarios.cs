@@ -37,6 +37,7 @@ namespace CoffeeSur.UI
             {
                 var lista = _repo.ObternerTodos();
                 dgvUsuario.DataSource = lista;
+                dgvUsuario.Columns["Password"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -46,7 +47,7 @@ namespace CoffeeSur.UI
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            FrmUsuario frm = new FrmUsuario();  
+            FrmUsuario frm = new FrmUsuario();
             frm.ShowDialog();
 
             CargarUsuarios();
@@ -70,7 +71,7 @@ namespace CoffeeSur.UI
                 return;
             }
 
-            FrmUsuario frm = new FrmUsuario(usuario); 
+            FrmUsuario frm = new FrmUsuario(usuario);
             frm.ShowDialog();
 
             CargarUsuarios();
