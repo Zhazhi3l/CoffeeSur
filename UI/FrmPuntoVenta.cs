@@ -47,7 +47,10 @@ namespace CoffeeSur.UI
         private void CargarProductosEnPanel()
         {
             flpProductos.Controls.Clear();
-            List<Producto> productos = _servicioProductos.ObtenerTodosProductos();
+            List<Producto> productos = _servicioProductos
+                .ObtenerTodosProductos()
+                .Where(p => p.Stock > 0)    
+                .ToList();
 
             foreach (var p in productos)
             {
@@ -99,28 +102,42 @@ namespace CoffeeSur.UI
 
         private void AgregarProductoALaVenta(int id, string nombre, decimal precio)
         {
-            bool encontrado = false;
+            var producto = _servicioProductos.ObtenerProductoPorId(id);
+            int stockDisponible = producto.Stock;
+
             foreach (DataGridViewRow row in dgvVenta.Rows)
             {
                 if (row.Cells["IdProducto"].Value != null &&
                     Convert.ToInt32(row.Cells["IdProducto"].Value) == id)
                 {
                     int cantidadActual = Convert.ToInt32(row.Cells["Cantidad"].Value);
+
+                    if (cantidadActual >= stockDisponible)
+                    {
+                        MessageBox.Show($"Solo hay {stockDisponible} unidades disponibles.");
+                        return;
+                    }
+
                     cantidadActual++;
                     row.Cells["Cantidad"].Value = cantidadActual;
                     row.Cells["Subtotal"].Value = cantidadActual * precio;
-                    encontrado = true;
-                    break;
+
+                    CalcularTotal();
+                    return;
                 }
             }
 
-            if (!encontrado)
+            if (stockDisponible > 0)
             {
                 dgvVenta.Rows.Add(id, nombre, precio, 1, precio);
+                CalcularTotal();
             }
-
-            CalcularTotal();
+            else
+            {
+                MessageBox.Show("Este producto está agotado.");
+            }
         }
+
 
         private void CalcularTotal()
         {
@@ -279,6 +296,9 @@ namespace CoffeeSur.UI
                 venta.Total = venta.Detalles.Sum(d => d.Subtotal);
 
                 _servicioVentas.RealizarVenta(venta);
+
+                CargarProductosEnPanel(); 
+
 
                 MessageBox.Show($"Venta cobrada correctamente.\nTotal: {venta.Total:C2}",
                               "Venta Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
