@@ -31,16 +31,17 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPuntoVenta));
             pnlLineaVenta = new Panel();
-            pnlInfoVenta = new Panel();
-            lblFecha = new Label();
-            lblHora = new Label();
-            lblUsuario = new Label();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            lblLineaVenta = new Label();
             dgvVenta = new DataGridView();
             Cantidad = new DataGridViewTextBoxColumn();
             Producto = new DataGridViewTextBoxColumn();
             Precio = new DataGridViewTextBoxColumn();
             Descuento = new DataGridViewTextBoxColumn();
-            lblLineaVenta = new Label();
+            pnlInfoVenta = new Panel();
+            lblFecha = new Label();
+            lblHora = new Label();
+            lblUsuario = new Label();
             flpProductos = new FlowLayoutPanel();
             pnlDetalle = new Panel();
             lblDetalleId = new Label();
@@ -50,21 +51,20 @@
             lblDetalleNombre = new Label();
             picDetalle = new PictureBox();
             panel1 = new Panel();
+            label1 = new Label();
             btnCancelar = new Button();
             btnCobrar = new Button();
             lblTotal = new Label();
             Timer = new System.Windows.Forms.Timer(components);
             tableLayoutPanel1 = new TableLayoutPanel();
-            label1 = new Label();
-            tableLayoutPanel2 = new TableLayoutPanel();
             pnlLineaVenta.SuspendLayout();
-            pnlInfoVenta.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVenta).BeginInit();
+            pnlInfoVenta.SuspendLayout();
             pnlDetalle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picDetalle).BeginInit();
             panel1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            tableLayoutPanel2.SuspendLayout();
             SuspendLayout();
             // 
             // pnlLineaVenta
@@ -77,6 +77,79 @@
             pnlLineaVenta.Name = "pnlLineaVenta";
             pnlLineaVenta.Size = new Size(369, 615);
             pnlLineaVenta.TabIndex = 0;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 1;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Controls.Add(lblLineaVenta, 0, 1);
+            tableLayoutPanel2.Controls.Add(dgvVenta, 0, 2);
+            tableLayoutPanel2.Controls.Add(pnlInfoVenta, 0, 0);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(0, 0);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 3;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle());
+            tableLayoutPanel2.RowStyles.Add(new RowStyle());
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new Size(369, 615);
+            tableLayoutPanel2.TabIndex = 5;
+            // 
+            // lblLineaVenta
+            // 
+            lblLineaVenta.AutoSize = true;
+            lblLineaVenta.Font = new Font("Microsoft Sans Serif", 14.25F);
+            lblLineaVenta.Location = new Point(3, 79);
+            lblLineaVenta.Name = "lblLineaVenta";
+            lblLineaVenta.Size = new Size(173, 29);
+            lblLineaVenta.TabIndex = 0;
+            lblLineaVenta.Text = "Linea de Venta";
+            // 
+            // dgvVenta
+            // 
+            dgvVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvVenta.Columns.AddRange(new DataGridViewColumn[] { Cantidad, Producto, Precio, Descuento });
+            dgvVenta.Dock = DockStyle.Fill;
+            dgvVenta.Location = new Point(3, 112);
+            dgvVenta.Margin = new Padding(3, 4, 3, 4);
+            dgvVenta.MultiSelect = false;
+            dgvVenta.Name = "dgvVenta";
+            dgvVenta.ReadOnly = true;
+            dgvVenta.RowHeadersVisible = false;
+            dgvVenta.RowHeadersWidth = 51;
+            dgvVenta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvVenta.Size = new Size(363, 499);
+            dgvVenta.TabIndex = 1;
+            dgvVenta.SelectionChanged += dgvVenta_SelectionChanged;
+            // 
+            // Cantidad
+            // 
+            Cantidad.HeaderText = "Cantidad";
+            Cantidad.MinimumWidth = 6;
+            Cantidad.Name = "Cantidad";
+            Cantidad.ReadOnly = true;
+            // 
+            // Producto
+            // 
+            Producto.HeaderText = "Producto";
+            Producto.MinimumWidth = 6;
+            Producto.Name = "Producto";
+            Producto.ReadOnly = true;
+            // 
+            // Precio
+            // 
+            Precio.HeaderText = "Precio";
+            Precio.MinimumWidth = 6;
+            Precio.Name = "Precio";
+            Precio.ReadOnly = true;
+            // 
+            // Descuento
+            // 
+            Descuento.HeaderText = "Descuento";
+            Descuento.MinimumWidth = 6;
+            Descuento.Name = "Descuento";
+            Descuento.ReadOnly = true;
             // 
             // pnlInfoVenta
             // 
@@ -94,7 +167,7 @@
             // lblFecha
             // 
             lblFecha.AutoSize = true;
-            lblFecha.Location = new Point(245, 21);
+            lblFecha.Location = new Point(123, 5);
             lblFecha.Name = "lblFecha";
             lblFecha.Size = new Size(50, 20);
             lblFecha.TabIndex = 2;
@@ -103,7 +176,7 @@
             // lblHora
             // 
             lblHora.AutoSize = true;
-            lblHora.Location = new Point(137, 21);
+            lblHora.Location = new Point(3, 42);
             lblHora.Name = "lblHora";
             lblHora.Size = new Size(50, 20);
             lblHora.TabIndex = 1;
@@ -112,59 +185,11 @@
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
-            lblUsuario.Location = new Point(3, 21);
+            lblUsuario.Location = new Point(3, 5);
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(50, 20);
             lblUsuario.TabIndex = 0;
             lblUsuario.Text = "label1";
-            // 
-            // dgvVenta
-            // 
-            dgvVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvVenta.Columns.AddRange(new DataGridViewColumn[] { Cantidad, Producto, Precio, Descuento });
-            dgvVenta.Dock = DockStyle.Fill;
-            dgvVenta.Location = new Point(3, 112);
-            dgvVenta.Margin = new Padding(3, 4, 3, 4);
-            dgvVenta.Name = "dgvVenta";
-            dgvVenta.RowHeadersVisible = false;
-            dgvVenta.RowHeadersWidth = 51;
-            dgvVenta.Size = new Size(363, 499);
-            dgvVenta.TabIndex = 1;
-            // 
-            // Cantidad
-            // 
-            Cantidad.HeaderText = "Cantidad";
-            Cantidad.MinimumWidth = 6;
-            Cantidad.Name = "Cantidad";
-            // 
-            // Producto
-            // 
-            Producto.HeaderText = "Producto";
-            Producto.MinimumWidth = 6;
-            Producto.Name = "Producto";
-            // 
-            // Precio
-            // 
-            Precio.HeaderText = "Precio";
-            Precio.MinimumWidth = 6;
-            Precio.Name = "Precio";
-            // 
-            // Descuento
-            // 
-            Descuento.HeaderText = "Descuento";
-            Descuento.MinimumWidth = 6;
-            Descuento.Name = "Descuento";
-            // 
-            // lblLineaVenta
-            // 
-            lblLineaVenta.AutoSize = true;
-            lblLineaVenta.Font = new Font("Microsoft Sans Serif", 14.25F);
-            lblLineaVenta.Location = new Point(3, 79);
-            lblLineaVenta.Name = "lblLineaVenta";
-            lblLineaVenta.Size = new Size(173, 29);
-            lblLineaVenta.TabIndex = 0;
-            lblLineaVenta.Text = "Linea de Venta";
             // 
             // flpProductos
             // 
@@ -276,6 +301,16 @@
             panel1.Size = new Size(406, 115);
             panel1.TabIndex = 3;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 12F);
+            label1.Location = new Point(17, 16);
+            label1.Name = "label1";
+            label1.Size = new Size(58, 28);
+            label1.TabIndex = 6;
+            label1.Text = "Total:";
+            // 
             // btnCancelar
             // 
             btnCancelar.AutoSize = true;
@@ -336,33 +371,6 @@
             tableLayoutPanel1.Size = new Size(412, 615);
             tableLayoutPanel1.TabIndex = 4;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 12F);
-            label1.Location = new Point(17, 16);
-            label1.Name = "label1";
-            label1.Size = new Size(58, 28);
-            label1.TabIndex = 6;
-            label1.Text = "Total:";
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 1;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Controls.Add(lblLineaVenta, 0, 1);
-            tableLayoutPanel2.Controls.Add(dgvVenta, 0, 2);
-            tableLayoutPanel2.Controls.Add(pnlInfoVenta, 0, 0);
-            tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(0, 0);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 3;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle());
-            tableLayoutPanel2.RowStyles.Add(new RowStyle());
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(369, 615);
-            tableLayoutPanel2.TabIndex = 5;
-            // 
             // FrmPuntoVenta
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -373,11 +381,15 @@
             Controls.Add(pnlLineaVenta);
             Margin = new Padding(3, 4, 3, 4);
             Name = "FrmPuntoVenta";
-            Text = "FrmPuntoVenta";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Punto de Venta";
+            Load += FrmPuntoVenta_Load;
             pnlLineaVenta.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvVenta).EndInit();
             pnlInfoVenta.ResumeLayout(false);
             pnlInfoVenta.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvVenta).EndInit();
             pnlDetalle.ResumeLayout(false);
             pnlDetalle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picDetalle).EndInit();
@@ -385,8 +397,6 @@
             panel1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
             ResumeLayout(false);
         }
 
