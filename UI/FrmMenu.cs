@@ -59,5 +59,12 @@ namespace CoffeeSur.UI
             FrmAuditorias frm = new FrmAuditorias();
             frm.ShowDialog();
         }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            FrmLogin login = new FrmLogin();
+            login.Show();
+            this.Close();
+        }
     }
 }

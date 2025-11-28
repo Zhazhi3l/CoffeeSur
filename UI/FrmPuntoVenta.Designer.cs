@@ -69,9 +69,8 @@
             pnlLineaVenta.Controls.Add(lblLineaVenta);
             pnlLineaVenta.Dock = DockStyle.Left;
             pnlLineaVenta.Location = new Point(0, 0);
-            pnlLineaVenta.Margin = new Padding(3, 4, 3, 4);
             pnlLineaVenta.Name = "pnlLineaVenta";
-            pnlLineaVenta.Size = new Size(281, 615);
+            pnlLineaVenta.Size = new Size(246, 461);
             pnlLineaVenta.TabIndex = 0;
             // 
             // dgvVenta
@@ -79,12 +78,11 @@
             dgvVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvVenta.Columns.AddRange(new DataGridViewColumn[] { Cantidad, Producto, Precio, Descuento });
-            dgvVenta.Dock = DockStyle.Bottom;
-            dgvVenta.Location = new Point(0, 276);
-            dgvVenta.Margin = new Padding(3, 4, 3, 4);
+            dgvVenta.Dock = DockStyle.Top;
+            dgvVenta.Location = new Point(0, 24);
             dgvVenta.Name = "dgvVenta";
             dgvVenta.RowHeadersWidth = 51;
-            dgvVenta.Size = new Size(281, 339);
+            dgvVenta.Size = new Size(246, 254);
             dgvVenta.TabIndex = 1;
             // 
             // Cantidad
@@ -118,7 +116,7 @@
             lblLineaVenta.Font = new Font("Microsoft Sans Serif", 14.25F);
             lblLineaVenta.Location = new Point(0, 0);
             lblLineaVenta.Name = "lblLineaVenta";
-            lblLineaVenta.Size = new Size(173, 29);
+            lblLineaVenta.Size = new Size(137, 24);
             lblLineaVenta.TabIndex = 0;
             lblLineaVenta.Text = "Linea de Venta";
             // 
@@ -128,10 +126,9 @@
             flpProductos.AutoSize = true;
             flpProductos.BackColor = Color.AntiqueWhite;
             flpProductos.Dock = DockStyle.Fill;
-            flpProductos.Location = new Point(281, 0);
-            flpProductos.Margin = new Padding(3, 4, 3, 4);
+            flpProductos.Location = new Point(246, 0);
             flpProductos.Name = "flpProductos";
-            flpProductos.Size = new Size(729, 615);
+            flpProductos.Size = new Size(638, 461);
             flpProductos.TabIndex = 1;
             // 
             // pnlDetalle
@@ -144,18 +141,17 @@
             pnlDetalle.Controls.Add(lblDetalleNombre);
             pnlDetalle.Controls.Add(picDetalle);
             pnlDetalle.Dock = DockStyle.Right;
-            pnlDetalle.Location = new Point(781, 0);
-            pnlDetalle.Margin = new Padding(3, 4, 3, 4);
+            pnlDetalle.Location = new Point(684, 0);
             pnlDetalle.Name = "pnlDetalle";
-            pnlDetalle.Size = new Size(229, 615);
+            pnlDetalle.Size = new Size(200, 461);
             pnlDetalle.TabIndex = 2;
             // 
             // lblDetalleId
             // 
             lblDetalleId.AutoSize = true;
-            lblDetalleId.Location = new Point(49, 149);
+            lblDetalleId.Location = new Point(43, 112);
             lblDetalleId.Name = "lblDetalleId";
-            lblDetalleId.Size = new Size(0, 20);
+            lblDetalleId.Size = new Size(0, 15);
             lblDetalleId.TabIndex = 5;
             lblDetalleId.Visible = false;
             // 
@@ -165,10 +161,9 @@
             btnMenos.BackColor = Color.PaleGoldenrod;
             btnMenos.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnMenos.Image = (Image)resources.GetObject("btnMenos.Image");
-            btnMenos.Location = new Point(122, 284);
-            btnMenos.Margin = new Padding(3, 4, 3, 4);
+            btnMenos.Location = new Point(107, 213);
             btnMenos.Name = "btnMenos";
-            btnMenos.Size = new Size(66, 63);
+            btnMenos.Size = new Size(58, 47);
             btnMenos.TabIndex = 4;
             btnMenos.TextAlign = ContentAlignment.MiddleRight;
             btnMenos.UseVisualStyleBackColor = false;
@@ -180,10 +175,9 @@
             btnMas.BackColor = Color.PaleGoldenrod;
             btnMas.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnMas.Image = (Image)resources.GetObject("btnMas.Image");
-            btnMas.Location = new Point(39, 276);
-            btnMas.Margin = new Padding(3, 4, 3, 4);
+            btnMas.Location = new Point(34, 207);
             btnMas.Name = "btnMas";
-            btnMas.Size = new Size(59, 63);
+            btnMas.Size = new Size(52, 47);
             btnMas.TabIndex = 3;
             btnMas.TextAlign = ContentAlignment.MiddleRight;
             btnMas.UseVisualStyleBackColor = false;
@@ -192,28 +186,27 @@
             // lblDetallePrecio
             // 
             lblDetallePrecio.AutoSize = true;
-            lblDetallePrecio.Location = new Point(49, 215);
+            lblDetallePrecio.Location = new Point(43, 161);
             lblDetallePrecio.Name = "lblDetallePrecio";
-            lblDetallePrecio.Size = new Size(92, 20);
+            lblDetallePrecio.Size = new Size(73, 15);
             lblDetallePrecio.TabIndex = 2;
             lblDetallePrecio.Text = "Precio: $0.00";
             // 
             // lblDetalleNombre
             // 
             lblDetalleNombre.AutoSize = true;
-            lblDetalleNombre.Location = new Point(49, 181);
+            lblDetalleNombre.Location = new Point(43, 136);
             lblDetalleNombre.Name = "lblDetalleNombre";
-            lblDetalleNombre.Size = new Size(154, 20);
+            lblDetalleNombre.Size = new Size(122, 15);
             lblDetalleNombre.TabIndex = 1;
             lblDetalleNombre.Text = "Nombre del producto";
             // 
             // picDetalle
             // 
             picDetalle.BackgroundImageLayout = ImageLayout.Zoom;
-            picDetalle.Location = new Point(49, 25);
-            picDetalle.Margin = new Padding(3, 4, 3, 4);
+            picDetalle.Location = new Point(43, 19);
             picDetalle.Name = "picDetalle";
-            picDetalle.Size = new Size(139, 120);
+            picDetalle.Size = new Size(122, 90);
             picDetalle.TabIndex = 0;
             picDetalle.TabStop = false;
             // 
@@ -224,10 +217,9 @@
             panel1.Controls.Add(btnCobrar);
             panel1.Controls.Add(lblTotal);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(281, 482);
-            panel1.Margin = new Padding(3, 4, 3, 4);
+            panel1.Location = new Point(246, 361);
             panel1.Name = "panel1";
-            panel1.Size = new Size(500, 133);
+            panel1.Size = new Size(438, 100);
             panel1.TabIndex = 3;
             // 
             // btnCancelar
@@ -237,10 +229,9 @@
             btnCancelar.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnCancelar.Image = (Image)resources.GetObject("btnCancelar.Image");
             btnCancelar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCancelar.Location = new Point(176, 55);
-            btnCancelar.Margin = new Padding(3, 4, 3, 4);
+            btnCancelar.Location = new Point(154, 41);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(138, 63);
+            btnCancelar.Size = new Size(121, 47);
             btnCancelar.TabIndex = 5;
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.MiddleRight;
@@ -254,10 +245,9 @@
             btnCobrar.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnCobrar.Image = (Image)resources.GetObject("btnCobrar.Image");
             btnCobrar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCobrar.Location = new Point(30, 55);
-            btnCobrar.Margin = new Padding(3, 4, 3, 4);
+            btnCobrar.Location = new Point(26, 41);
             btnCobrar.Name = "btnCobrar";
-            btnCobrar.Size = new Size(123, 63);
+            btnCobrar.Size = new Size(108, 47);
             btnCobrar.TabIndex = 4;
             btnCobrar.Text = "Cobrar";
             btnCobrar.TextAlign = ContentAlignment.MiddleRight;
@@ -267,9 +257,9 @@
             // lblTotal
             // 
             lblTotal.AutoSize = true;
-            lblTotal.Location = new Point(72, 25);
+            lblTotal.Location = new Point(63, 19);
             lblTotal.Name = "lblTotal";
-            lblTotal.Size = new Size(50, 20);
+            lblTotal.Size = new Size(38, 15);
             lblTotal.TabIndex = 0;
             lblTotal.Text = "label1";
             // 
@@ -280,50 +270,48 @@
             pnlInfoVenta.Controls.Add(lblHora);
             pnlInfoVenta.Controls.Add(lblUsuario);
             pnlInfoVenta.Dock = DockStyle.Top;
-            pnlInfoVenta.Location = new Point(281, 0);
-            pnlInfoVenta.Margin = new Padding(3, 4, 3, 4);
+            pnlInfoVenta.Location = new Point(246, 0);
             pnlInfoVenta.Name = "pnlInfoVenta";
-            pnlInfoVenta.Size = new Size(500, 71);
+            pnlInfoVenta.Size = new Size(438, 53);
             pnlInfoVenta.TabIndex = 4;
             // 
             // lblFecha
             // 
             lblFecha.AutoSize = true;
-            lblFecha.Location = new Point(349, 25);
+            lblFecha.Location = new Point(305, 19);
             lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(50, 20);
+            lblFecha.Size = new Size(38, 15);
             lblFecha.TabIndex = 2;
             lblFecha.Text = "label1";
             // 
             // lblHora
             // 
             lblHora.AutoSize = true;
-            lblHora.Location = new Point(176, 20);
+            lblHora.Location = new Point(154, 15);
             lblHora.Name = "lblHora";
-            lblHora.Size = new Size(50, 20);
+            lblHora.Size = new Size(38, 15);
             lblHora.TabIndex = 1;
             lblHora.Text = "label1";
             // 
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
-            lblUsuario.Location = new Point(26, 20);
+            lblUsuario.Location = new Point(23, 15);
             lblUsuario.Name = "lblUsuario";
-            lblUsuario.Size = new Size(50, 20);
+            lblUsuario.Size = new Size(38, 15);
             lblUsuario.TabIndex = 0;
             lblUsuario.Text = "label1";
             // 
             // FrmPuntoVenta
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1010, 615);
+            ClientSize = new Size(884, 461);
             Controls.Add(pnlInfoVenta);
             Controls.Add(panel1);
             Controls.Add(pnlDetalle);
             Controls.Add(flpProductos);
             Controls.Add(pnlLineaVenta);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "FrmPuntoVenta";
             Text = "FrmPuntoVenta";
             pnlLineaVenta.ResumeLayout(false);

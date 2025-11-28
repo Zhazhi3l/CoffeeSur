@@ -35,7 +35,7 @@
             dateTimePicker1 = new DateTimePicker();
             dateTimePicker2 = new DateTimePicker();
             dataGridView1 = new DataGridView();
-            btnCobrar = new Button();
+            btnConsultar = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -94,20 +94,21 @@
             dataGridView1.Size = new Size(734, 150);
             dataGridView1.TabIndex = 6;
             // 
-            // btnCobrar
+            // btnConsultar
             // 
-            btnCobrar.AutoSize = true;
-            btnCobrar.BackColor = Color.DeepSkyBlue;
-            btnCobrar.FlatStyle = FlatStyle.Popup;
-            btnCobrar.Font = new Font("Footlight MT Light", 14.25F);
-            btnCobrar.Image = (Image)resources.GetObject("btnCobrar.Image");
-            btnCobrar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnCobrar.Location = new Point(220, 89);
-            btnCobrar.Name = "btnCobrar";
-            btnCobrar.Size = new Size(325, 46);
-            btnCobrar.TabIndex = 7;
-            btnCobrar.Text = "Consultar";
-            btnCobrar.UseVisualStyleBackColor = false;
+            btnConsultar.AutoSize = true;
+            btnConsultar.BackColor = Color.DeepSkyBlue;
+            btnConsultar.FlatStyle = FlatStyle.Popup;
+            btnConsultar.Font = new Font("Footlight MT Light", 14.25F);
+            btnConsultar.Image = (Image)resources.GetObject("btnConsultar.Image");
+            btnConsultar.ImageAlign = ContentAlignment.MiddleLeft;
+            btnConsultar.Location = new Point(220, 89);
+            btnConsultar.Name = "btnConsultar";
+            btnConsultar.Size = new Size(325, 46);
+            btnConsultar.TabIndex = 7;
+            btnConsultar.Text = "Consultar";
+            btnConsultar.UseVisualStyleBackColor = false;
+            btnConsultar.Click += btnConsultar_Click;
             // 
             // FrmReportePorPeriodo
             // 
@@ -115,7 +116,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.PowderBlue;
             ClientSize = new Size(734, 311);
-            Controls.Add(btnCobrar);
+            Controls.Add(btnConsultar);
             Controls.Add(dataGridView1);
             Controls.Add(dateTimePicker2);
             Controls.Add(dateTimePicker1);
@@ -137,6 +138,6 @@
         private DateTimePicker dateTimePicker1;
         private DateTimePicker dateTimePicker2;
         private DataGridView dataGridView1;
-        private Button btnCobrar;
+        private Button btnConsultar;
     }
 }
