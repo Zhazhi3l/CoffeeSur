@@ -51,6 +51,7 @@
             dgvUsuario.Margin = new Padding(3, 4, 3, 4);
             dgvUsuario.MultiSelect = false;
             dgvUsuario.Name = "dgvUsuario";
+            dgvUsuario.RowHeadersVisible = false;
             dgvUsuario.RowHeadersWidth = 51;
             dgvUsuario.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUsuario.Size = new Size(1054, 446);
