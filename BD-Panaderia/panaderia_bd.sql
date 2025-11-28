@@ -26,8 +26,8 @@ CREATE TABLE Usuarios (
 INSERT INTO Usuarios (Nombre, Apellido, Username, Password, Rol, Activo) VALUES ('Administrador', 'Principal', 'admin', SHA2('admin123', 256), 'Admin', 1);
 
 CREATE TABLE Productos (
-    IdProducto      INT AUTO_INCREMENT PRIMARY KEY, -- Tu C# busca "IdProducto"
-    Clave           VARCHAR(50),                    -- Código de barras/SKU
+    IdProducto      INT AUTO_INCREMENT PRIMARY KEY, 
+    Clave           VARCHAR(50),                    
     Nombre          VARCHAR(100) NOT NULL,
     Descripcion     TEXT,
     Precio          DECIMAL(10,2) NOT NULL,
@@ -385,8 +385,9 @@ CREATE PROCEDURE sp_ReporteVentasPorProducto(
 )
 BEGIN
     SELECT 
+		p.IdProducto,
         p.Clave,
-        p.Nombre AS Producto, -- Aquí tengo duda, no se si es la clave del producto o su Id
+        p.Nombre AS Producto,
         SUM(d.Cantidad) AS Unidades,
         SUM(d.Subtotal) AS Monto
     FROM DetalleVenta d

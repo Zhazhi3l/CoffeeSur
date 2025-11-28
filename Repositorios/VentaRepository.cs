@@ -233,6 +233,7 @@ namespace CoffeeSur.Repositorios
                         {
                             reporte.Add(new ReporteVentaProductoDTO
                             {
+                                IdProducto = Convert.ToInt32(reader["IdProducto"]),
                                 ClaveProducto = reader["ClaveProducto"].ToString(),
                                 Nombre = reader["Nombre"].ToString(),
                                 Unidades = Convert.ToInt32(reader["Unidades"]),

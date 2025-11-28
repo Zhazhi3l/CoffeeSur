@@ -43,6 +43,7 @@
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel4 = new TableLayoutPanel();
             tableLayoutPanel3 = new TableLayoutPanel();
+            label7 = new Label();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -51,7 +52,6 @@
             label8 = new Label();
             tableLayoutPanel2 = new TableLayoutPanel();
             tableLayoutPanel5 = new TableLayoutPanel();
-            label7 = new Label();
             label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)nudPrecio).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudDescuento).BeginInit();
@@ -113,7 +113,7 @@
             nudPrecio.Margin = new Padding(3, 4, 3, 4);
             nudPrecio.Name = "nudPrecio";
             nudPrecio.Size = new Size(179, 34);
-            nudPrecio.TabIndex = 2;
+            nudPrecio.TabIndex = 3;
             // 
             // nudDescuento
             // 
@@ -134,7 +134,7 @@
             nudStock.Margin = new Padding(3, 4, 3, 4);
             nudStock.Name = "nudStock";
             nudStock.Size = new Size(179, 34);
-            nudStock.TabIndex = 3;
+            nudStock.TabIndex = 2;
             // 
             // btnGuardar
             // 
@@ -148,7 +148,7 @@
             btnGuardar.Name = "btnGuardar";
             btnGuardar.Padding = new Padding(5, 0, 5, 0);
             btnGuardar.Size = new Size(332, 41);
-            btnGuardar.TabIndex = 27;
+            btnGuardar.TabIndex = 6;
             btnGuardar.Text = "Guardar";
             btnGuardar.TextAlign = ContentAlignment.MiddleRight;
             btnGuardar.UseVisualStyleBackColor = false;
@@ -166,7 +166,7 @@
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Padding = new Padding(5, 0, 5, 0);
             btnCancelar.Size = new Size(333, 41);
-            btnCancelar.TabIndex = 28;
+            btnCancelar.TabIndex = 7;
             btnCancelar.Text = "Cancelar";
             btnCancelar.TextAlign = ContentAlignment.MiddleRight;
             btnCancelar.UseVisualStyleBackColor = false;
@@ -207,7 +207,7 @@
             btnCargarImagen.Name = "btnCargarImagen";
             btnCargarImagen.Padding = new Padding(5, 0, 5, 0);
             btnCargarImagen.Size = new Size(307, 73);
-            btnCargarImagen.TabIndex = 6;
+            btnCargarImagen.TabIndex = 0;
             btnCargarImagen.Text = "Cargar Imagen";
             btnCargarImagen.TextAlign = ContentAlignment.MiddleRight;
             btnCargarImagen.UseVisualStyleBackColor = false;
@@ -289,7 +289,17 @@
             tableLayoutPanel3.RowStyles.Add(new RowStyle());
             tableLayoutPanel3.RowStyles.Add(new RowStyle());
             tableLayoutPanel3.Size = new Size(677, 545);
-            tableLayoutPanel3.TabIndex = 34;
+            tableLayoutPanel3.TabIndex = 0;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.ForeColor = SystemColors.ControlLightLight;
+            label7.Location = new Point(3, 248);
+            label7.Name = "label7";
+            label7.Size = new Size(87, 20);
+            label7.TabIndex = 34;
+            label7.Text = "Descripción";
             // 
             // label1
             // 
@@ -381,16 +391,6 @@
             tableLayoutPanel5.RowStyles.Add(new RowStyle());
             tableLayoutPanel5.Size = new Size(307, 213);
             tableLayoutPanel5.TabIndex = 32;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.ForeColor = SystemColors.ControlLightLight;
-            label7.Location = new Point(3, 248);
-            label7.Name = "label7";
-            label7.Size = new Size(87, 20);
-            label7.TabIndex = 34;
-            label7.Text = "Descripción";
             // 
             // label6
             // 

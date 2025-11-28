@@ -8,6 +8,7 @@ namespace CoffeeSur.DTO
 {
     public class ReporteVentaProductoDTO
     {
+        public int IdProducto { get; set; }
         public string ClaveProducto { get; set; }
         public string Nombre { get; set; }
         public int Unidades { get; set; }
