@@ -183,7 +183,7 @@ namespace CoffeeSur.UI
 
         private void btnAnalizar_Click(object sender, EventArgs e)
         {
-            if (dtpFecha1.Value == dtpFecha2.Value)
+            if (dtpFecha1.Value.Month == dtpFecha2.Value.Month && dtpFecha1.Value.Year == dtpFecha2.Value.Year)
             {
                 MessageBox.Show("Las fechas a comparar no pueden ser iguales.");
                 return;

@@ -172,6 +172,34 @@ namespace CoffeeSur.Repositorios
                         }
                     }
                 }
+
+                if (ventas == null)
+                    return null;
+
+                foreach (var venta in ventas)
+                {
+                    using (MySqlCommand cmdDetalles = new MySqlCommand("sp_ObtenerDetallesVenta", conx))
+                    {
+                        cmdDetalles.CommandType = CommandType.StoredProcedure;
+                        cmdDetalles.Parameters.AddWithValue("@p_IdVenta", venta.IdVenta);
+
+                        using (MySqlDataReader readerDetalles = cmdDetalles.ExecuteReader())
+                        {
+                            while (readerDetalles.Read())
+                            {
+                                venta.Detalles.Add(new DetalleVenta
+                                {
+                                    IdDetalleVenta = Convert.ToInt32(readerDetalles["IdDetalleVenta"]),
+                                    IdVenta = Convert.ToInt32(readerDetalles["IdVenta"]),
+                                    IdProducto = Convert.ToInt32(readerDetalles["IdProducto"]),
+                                    Cantidad = Convert.ToInt32(readerDetalles["Cantidad"]),
+                                    PrecioUnitario = Convert.ToDecimal(readerDetalles["PrecioUnitario"]),
+                                    Subtotal = Convert.ToDecimal(readerDetalles["Subtotal"])
+                                });
+                            }
+                        }
+                    }
+                }
             }
             return ventas;
         }
@@ -249,6 +277,61 @@ namespace CoffeeSur.Repositorios
                 }
             }
             return reporte;
+        }
+
+        public List<Venta> ObtenerVentasDeHoy()
+        {
+            List<Venta> ventasHoy = new List<Venta>();
+            using (MySqlConnection conx = _conexion.GetConexion())
+            {
+                using (MySqlCommand cmd = new MySqlCommand("sp_VentasHoy", conx))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ventasHoy.Add(new Venta
+                            {
+                                IdVenta = Convert.ToInt32(reader["IdVenta"]),
+                                IdUsuario = Convert.ToInt32(reader["IdUsuario"]),
+                                FechaVenta = Convert.ToDateTime(reader["FechaVenta"]),
+                                Total = Convert.ToDecimal(reader["Total"]),
+                                Detalles = new List<DetalleVenta>()
+                            });
+                        }
+                    }
+                }
+
+                if (ventasHoy == null)
+                    return null;
+
+                foreach (var venta in ventasHoy)
+                {
+                    using (MySqlCommand cmdDetalles = new MySqlCommand("sp_ObtenerDetallesVenta", conx))
+                    {
+                        cmdDetalles.CommandType = CommandType.StoredProcedure;
+                        cmdDetalles.Parameters.AddWithValue("@p_IdVenta", venta.IdVenta);
+
+                        using (MySqlDataReader readerDetalles = cmdDetalles.ExecuteReader())
+                        {
+                            while (readerDetalles.Read())
+                            {
+                                venta.Detalles.Add(new DetalleVenta
+                                {
+                                    IdDetalleVenta = Convert.ToInt32(readerDetalles["IdDetalleVenta"]),
+                                    IdVenta = Convert.ToInt32(readerDetalles["IdVenta"]),
+                                    IdProducto = Convert.ToInt32(readerDetalles["IdProducto"]),
+                                    Cantidad = Convert.ToInt32(readerDetalles["Cantidad"]),
+                                    PrecioUnitario = Convert.ToDecimal(readerDetalles["PrecioUnitario"]),
+                                    Subtotal = Convert.ToDecimal(readerDetalles["Subtotal"])
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            return ventasHoy;
         }
     }
 }

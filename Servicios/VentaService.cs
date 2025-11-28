@@ -149,5 +149,16 @@ namespace CoffeeSur.Servicios
             return _ventaRepo.ObtenerComparacionDeProductosEntreMeses(idsUnicos, fecha1, fecha2);
         }
 
+        public List<Venta> ObtenerVentasDeHoy()
+        {
+            try
+            {
+                List<Venta> ventasHoy = _ventaRepo.ObtenerVentasDeHoy(hoy);
+                return ventasHoy;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener la venta de hoy: " + ex.Message);
+            }
     }
 }
