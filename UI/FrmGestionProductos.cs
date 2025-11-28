@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CoffeeSur.Servicios;
-using CoffeeSur.Repositorios;
 using CoffeeSur.Modelos;
-
-
 
 namespace CoffeeSur.UI
 {
@@ -37,37 +32,35 @@ namespace CoffeeSur.UI
                 _listaProductos = _servicio.ObtenerTodosProductos();
 
                 DataTable dt = new DataTable();
-                dt.Columns.Add("IdProducto");
-                dt.Columns.Add("Nombre");
-                dt.Columns.Add("Precio");
-                dt.Columns.Add("Stock");
-                dt.Columns.Add("Imagen", typeof(Image));
+                dt.Columns.Add("IdProducto", typeof(int));
+                dt.Columns.Add("Nombre", typeof(string));
+                dt.Columns.Add("Precio", typeof(decimal));
+                dt.Columns.Add("Stock", typeof(int));
+                dt.Columns.Add("Activo", typeof(bool));
 
                 foreach (var p in _listaProductos)
                 {
-                    Image img = null;
-                    if (p.Imagen != null)
-                    {
-                        using (var ms = new MemoryStream(p.Imagen))
-                        {
-                            img = Image.FromStream(ms);
-                        }
-                    }
+                    dt.Rows.Add(
+                        p.IdProducto,
+                        p.Nombre,
+                        p.Precio,
+                        p.Stock,
+                        p.Activo
 
-                    dt.Rows.Add(p.IdProducto, p.Nombre, p.Precio, p.Stock, img);
+                    );
                 }
 
                 dgvProductos.DataSource = dt;
-                dgvProductos.RowTemplate.Height = 50;
 
-                if (dgvProductos.Columns["Imagen"] is DataGridViewImageColumn col)
-                {
-                    col.ImageLayout = DataGridViewImageCellLayout.Zoom;
-                    col.Width = 50;
-                }
-
+                // Ajustes visuales
+                dgvProductos.RowTemplate.Height = 30;
                 dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dgvProductos.ClearSelection();
+                dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                dgvProductos.MultiSelect = false;
+                dgvProductos.ReadOnly = true;
+                dgvProductos.AllowUserToAddRows = false;
+
             }
             catch (Exception ex)
             {
@@ -81,7 +74,6 @@ namespace CoffeeSur.UI
                 return null;
 
             int id = Convert.ToInt32(dgvProductos.SelectedRows[0].Cells["IdProducto"].Value);
-
             return _listaProductos.FirstOrDefault(p => p.IdProducto == id);
         }
 
@@ -97,7 +89,7 @@ namespace CoffeeSur.UI
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            Producto prod = GetProductoSeleccionado();
+            var prod = GetProductoSeleccionado();
             if (prod == null)
             {
                 MessageBox.Show("Seleccione un producto de la lista.");
@@ -113,7 +105,7 @@ namespace CoffeeSur.UI
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            Producto prod = GetProductoSeleccionado();
+            var prod = GetProductoSeleccionado();
             if (prod == null)
             {
                 MessageBox.Show("Seleccione un producto de la lista.");

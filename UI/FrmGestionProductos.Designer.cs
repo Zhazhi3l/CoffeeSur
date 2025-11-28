@@ -42,18 +42,17 @@
             // 
             // dgvProductos
             // 
-            dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dgvProductos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dgvProductos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
+            dgvProductos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Dock = DockStyle.Fill;
-            dgvProductos.Location = new Point(46, 135);
-            dgvProductos.Margin = new Padding(3, 4, 3, 4);
+            dgvProductos.Location = new Point(41, 100);
             dgvProductos.MultiSelect = false;
             dgvProductos.Name = "dgvProductos";
             dgvProductos.RowHeadersVisible = false;
             dgvProductos.RowHeadersWidth = 51;
             dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProductos.Size = new Size(778, 359);
+            dgvProductos.Size = new Size(680, 269);
             dgvProductos.TabIndex = 0;
             // 
             // btnAgregar
@@ -64,11 +63,11 @@
             btnAgregar.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnAgregar.Image = (Image)resources.GetObject("btnAgregar.Image");
             btnAgregar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAgregar.Location = new Point(5, 13);
-            btnAgregar.Margin = new Padding(5, 4, 5, 4);
+            btnAgregar.Location = new Point(4, 10);
+            btnAgregar.Margin = new Padding(4, 3, 4, 3);
             btnAgregar.Name = "btnAgregar";
-            btnAgregar.Padding = new Padding(5, 0, 5, 0);
-            btnAgregar.Size = new Size(249, 71);
+            btnAgregar.Padding = new Padding(4, 0, 4, 0);
+            btnAgregar.Size = new Size(218, 53);
             btnAgregar.TabIndex = 3;
             btnAgregar.Text = "Agregar";
             btnAgregar.TextAlign = ContentAlignment.MiddleRight;
@@ -83,11 +82,11 @@
             btnModificar.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnModificar.Image = (Image)resources.GetObject("btnModificar.Image");
             btnModificar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnModificar.Location = new Point(264, 13);
-            btnModificar.Margin = new Padding(5, 4, 5, 4);
+            btnModificar.Location = new Point(230, 10);
+            btnModificar.Margin = new Padding(4, 3, 4, 3);
             btnModificar.Name = "btnModificar";
-            btnModificar.Padding = new Padding(5, 0, 5, 0);
-            btnModificar.Size = new Size(249, 71);
+            btnModificar.Padding = new Padding(4, 0, 4, 0);
+            btnModificar.Size = new Size(218, 53);
             btnModificar.TabIndex = 4;
             btnModificar.Text = "Modificar";
             btnModificar.TextAlign = ContentAlignment.MiddleRight;
@@ -102,11 +101,11 @@
             btnEliminar.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnEliminar.Image = (Image)resources.GetObject("btnEliminar.Image");
             btnEliminar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEliminar.Location = new Point(523, 13);
-            btnEliminar.Margin = new Padding(5, 4, 5, 4);
+            btnEliminar.Location = new Point(456, 10);
+            btnEliminar.Margin = new Padding(4, 3, 4, 3);
             btnEliminar.Name = "btnEliminar";
-            btnEliminar.Padding = new Padding(5, 0, 5, 0);
-            btnEliminar.Size = new Size(250, 71);
+            btnEliminar.Padding = new Padding(4, 0, 4, 0);
+            btnEliminar.Size = new Size(220, 53);
             btnEliminar.TabIndex = 5;
             btnEliminar.Text = "Eliminar";
             btnEliminar.TextAlign = ContentAlignment.MiddleRight;
@@ -123,13 +122,14 @@
             tableLayoutPanel1.Controls.Add(dgvProductos, 1, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
+            tableLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 4;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 70F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 5F));
-            tableLayoutPanel1.Size = new Size(872, 525);
+            tableLayoutPanel1.Size = new Size(763, 394);
             tableLayoutPanel1.TabIndex = 6;
             // 
             // tableLayoutPanel2
@@ -142,22 +142,22 @@
             tableLayoutPanel2.Controls.Add(btnModificar, 1, 1);
             tableLayoutPanel2.Controls.Add(btnEliminar, 2, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(46, 29);
+            tableLayoutPanel2.Location = new Point(41, 21);
+            tableLayoutPanel2.Margin = new Padding(3, 2, 3, 2);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 3;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel2.Size = new Size(778, 99);
+            tableLayoutPanel2.Size = new Size(680, 74);
             tableLayoutPanel2.TabIndex = 7;
             // 
             // FrmGestionProductos
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(872, 525);
+            ClientSize = new Size(763, 394);
             Controls.Add(tableLayoutPanel1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "FrmGestionProductos";
             Text = "FrmGestionProductos";
             Load += FrmGestionProductos_Load;
