@@ -277,7 +277,7 @@
 			tabPageSelecProductos.Controls.Add(tableLayoutPanel7);
 			tabPageSelecProductos.Location = new Point(4, 29);
 			tabPageSelecProductos.Name = "tabPageSelecProductos";
-			tabPageSelecProductos.Padding = new Padding(3, 3, 3, 3);
+			tabPageSelecProductos.Padding = new Padding(3);
 			tabPageSelecProductos.Size = new Size(545, 495);
 			tabPageSelecProductos.TabIndex = 0;
 			tabPageSelecProductos.Text = "Seleccionar productos";
@@ -313,8 +313,8 @@
 			// 
 			tabPageEstadistica.Location = new Point(4, 29);
 			tabPageEstadistica.Name = "tabPageEstadistica";
-			tabPageEstadistica.Padding = new Padding(3, 3, 3, 3);
-			tabPageEstadistica.Size = new Size(544, 496);
+			tabPageEstadistica.Padding = new Padding(3);
+			tabPageEstadistica.Size = new Size(545, 495);
 			tabPageEstadistica.TabIndex = 1;
 			tabPageEstadistica.Text = "Ventana de estadísticas";
 			tabPageEstadistica.UseVisualStyleBackColor = true;
