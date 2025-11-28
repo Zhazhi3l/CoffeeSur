@@ -16,6 +16,7 @@ namespace CoffeeSur.UI
     public partial class FrmPuntoVenta : Form
     {
         private readonly ProductoService _servicioProductos = new ProductoService();
+        private readonly UsuarioService _servicioUsuarios= new UsuarioService();
         private readonly VentaService _servicioVentas = new VentaService();
         private int usuarioLogueadoId;
         private Producto productoActual;
@@ -25,7 +26,9 @@ namespace CoffeeSur.UI
             InitializeComponent();
             usuarioLogueadoId = idUsuario;
 
-            lblUsuario.Text = $"Usuario: {usuarioLogueadoId}";
+            var usuario = _servicioUsuarios.BuscarUsuarioPorId(idUsuario);
+            lblUsuario.Text = $"Usuario: {usuario.Nombre}";
+
             ConfigurarReloj();
 
             CargarProductosEnPanel();

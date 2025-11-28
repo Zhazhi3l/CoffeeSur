@@ -31,6 +31,10 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmPuntoVenta));
             pnlLineaVenta = new Panel();
+            pnlInfoVenta = new Panel();
+            lblFecha = new Label();
+            lblHora = new Label();
+            lblUsuario = new Label();
             dgvVenta = new DataGridView();
             Cantidad = new DataGridViewTextBoxColumn();
             Producto = new DataGridViewTextBoxColumn();
@@ -49,40 +53,76 @@
             btnCancelar = new Button();
             btnCobrar = new Button();
             lblTotal = new Label();
-            pnlInfoVenta = new Panel();
-            lblFecha = new Label();
-            lblHora = new Label();
-            lblUsuario = new Label();
             Timer = new System.Windows.Forms.Timer(components);
             pnlLineaVenta.SuspendLayout();
+            pnlInfoVenta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVenta).BeginInit();
             pnlDetalle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picDetalle).BeginInit();
             panel1.SuspendLayout();
-            pnlInfoVenta.SuspendLayout();
             SuspendLayout();
             // 
             // pnlLineaVenta
             // 
             pnlLineaVenta.BackColor = Color.Moccasin;
+            pnlLineaVenta.Controls.Add(pnlInfoVenta);
             pnlLineaVenta.Controls.Add(dgvVenta);
             pnlLineaVenta.Controls.Add(lblLineaVenta);
             pnlLineaVenta.Dock = DockStyle.Left;
             pnlLineaVenta.Location = new Point(0, 0);
             pnlLineaVenta.Name = "pnlLineaVenta";
-            pnlLineaVenta.Size = new Size(246, 461);
+            pnlLineaVenta.Size = new Size(323, 461);
             pnlLineaVenta.TabIndex = 0;
+            // 
+            // pnlInfoVenta
+            // 
+            pnlInfoVenta.BackColor = Color.PaleGoldenrod;
+            pnlInfoVenta.Controls.Add(lblFecha);
+            pnlInfoVenta.Controls.Add(lblHora);
+            pnlInfoVenta.Controls.Add(lblUsuario);
+            pnlInfoVenta.Dock = DockStyle.Top;
+            pnlInfoVenta.Location = new Point(0, 0);
+            pnlInfoVenta.Name = "pnlInfoVenta";
+            pnlInfoVenta.Size = new Size(323, 53);
+            pnlInfoVenta.TabIndex = 4;
+            // 
+            // lblFecha
+            // 
+            lblFecha.AutoSize = true;
+            lblFecha.Location = new Point(214, 16);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(38, 15);
+            lblFecha.TabIndex = 2;
+            lblFecha.Text = "label1";
+            // 
+            // lblHora
+            // 
+            lblHora.AutoSize = true;
+            lblHora.Location = new Point(120, 16);
+            lblHora.Name = "lblHora";
+            lblHora.Size = new Size(38, 15);
+            lblHora.TabIndex = 1;
+            lblHora.Text = "label1";
+            // 
+            // lblUsuario
+            // 
+            lblUsuario.AutoSize = true;
+            lblUsuario.Location = new Point(3, 16);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(38, 15);
+            lblUsuario.TabIndex = 0;
+            lblUsuario.Text = "label1";
             // 
             // dgvVenta
             // 
             dgvVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvVenta.Columns.AddRange(new DataGridViewColumn[] { Cantidad, Producto, Precio, Descuento });
-            dgvVenta.Dock = DockStyle.Top;
-            dgvVenta.Location = new Point(0, 24);
+            dgvVenta.Dock = DockStyle.Bottom;
+            dgvVenta.Location = new Point(0, 207);
             dgvVenta.Name = "dgvVenta";
             dgvVenta.RowHeadersWidth = 51;
-            dgvVenta.Size = new Size(246, 254);
+            dgvVenta.Size = new Size(323, 254);
             dgvVenta.TabIndex = 1;
             // 
             // Cantidad
@@ -112,9 +152,8 @@
             // lblLineaVenta
             // 
             lblLineaVenta.AutoSize = true;
-            lblLineaVenta.Dock = DockStyle.Top;
             lblLineaVenta.Font = new Font("Microsoft Sans Serif", 14.25F);
-            lblLineaVenta.Location = new Point(0, 0);
+            lblLineaVenta.Location = new Point(3, 56);
             lblLineaVenta.Name = "lblLineaVenta";
             lblLineaVenta.Size = new Size(137, 24);
             lblLineaVenta.TabIndex = 0;
@@ -125,9 +164,10 @@
             flpProductos.AutoScroll = true;
             flpProductos.AutoSize = true;
             flpProductos.BackColor = Color.AntiqueWhite;
-            flpProductos.Location = new Point(246, 51);
+            flpProductos.Dock = DockStyle.Fill;
+            flpProductos.Location = new Point(323, 0);
             flpProductos.Name = "flpProductos";
-            flpProductos.Size = new Size(438, 315);
+            flpProductos.Size = new Size(561, 461);
             flpProductos.TabIndex = 1;
             // 
             // pnlDetalle
@@ -217,9 +257,9 @@
             panel1.Controls.Add(btnCobrar);
             panel1.Controls.Add(lblTotal);
             panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(246, 361);
+            panel1.Location = new Point(323, 361);
             panel1.Name = "panel1";
-            panel1.Size = new Size(438, 100);
+            panel1.Size = new Size(361, 100);
             panel1.TabIndex = 3;
             // 
             // btnCancelar
@@ -263,51 +303,11 @@
             lblTotal.TabIndex = 0;
             lblTotal.Text = "label1";
             // 
-            // pnlInfoVenta
-            // 
-            pnlInfoVenta.BackColor = Color.PaleGoldenrod;
-            pnlInfoVenta.Controls.Add(lblFecha);
-            pnlInfoVenta.Controls.Add(lblHora);
-            pnlInfoVenta.Controls.Add(lblUsuario);
-            pnlInfoVenta.Dock = DockStyle.Top;
-            pnlInfoVenta.Location = new Point(246, 0);
-            pnlInfoVenta.Name = "pnlInfoVenta";
-            pnlInfoVenta.Size = new Size(438, 53);
-            pnlInfoVenta.TabIndex = 4;
-            // 
-            // lblFecha
-            // 
-            lblFecha.AutoSize = true;
-            lblFecha.Location = new Point(305, 19);
-            lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(38, 15);
-            lblFecha.TabIndex = 2;
-            lblFecha.Text = "label1";
-            // 
-            // lblHora
-            // 
-            lblHora.AutoSize = true;
-            lblHora.Location = new Point(154, 15);
-            lblHora.Name = "lblHora";
-            lblHora.Size = new Size(38, 15);
-            lblHora.TabIndex = 1;
-            lblHora.Text = "label1";
-            // 
-            // lblUsuario
-            // 
-            lblUsuario.AutoSize = true;
-            lblUsuario.Location = new Point(23, 15);
-            lblUsuario.Name = "lblUsuario";
-            lblUsuario.Size = new Size(38, 15);
-            lblUsuario.TabIndex = 0;
-            lblUsuario.Text = "label1";
-            // 
             // FrmPuntoVenta
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(884, 461);
-            Controls.Add(pnlInfoVenta);
             Controls.Add(panel1);
             Controls.Add(pnlDetalle);
             Controls.Add(flpProductos);
@@ -316,14 +316,14 @@
             Text = "FrmPuntoVenta";
             pnlLineaVenta.ResumeLayout(false);
             pnlLineaVenta.PerformLayout();
+            pnlInfoVenta.ResumeLayout(false);
+            pnlInfoVenta.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVenta).EndInit();
             pnlDetalle.ResumeLayout(false);
             pnlDetalle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picDetalle).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            pnlInfoVenta.ResumeLayout(false);
-            pnlInfoVenta.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
