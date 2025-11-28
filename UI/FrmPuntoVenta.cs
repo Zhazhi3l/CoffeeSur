@@ -349,14 +349,12 @@ namespace CoffeeSur.UI
                     card.Precio = p.Precio;
                     card.IdProducto = p.IdProducto;
 
-                    // Convertir imagen (si existe)
                     if (p.Imagen != null)
                         card.Imagen = _servicioProductos.ConvertirBytesAImagen(p.Imagen);
 
-                    // Evento Click en la tarjeta
                     card.ProductoClick += (s, e) =>
                     {
-                        SeleccionarProductoDesdeCatalogo(p); // Pasamos el objeto completo del cache
+                        SeleccionarProductoDesdeCatalogo(p);
                         AgregarProductoALaVenta(p);
                     };
 

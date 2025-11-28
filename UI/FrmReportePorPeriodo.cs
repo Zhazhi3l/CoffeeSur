@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoffeeSur.Servicios;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,10 @@ namespace CoffeeSur.UI
 {
     public partial class FrmReportePorPeriodo : Form
     {
+        VentaService _servicioVenta = new VentaService();
+        ProductoService _servicioProducto = new ProductoService();
+        
+
         public FrmReportePorPeriodo()
         {
             InitializeComponent();
