@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoffeeSur.DTO
 {
-    public class ReporteVentaProductoDTO
+    public class ReporteVentaProductoPorPeriodoDTO
     {
         public int IdProducto { get; set; }
         public string ClaveProducto { get; set; }

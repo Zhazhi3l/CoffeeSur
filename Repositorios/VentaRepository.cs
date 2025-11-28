@@ -216,9 +216,9 @@ namespace CoffeeSur.Repositorios
         ///             Suma de las unidades vendidas de ese producto.
         ///             Suma de venta total de ese producto.
         /// </returns>
-        public List<ReporteVentaProductoDTO> ObtenerVentasPorProductoPorPeriodo(DateTime fechaInicio, DateTime fechaFin)
+        public List<ReporteVentaProductoPorPeriodoDTO> ObtenerVentasPorProductoPorPeriodo(DateTime fechaInicio, DateTime fechaFin)
         {
-            List<ReporteVentaProductoDTO> reporte = new List<ReporteVentaProductoDTO>();
+            List<ReporteVentaProductoPorPeriodoDTO> reporte = new List<ReporteVentaProductoPorPeriodoDTO>();
             using (MySqlConnection conx = _conexion.GetConexion())
             {
                 using (MySqlCommand cmd = new MySqlCommand("sp_ReporteVentasPorProducto", conx))
@@ -231,7 +231,7 @@ namespace CoffeeSur.Repositorios
                     {
                         while (reader.Read())
                         {
-                            reporte.Add(new ReporteVentaProductoDTO
+                            reporte.Add(new ReporteVentaProductoPorPeriodoDTO
                             {
                                 IdProducto = Convert.ToInt32(reader["IdProducto"]),
                                 ClaveProducto = reader["ClaveProducto"].ToString(),
