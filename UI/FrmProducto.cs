@@ -85,7 +85,7 @@ namespace CoffeeSur.UI
                     Activo = chkActivo.Checked,
                     Imagen = pbImagen.Image != null
                         ? _productoService.ConvertirImagenABytes(pbImagen.Image)
-                        : _productoEditar?.Imagen 
+                        : _productoEditar?.Imagen
                 };
 
                 if (_productoEditar == null)
@@ -119,6 +119,16 @@ namespace CoffeeSur.UI
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
