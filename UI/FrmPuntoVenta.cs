@@ -316,7 +316,14 @@ namespace CoffeeSur.UI
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Show();
+        }
+
+        private void FrmPuntoVenta_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            FrmLogin login = new FrmLogin();
+            login.Show();
         }
 
         private void FrmPuntoVenta_Load(object sender, EventArgs e)

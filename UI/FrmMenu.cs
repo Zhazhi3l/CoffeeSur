@@ -66,5 +66,12 @@ namespace CoffeeSur.UI
             login.Show();
             this.Close();
         }
+
+        private void FrmMenu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            FrmLogin login = new FrmLogin();
+            login.Show();
+        }
     }
 }
