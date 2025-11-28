@@ -340,6 +340,14 @@ BEGIN
     WHERE IdVenta = p_IdVenta;
 END$$
 
+CREATE PROCEDURE sp_VentasHoy()
+BEGIN
+    SELECT IdVenta, IdUsuario, FechaVenta, Total
+    FROM Ventas
+    WHERE DATE(FechaVenta) = CURDATE()
+    ORDER BY FechaVenta DESC;
+END$$
+
 DELIMITER ;
 -- =============================================
 -- 2.4. STORED PROCEDURES: AUDITORÍA

@@ -24,6 +24,10 @@ namespace CoffeeSur.UI
 
         private void FrmGestionVentas_Load(object sender, EventArgs e)
         {
+            cmbFiltros.Items.Clear();
+            cmbFiltros.Items.Add("Ninguno (Todas)");
+            cmbFiltros.Items.Add("Ventas de hoy");
+            cmbFiltros.SelectedIndex = 0;
             CargarVentasEnGrid();
         }
 
@@ -36,10 +40,38 @@ namespace CoffeeSur.UI
 
         private void cmbFiltros_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbFiltros.SelectedIndex.ToString().Equals("Ventas de hoy"))
+            try
             {
-                Venta = _ventaService.ObtenerVentasDeHoy(DateTime.Today);
+                if (cmbFiltros.SelectedItem.ToString() == "Ventas de hoy")
+                {
+                    ventas = _ventaService.ObtenerVentasDeHoy();
+                    dgvTablaVentas.DataSource = ventas;
+                }
+                else
+                {
+                    CargarVentasEnGrid();
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dgvTablaVentas_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvTablaVentas.CurrentRow == null) return;
+
+            Venta ventaSeleccionada = (Venta)dgvTablaVentas.CurrentRow.DataBoundItem;
+
+            if (ventaSeleccionada.Detalles == null || ventaSeleccionada.Detalles.Count == 0)
+            {
+                MessageBox.Show("La venta seleccionada no tiene detalles.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            dgvDetallesVenta.DataSource = ventaSeleccionada.Detalles;
+            tabCtrlVentas.SelectedTab = tabPgDetallesVenta;
         }
     }
 }

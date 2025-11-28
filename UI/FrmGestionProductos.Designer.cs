@@ -46,20 +46,21 @@
             dgvProductos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvProductos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvProductos.Dock = DockStyle.Fill;
-            dgvProductos.Location = new Point(90, 135);
+            dgvProductos.Location = new Point(46, 135);
             dgvProductos.Margin = new Padding(3, 4, 3, 4);
             dgvProductos.MultiSelect = false;
             dgvProductos.Name = "dgvProductos";
+            dgvProductos.RowHeadersVisible = false;
             dgvProductos.RowHeadersWidth = 51;
             dgvProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProductos.Size = new Size(691, 359);
+            dgvProductos.Size = new Size(778, 359);
             dgvProductos.TabIndex = 0;
             // 
             // btnAgregar
             // 
             btnAgregar.AutoSize = true;
             btnAgregar.BackColor = Color.PaleGoldenrod;
-            btnAgregar.Dock = DockStyle.Fill;
+            btnAgregar.Dock = DockStyle.Bottom;
             btnAgregar.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnAgregar.Image = (Image)resources.GetObject("btnAgregar.Image");
             btnAgregar.ImageAlign = ContentAlignment.MiddleLeft;
@@ -67,7 +68,7 @@
             btnAgregar.Margin = new Padding(5, 4, 5, 4);
             btnAgregar.Name = "btnAgregar";
             btnAgregar.Padding = new Padding(5, 0, 5, 0);
-            btnAgregar.Size = new Size(220, 71);
+            btnAgregar.Size = new Size(249, 71);
             btnAgregar.TabIndex = 3;
             btnAgregar.Text = "Agregar";
             btnAgregar.TextAlign = ContentAlignment.MiddleRight;
@@ -78,15 +79,15 @@
             // 
             btnModificar.AutoSize = true;
             btnModificar.BackColor = Color.PaleGoldenrod;
-            btnModificar.Dock = DockStyle.Fill;
+            btnModificar.Dock = DockStyle.Bottom;
             btnModificar.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnModificar.Image = (Image)resources.GetObject("btnModificar.Image");
             btnModificar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnModificar.Location = new Point(235, 13);
+            btnModificar.Location = new Point(264, 13);
             btnModificar.Margin = new Padding(5, 4, 5, 4);
             btnModificar.Name = "btnModificar";
             btnModificar.Padding = new Padding(5, 0, 5, 0);
-            btnModificar.Size = new Size(220, 71);
+            btnModificar.Size = new Size(249, 71);
             btnModificar.TabIndex = 4;
             btnModificar.Text = "Modificar";
             btnModificar.TextAlign = ContentAlignment.MiddleRight;
@@ -97,15 +98,15 @@
             // 
             btnEliminar.AutoSize = true;
             btnEliminar.BackColor = Color.PaleGoldenrod;
-            btnEliminar.Dock = DockStyle.Fill;
+            btnEliminar.Dock = DockStyle.Bottom;
             btnEliminar.Font = new Font("Microsoft Sans Serif", 14.25F);
             btnEliminar.Image = (Image)resources.GetObject("btnEliminar.Image");
             btnEliminar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnEliminar.Location = new Point(465, 13);
+            btnEliminar.Location = new Point(523, 13);
             btnEliminar.Margin = new Padding(5, 4, 5, 4);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Padding = new Padding(5, 0, 5, 0);
-            btnEliminar.Size = new Size(221, 71);
+            btnEliminar.Size = new Size(250, 71);
             btnEliminar.TabIndex = 5;
             btnEliminar.Text = "Eliminar";
             btnEliminar.TextAlign = ContentAlignment.MiddleRight;
@@ -115,9 +116,9 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 3;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 1);
             tableLayoutPanel1.Controls.Add(dgvProductos, 1, 2);
             tableLayoutPanel1.Dock = DockStyle.Fill;
@@ -141,13 +142,13 @@
             tableLayoutPanel2.Controls.Add(btnModificar, 1, 1);
             tableLayoutPanel2.Controls.Add(btnEliminar, 2, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
-            tableLayoutPanel2.Location = new Point(90, 29);
+            tableLayoutPanel2.Location = new Point(46, 29);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 3;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 10F));
-            tableLayoutPanel2.Size = new Size(691, 99);
+            tableLayoutPanel2.Size = new Size(778, 99);
             tableLayoutPanel2.TabIndex = 7;
             // 
             // FrmGestionProductos

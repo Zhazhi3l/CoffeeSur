@@ -153,12 +153,13 @@ namespace CoffeeSur.Servicios
         {
             try
             {
-                List<Venta> ventasHoy = _ventaRepo.ObtenerVentasDeHoy(hoy);
-                return ventasHoy;
+
+                return _ventaRepo.ObtenerVentasDeHoy();
             }
             catch (Exception ex)
             {
                 throw new Exception("Error al obtener la venta de hoy: " + ex.Message);
             }
+        }
     }
 }

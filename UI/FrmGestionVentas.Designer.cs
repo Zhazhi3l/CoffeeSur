@@ -30,14 +30,22 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             tableLayoutPanel2 = new TableLayoutPanel();
-            dgvTablaVentas = new DataGridView();
             tableLayoutPanel3 = new TableLayoutPanel();
             cmbFiltros = new ComboBox();
             label1 = new Label();
+            tabCtrlVentas = new TabControl();
+            tabPgVentas = new TabPage();
+            dgvTablaVentas = new DataGridView();
+            tabPgDetallesVenta = new TabPage();
+            dgvDetallesVenta = new DataGridView();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvTablaVentas).BeginInit();
             tableLayoutPanel3.SuspendLayout();
+            tabCtrlVentas.SuspendLayout();
+            tabPgVentas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTablaVentas).BeginInit();
+            tabPgDetallesVenta.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDetallesVenta).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -62,8 +70,8 @@
             // 
             tableLayoutPanel2.ColumnCount = 1;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Controls.Add(dgvTablaVentas, 0, 1);
             tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 0, 0);
+            tableLayoutPanel2.Controls.Add(tabCtrlVentas, 0, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(43, 25);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -72,23 +80,6 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 85F));
             tableLayoutPanel2.Size = new Size(714, 399);
             tableLayoutPanel2.TabIndex = 0;
-            // 
-            // dgvTablaVentas
-            // 
-            dgvTablaVentas.AllowUserToAddRows = false;
-            dgvTablaVentas.AllowUserToDeleteRows = false;
-            dgvTablaVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCellsExceptHeader;
-            dgvTablaVentas.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            dgvTablaVentas.BackgroundColor = Color.Peru;
-            dgvTablaVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTablaVentas.Dock = DockStyle.Fill;
-            dgvTablaVentas.Location = new Point(3, 62);
-            dgvTablaVentas.Name = "dgvTablaVentas";
-            dgvTablaVentas.ReadOnly = true;
-            dgvTablaVentas.RowHeadersVisible = false;
-            dgvTablaVentas.RowHeadersWidth = 51;
-            dgvTablaVentas.Size = new Size(708, 334);
-            dgvTablaVentas.TabIndex = 0;
             // 
             // tableLayoutPanel3
             // 
@@ -126,6 +117,75 @@
             label1.TabIndex = 1;
             label1.Text = "Filtros";
             // 
+            // tabCtrlVentas
+            // 
+            tabCtrlVentas.Controls.Add(tabPgVentas);
+            tabCtrlVentas.Controls.Add(tabPgDetallesVenta);
+            tabCtrlVentas.Dock = DockStyle.Fill;
+            tabCtrlVentas.Location = new Point(3, 62);
+            tabCtrlVentas.Name = "tabCtrlVentas";
+            tabCtrlVentas.SelectedIndex = 0;
+            tabCtrlVentas.Size = new Size(708, 334);
+            tabCtrlVentas.TabIndex = 2;
+            // 
+            // tabPgVentas
+            // 
+            tabPgVentas.Controls.Add(dgvTablaVentas);
+            tabPgVentas.Location = new Point(4, 29);
+            tabPgVentas.Name = "tabPgVentas";
+            tabPgVentas.Padding = new Padding(3);
+            tabPgVentas.Size = new Size(700, 301);
+            tabPgVentas.TabIndex = 0;
+            tabPgVentas.Text = "Ventas";
+            tabPgVentas.UseVisualStyleBackColor = true;
+            // 
+            // dgvTablaVentas
+            // 
+            dgvTablaVentas.AllowUserToAddRows = false;
+            dgvTablaVentas.AllowUserToDeleteRows = false;
+            dgvTablaVentas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvTablaVentas.BackgroundColor = Color.Peru;
+            dgvTablaVentas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvTablaVentas.Dock = DockStyle.Fill;
+            dgvTablaVentas.Location = new Point(3, 3);
+            dgvTablaVentas.MultiSelect = false;
+            dgvTablaVentas.Name = "dgvTablaVentas";
+            dgvTablaVentas.ReadOnly = true;
+            dgvTablaVentas.RowHeadersVisible = false;
+            dgvTablaVentas.RowHeadersWidth = 51;
+            dgvTablaVentas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTablaVentas.Size = new Size(694, 295);
+            dgvTablaVentas.TabIndex = 0;
+            dgvTablaVentas.SelectionChanged += dgvTablaVentas_SelectionChanged;
+            // 
+            // tabPgDetallesVenta
+            // 
+            tabPgDetallesVenta.Controls.Add(dgvDetallesVenta);
+            tabPgDetallesVenta.Location = new Point(4, 29);
+            tabPgDetallesVenta.Name = "tabPgDetallesVenta";
+            tabPgDetallesVenta.Padding = new Padding(3);
+            tabPgDetallesVenta.Size = new Size(700, 301);
+            tabPgDetallesVenta.TabIndex = 1;
+            tabPgDetallesVenta.Text = "Detalles de Venta";
+            tabPgDetallesVenta.UseVisualStyleBackColor = true;
+            // 
+            // dgvDetallesVenta
+            // 
+            dgvDetallesVenta.AllowUserToAddRows = false;
+            dgvDetallesVenta.AllowUserToDeleteRows = false;
+            dgvDetallesVenta.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetallesVenta.BackgroundColor = Color.Peru;
+            dgvDetallesVenta.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDetallesVenta.Dock = DockStyle.Fill;
+            dgvDetallesVenta.Location = new Point(3, 3);
+            dgvDetallesVenta.MultiSelect = false;
+            dgvDetallesVenta.Name = "dgvDetallesVenta";
+            dgvDetallesVenta.ReadOnly = true;
+            dgvDetallesVenta.RowHeadersVisible = false;
+            dgvDetallesVenta.RowHeadersWidth = 51;
+            dgvDetallesVenta.Size = new Size(694, 295);
+            dgvDetallesVenta.TabIndex = 1;
+            // 
             // FrmGestionVentas
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -137,9 +197,13 @@
             Load += FrmGestionVentas_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dgvTablaVentas).EndInit();
             tableLayoutPanel3.ResumeLayout(false);
             tableLayoutPanel3.PerformLayout();
+            tabCtrlVentas.ResumeLayout(false);
+            tabPgVentas.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvTablaVentas).EndInit();
+            tabPgDetallesVenta.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvDetallesVenta).EndInit();
             ResumeLayout(false);
         }
 
@@ -151,5 +215,9 @@
         private TableLayoutPanel tableLayoutPanel3;
         private ComboBox cmbFiltros;
         private Label label1;
+        private TabControl tabCtrlVentas;
+        private TabPage tabPgVentas;
+        private TabPage tabPgDetallesVenta;
+        private DataGridView dgvDetallesVenta;
     }
 }
