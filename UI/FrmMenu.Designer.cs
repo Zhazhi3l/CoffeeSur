@@ -36,6 +36,7 @@
             btnReportePorPedido = new Button();
             btnReporteComparatibo = new Button();
             btnConsultar = new Button();
+            btnLogout = new Button();
             SuspendLayout();
             // 
             // btnGestionUsuarios
@@ -45,7 +46,7 @@
             btnGestionUsuarios.Font = new Font("Footlight MT Light", 14.25F);
             btnGestionUsuarios.Image = (Image)resources.GetObject("btnGestionUsuarios.Image");
             btnGestionUsuarios.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestionUsuarios.Location = new Point(31, 48);
+            btnGestionUsuarios.Location = new Point(31, 68);
             btnGestionUsuarios.Name = "btnGestionUsuarios";
             btnGestionUsuarios.Size = new Size(219, 47);
             btnGestionUsuarios.TabIndex = 0;
@@ -61,7 +62,7 @@
             btnGestionProductos.Font = new Font("Footlight MT Light", 14.25F);
             btnGestionProductos.Image = (Image)resources.GetObject("btnGestionProductos.Image");
             btnGestionProductos.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestionProductos.Location = new Point(278, 48);
+            btnGestionProductos.Location = new Point(278, 68);
             btnGestionProductos.Name = "btnGestionProductos";
             btnGestionProductos.Size = new Size(219, 47);
             btnGestionProductos.TabIndex = 1;
@@ -77,7 +78,7 @@
             btnGestionVentas.Font = new Font("Footlight MT Light", 14.25F);
             btnGestionVentas.Image = (Image)resources.GetObject("btnGestionVentas.Image");
             btnGestionVentas.ImageAlign = ContentAlignment.MiddleLeft;
-            btnGestionVentas.Location = new Point(31, 125);
+            btnGestionVentas.Location = new Point(31, 156);
             btnGestionVentas.Name = "btnGestionVentas";
             btnGestionVentas.Size = new Size(219, 47);
             btnGestionVentas.TabIndex = 2;
@@ -103,7 +104,7 @@
             btnReportePorPedido.Font = new Font("Footlight MT Light", 14.25F);
             btnReportePorPedido.Image = (Image)resources.GetObject("btnReportePorPedido.Image");
             btnReportePorPedido.ImageAlign = ContentAlignment.MiddleLeft;
-            btnReportePorPedido.Location = new Point(278, 125);
+            btnReportePorPedido.Location = new Point(278, 156);
             btnReportePorPedido.Name = "btnReportePorPedido";
             btnReportePorPedido.Size = new Size(219, 47);
             btnReportePorPedido.TabIndex = 4;
@@ -119,7 +120,7 @@
             btnReporteComparatibo.Font = new Font("Footlight MT Light", 14.25F);
             btnReporteComparatibo.Image = (Image)resources.GetObject("btnReporteComparatibo.Image");
             btnReporteComparatibo.ImageAlign = ContentAlignment.MiddleLeft;
-            btnReporteComparatibo.Location = new Point(278, 201);
+            btnReporteComparatibo.Location = new Point(278, 234);
             btnReporteComparatibo.Name = "btnReporteComparatibo";
             btnReporteComparatibo.Size = new Size(219, 47);
             btnReporteComparatibo.TabIndex = 5;
@@ -135,7 +136,7 @@
             btnConsultar.Font = new Font("Footlight MT Light", 14.25F);
             btnConsultar.Image = (Image)resources.GetObject("btnConsultar.Image");
             btnConsultar.ImageAlign = ContentAlignment.MiddleLeft;
-            btnConsultar.Location = new Point(31, 201);
+            btnConsultar.Location = new Point(31, 234);
             btnConsultar.Name = "btnConsultar";
             btnConsultar.Size = new Size(219, 47);
             btnConsultar.TabIndex = 6;
@@ -144,12 +145,28 @@
             btnConsultar.UseVisualStyleBackColor = false;
             btnConsultar.Click += btnConsultar_Click;
             // 
+            // btnLogout
+            // 
+            btnLogout.BackColor = Color.PaleGoldenrod;
+            btnLogout.Font = new Font("Footlight MT Light", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnLogout.Image = (Image)resources.GetObject("btnLogout.Image");
+            btnLogout.ImageAlign = ContentAlignment.MiddleLeft;
+            btnLogout.Location = new Point(386, 1);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(134, 39);
+            btnLogout.TabIndex = 7;
+            btnLogout.Text = "Cerrar sesión";
+            btnLogout.TextAlign = ContentAlignment.MiddleRight;
+            btnLogout.UseVisualStyleBackColor = false;
+            btnLogout.Click += btnLogout_Click;
+            // 
             // FrmMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.BurlyWood;
             ClientSize = new Size(520, 303);
+            Controls.Add(btnLogout);
             Controls.Add(btnConsultar);
             Controls.Add(btnReporteComparatibo);
             Controls.Add(btnReportePorPedido);
@@ -172,5 +189,6 @@
         private Button btnReportePorPedido;
         private Button btnReporteComparatibo;
         private Button btnConsultar;
+        private Button btnLogout;
     }
 }
