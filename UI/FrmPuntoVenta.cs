@@ -18,20 +18,26 @@ namespace CoffeeSur.UI
         private readonly ProductoService _servicioProductos = new ProductoService();
         private readonly UsuarioService _servicioUsuarios = new UsuarioService();
         private readonly VentaService _servicioVentas = new VentaService();
+
         private int usuarioLogueadoId;
         private Producto productoActual;
+        private List<Producto> _listaProductosGlobal;
 
         public FrmPuntoVenta(int idUsuario)
         {
             InitializeComponent();
             usuarioLogueadoId = idUsuario;
 
-            var usuario = _servicioUsuarios.BuscarUsuarioPorId(idUsuario);
-            lblUsuario.Text = $"Usuario: {usuario.Nombre}";
+            try
+            {
+                var usuario = _servicioUsuarios.BuscarUsuarioPorId(idUsuario);
+                lblUsuario.Text = $"Usuario: {usuario.Nombre}";
+            }catch 
+            {
+                lblUsuario.Text = "Usuario: Desconocido";
+            }
 
             ConfigurarReloj();
-
-            CargarProductosEnPanel();
             ConfigurarTablaVenta();
         }
 
@@ -84,7 +90,8 @@ namespace CoffeeSur.UI
             {
                 IdProducto = card.IdProducto,
                 Nombre = card.Nombre,
-                Precio = card.Precio
+                Precio = card.Precio,
+                Imagen = _servicioProductos.ConvertirImagenABytes(card.Imagen)
             };
         }
 
@@ -159,64 +166,44 @@ namespace CoffeeSur.UI
 
         private void btnMas_Click(object sender, EventArgs e)
         {
-            if (productoActual != null)
+            if (productoActual == null)
             {
-                foreach (DataGridViewRow row in dgvVenta.Rows)
-                {
-                    if (row.Cells["IdProducto"].Value != null &&
-                        Convert.ToInt32(row.Cells["IdProducto"].Value) == productoActual.IdProducto)
-                    {
-                        int cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value);
-                        decimal precio = Convert.ToDecimal(row.Cells["Precio"].Value);
-                        cantidad++;
-                        row.Cells["Cantidad"].Value = cantidad;
-                        row.Cells["Subtotal"].Value = cantidad * precio;
-                        CalcularTotal();
-                        return;
-                    }
-                }
+                MessageBox.Show("Seleccione un producto.");
+                return;
+            }
 
-                AgregarProductoALaVenta(productoActual.IdProducto, productoActual.Nombre, productoActual.Precio);
-            }
-            else
-            {
-                MessageBox.Show("Seleccione un producto primero.");
-            }
+            AgregarProductoALaVenta(productoActual);
         }
 
         private void btnMenos_Click(object sender, EventArgs e)
         {
-            if (productoActual != null)
-            {
-                foreach (DataGridViewRow row in dgvVenta.Rows)
-                {
-                    if (row.Cells["IdProducto"].Value != null &&
-                        Convert.ToInt32(row.Cells["IdProducto"].Value) == productoActual.IdProducto)
-                    {
-                        int cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value);
-                        decimal precio = Convert.ToDecimal(row.Cells["Precio"].Value);
+            if (productoActual == null) return;
 
-                        if (cantidad > 1)
-                        {
-                            cantidad--;
-                            row.Cells["Cantidad"].Value = cantidad;
-                            row.Cells["Subtotal"].Value = cantidad * precio;
-                        }
-                        else
-                        {
-                            dgvVenta.Rows.Remove(row);
-                        }
-                        CalcularTotal();
-                        return;
-                    }
-                }
-            }
-            else
+            foreach (DataGridViewRow row in dgvVenta.Rows)
             {
-                MessageBox.Show("Seleccione un producto de la lista.");
+                if (Convert.ToInt32(row.Cells["IdProducto"].Value) == productoActual.IdProducto)
+                {
+                    int cantidad = Convert.ToInt32(row.Cells["Cantidad"].Value);
+                    decimal precio = Convert.ToDecimal(row.Cells["Precio"].Value);
+
+                    if (cantidad > 1)
+                    {
+                        cantidad--;
+                        row.Cells["Cantidad"].Value = cantidad;
+                        row.Cells["Subtotal"].Value = cantidad * precio;
+                    }
+                    else
+                    {
+                        dgvVenta.Rows.Remove(row);
+                        if (dgvVenta.Rows.Count == 0) productoActual = null;
+                    }
+                    CalcularTotal();
+                    return;
+                }
             }
         }
 
+        /*
         private void dgvVenta_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.RowIndex < dgvVenta.Rows.Count)
@@ -254,6 +241,7 @@ namespace CoffeeSur.UI
                 }
             }
         }
+        */
 
         private void btnCobrar_Click(object sender, EventArgs e)
         {
@@ -336,6 +324,125 @@ namespace CoffeeSur.UI
             this.Hide();
             FrmLogin login = new FrmLogin();
             login.Show();
+        }
+
+        private void FrmPuntoVenta_Load(object sender, EventArgs e)
+        {
+            RefrescarCatalogoProductos();
+        }
+
+        private void RefrescarCatalogoProductos()
+        {
+            try
+            {
+                _listaProductosGlobal = _servicioProductos
+                    .ObtenerTodosProductos()
+                    .Where(p => p.Stock > 0 && p.Activo)
+                    .ToList();
+
+                flpProductos.Controls.Clear();
+                foreach (var p in _listaProductosGlobal)
+                {
+                    ProductoCard card = new ProductoCard();
+                    card.Nombre = p.Nombre;
+                    card.Precio = p.Precio;
+                    card.IdProducto = p.IdProducto;
+
+                    // Convertir imagen (si existe)
+                    if (p.Imagen != null)
+                        card.Imagen = _servicioProductos.ConvertirBytesAImagen(p.Imagen);
+
+                    // Evento Click en la tarjeta
+                    card.ProductoClick += (s, e) =>
+                    {
+                        SeleccionarProductoDesdeCatalogo(p); // Pasamos el objeto completo del cache
+                        AgregarProductoALaVenta(p);
+                    };
+
+                    flpProductos.Controls.Add(card);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar productos: " + ex.Message);
+            }
+        }
+
+        private void AgregarProductoALaVenta(Producto prod)
+        {
+            if (prod.Stock <= 0)
+            {
+                MessageBox.Show("Producto agotado.");
+                return;
+            }
+
+            bool encontrado = false;
+            foreach (DataGridViewRow row in dgvVenta.Rows)
+            {
+                if (Convert.ToInt32(row.Cells["IdProducto"].Value) == prod.IdProducto)
+                {
+                    int cantidadActual = Convert.ToInt32(row.Cells["Cantidad"].Value);
+
+                    if (cantidadActual + 1 > prod.Stock)
+                    {
+                        MessageBox.Show($"Stock insuficiente. Disponibles: {prod.Stock}");
+                        return;
+                    }
+
+                    cantidadActual++;
+                    row.Cells["Cantidad"].Value = cantidadActual;
+                    row.Cells["Subtotal"].Value = cantidadActual * prod.Precio;
+                    encontrado = true;
+                    break;
+                }
+            }
+
+            if (!encontrado)
+            {
+                dgvVenta.Rows.Add(prod.IdProducto, prod.Nombre, prod.Precio, 1, prod.Precio);
+            }
+
+            CalcularTotal();
+        }
+
+        private void ActualizarPanelDetalle()
+        {
+            if (productoActual == null) return;
+
+            lblDetalleNombre.Text = productoActual.Nombre;
+            lblDetallePrecio.Text = $"{productoActual.Precio:C2}";
+            lblDetalleId.Text = productoActual.IdProducto.ToString();
+
+            if (productoActual.Imagen != null && productoActual.Imagen.Length > 0)
+            {
+                picDetalle.Image = _servicioProductos.ConvertirBytesAImagen(productoActual.Imagen);
+            }
+            else
+            {
+                picDetalle.Image = null;
+            }
+        }
+
+        private void SeleccionarProductoDesdeCatalogo(Producto prod)
+        {
+            productoActual = prod;
+            ActualizarPanelDetalle();
+        }
+
+        private void dgvVenta_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvVenta.CurrentRow != null && dgvVenta.CurrentRow.Cells["IdProducto"].Value != null)
+            {
+                int idSeleccionado = Convert.ToInt32(dgvVenta.CurrentRow.Cells["IdProducto"].Value);
+
+                Producto prodEnCache = _listaProductosGlobal.FirstOrDefault(p => p.IdProducto == idSeleccionado);
+
+                if (prodEnCache != null)
+                {
+                    productoActual = prodEnCache;
+                    ActualizarPanelDetalle();
+                }
+            }
         }
     }
 }
