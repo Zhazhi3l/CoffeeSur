@@ -176,6 +176,7 @@
             Controls.Add(btnGestionUsuarios);
             Name = "FrmMenu";
             Text = "FrmMenu";
+            FormClosing += FrmMenu_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -16,7 +16,7 @@ namespace CoffeeSur.UI
     public partial class FrmPuntoVenta : Form
     {
         private readonly ProductoService _servicioProductos = new ProductoService();
-        private readonly UsuarioService _servicioUsuarios= new UsuarioService();
+        private readonly UsuarioService _servicioUsuarios = new UsuarioService();
         private readonly VentaService _servicioVentas = new VentaService();
         private int usuarioLogueadoId;
         private Producto productoActual;
@@ -52,7 +52,7 @@ namespace CoffeeSur.UI
             flpProductos.Controls.Clear();
             List<Producto> productos = _servicioProductos
                 .ObtenerTodosProductos()
-                .Where(p => p.Stock > 0)    
+                .Where(p => p.Stock > 0)
                 .ToList();
 
             foreach (var p in productos)
@@ -300,7 +300,7 @@ namespace CoffeeSur.UI
 
                 _servicioVentas.RealizarVenta(venta);
 
-                CargarProductosEnPanel(); 
+                CargarProductosEnPanel();
 
 
                 MessageBox.Show($"Venta cobrada correctamente.\nTotal: {venta.Total:C2}",
@@ -328,7 +328,14 @@ namespace CoffeeSur.UI
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            this.Show();
+        }
+
+        private void FrmPuntoVenta_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.Hide();
+            FrmLogin login = new FrmLogin();
+            login.Show();
         }
     }
 }

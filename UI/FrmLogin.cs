@@ -64,5 +64,15 @@ namespace CoffeeSur.UI
                 MessageBox.Show("Error: " + ex.Message, "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void FrmLogin_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            
+        }
+
+        private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

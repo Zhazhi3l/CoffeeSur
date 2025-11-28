@@ -314,6 +314,7 @@
             Controls.Add(pnlLineaVenta);
             Name = "FrmPuntoVenta";
             Text = "FrmPuntoVenta";
+            FormClosing += FrmPuntoVenta_FormClosing;
             pnlLineaVenta.ResumeLayout(false);
             pnlLineaVenta.PerformLayout();
             pnlInfoVenta.ResumeLayout(false);
