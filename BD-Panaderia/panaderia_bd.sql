@@ -119,6 +119,23 @@ CREATE TABLE detalle_compra (
 );
 */
 
+-- Función para obtener el usuario
+DELIMITER $$
+CREATE FUNCTION fn_GetAppUser()
+RETURNS VARCHAR(50)
+DETERMINISTIC
+BEGIN
+    RETURN COALESCE(@app_user, 'SISTEMA');
+END$$
+
+-- Establece el usuario de la aplicacion
+CREATE PROCEDURE sp_SetAppUser(IN p_Username VARCHAR(50))
+BEGIN
+    SET @app_user = p_Username;
+END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------------------------------------------
 -- Funcionalidad de la BD
 
@@ -417,7 +434,7 @@ BEGIN
     VALUES (
         NEW.IdProducto, 
         'INSERT', 
-        USER(), 
+        fn_GetAppUser(), 
         CONCAT('Nuevo producto: ', NEW.Nombre, ' | Clave: ', NEW.Clave, ' | Precio: ', NEW.Precio, ' | Stock: ', NEW.Stock)
     );
 END$$
@@ -439,7 +456,7 @@ BEGIN
     );
     
     INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioBD, Detalles)
-    VALUES (NEW.IdProducto, 'UPDATE', USER(), detalles);
+    VALUES (NEW.IdProducto, 'UPDATE', fn_GetAppUser(), detalles);
 END$$
 
 CREATE TRIGGER trg_Auditoria_DeleteProducto
@@ -451,7 +468,7 @@ BEGIN
         VALUES (
             OLD.IdProducto, 
             'DELETE', 
-            USER(), 
+            fn_GetAppUser(), 
             CONCAT('Producto desactivado: ', OLD.Nombre, ' | Clave: ', OLD.Clave)
         );
     END IF;
@@ -471,7 +488,7 @@ BEGIN
     VALUES (
         NEW.IdUsuario, 
         'INSERT', 
-        USER(), 
+        fn_GetAppUser(), 
         CONCAT('Nuevo usuario: ', NEW.Nombre, ' ', NEW.Apellido, ' | Username: ', NEW.Username, ' | Rol: ', NEW.Rol)
     );
 END$$
@@ -493,7 +510,7 @@ BEGIN
     );
     
     INSERT INTO AuditoriaUsuarios (IdUsuario, Accion, UsuarioBD, Detalles)
-    VALUES (NEW.IdUsuario, 'UPDATE', USER(), detalles);
+    VALUES (NEW.IdUsuario, 'UPDATE', fn_GetAppUser(), detalles);
 END$$
 
 CREATE TRIGGER trg_Auditoria_DeleteUsuario
@@ -505,7 +522,7 @@ BEGIN
         VALUES (
             OLD.IdUsuario, 
             'DELETE', 
-            USER(), 
+            fn_GetAppUser(), 
             CONCAT('Usuario desactivado: ', OLD.Nombre, ' ', OLD.Apellido, ' | Username: ', OLD.Username)
         );
     END IF;
@@ -525,7 +542,7 @@ BEGIN
     VALUES (
         NEW.IdVenta, 
         'INSERT', 
-        USER(), 
+        fn_GetAppUser(), 
         CONCAT('Nueva venta registrada | Total: $', NEW.Total, ' | Fecha: ', NEW.FechaVenta)
     );
 END$$
@@ -544,7 +561,7 @@ BEGIN
     );
     
     INSERT INTO AuditoriaVentas (IdVenta, Accion, UsuarioBD, Detalles)
-    VALUES (NEW.IdVenta, 'UPDATE', USER(), detalles);
+    VALUES (NEW.IdVenta, 'UPDATE', fn_GetAppUser(), detalles);
 END$$
 
 CREATE TRIGGER trg_Auditoria_DeleteVenta
@@ -555,7 +572,7 @@ BEGIN
     VALUES (
         OLD.IdVenta, 
         'DELETE', 
-        USER(), 
+        fn_GetAppUser(), 
         CONCAT('Venta eliminada ID: ', OLD.IdVenta, ' | Total: $', OLD.Total, ' | Fecha: ', OLD.FechaVenta)
     );
 END$$
