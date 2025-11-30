@@ -217,6 +217,28 @@ namespace CoffeeSur.Repositorios
             return p;
         }
 
+        public bool AcualizarStock(int idProducto, int nuevaCantidad)
+        {
+            try
+            {
+                using (MySqlConnection conex = _conexion.GetConexion())
+                {
+                    using (MySqlCommand cmd = new MySqlCommand("sp_ActualizarStock", conex))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
 
+                        cmd.Parameters.AddWithValue("@p_IdProducto", idProducto);
+                        cmd.Parameters.AddWithValue("@p_NuevaCantidad", nuevaCantidad);
+
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -176,6 +176,35 @@ namespace CoffeeSur.Servicios
             }
         }
 
+        public void ActualizarStockProducto(int idProducto, int nuevaCantidadStock)
+        {
+            try
+            {
+                if (nuevaCantidadStock < 0)
+                {
+                    throw new Exception("La cantidad de stock no puede ser negativa.");
+                }
+                if (nuevaCantidadStock == 0)
+                {
+                    throw new Exception("La cantidad de stock no puede ser cero, ésto no realizará ningún cambio.");
+                }
+
+                bool actualizado = _repoProducto.AcualizarStock(idProducto, nuevaCantidadStock);
+                if (!actualizado)
+                {
+                    throw new Exception("No se encontró el producto para actualizar el stock.");
+                }
+            }
+            catch (MySqlException ex)
+            {
+                throw new Exception("Error de base de datos: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar el stock del producto: " + ex.Message);
+            }
+        }
+
         /// <summary>
         /// Verifica si existe stock suficiente para realizar una venta.
         /// Realiza la consulta a la base de datos para obtener el stock actual
