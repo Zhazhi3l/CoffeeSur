@@ -6,35 +6,28 @@ using System.Threading.Tasks;
 
 namespace CoffeeSur.Modelos
 {
-	public class SesionUsuario
+	public static class SesionUsuario
 	{
-		public int IdUsuario { get; set; }
-		public string Nombre { get; set; }
-		public string Username { get; set; }
-		public string Rol { get; set; }
-		public bool EstaAutenticado { get; set; }
+		public static int IdUsuario { get; set; }
+		public static string Username { get; set; }
+		public static string Nombre { get; set; }
+		public static string Rol { get; set; }
+		public static bool EstaLogueado => !string.IsNullOrEmpty(Username);
 
-		public SesionUsuario()
-		{
-			EstaAutenticado = false;
-		}
-
-		public void IniciarSesion(Usuario usuario)
+		public static void IniciarSesion(Usuario usuario)
 		{
 			IdUsuario = usuario.IdUsuario;
-			Nombre = usuario.Nombre;
 			Username = usuario.Username;
+			Nombre = usuario.Nombre;
 			Rol = usuario.Rol;
-			EstaAutenticado = true;
 		}
 
-		public void CerrarSesion()
+		public static void CerrarSesion()
 		{
 			IdUsuario = 0;
-			Nombre = string.Empty;
-			Username = string.Empty;
-			Rol = string.Empty;
-			EstaAutenticado = false;
+			Username = null;
+			Nombre = null;
+			Rol = null;
 		}
 	}
 }

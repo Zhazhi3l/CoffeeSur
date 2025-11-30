@@ -33,7 +33,12 @@ namespace CoffeeSur.Repositorios
 
                 try
                 {
-                    int idVentaGenerado = 0;
+					if (venta.IdUsuario <= 0 && Modelos.SesionUsuario.EstaLogueado)
+					{
+						venta.IdUsuario = Modelos.SesionUsuario.IdUsuario;
+					}
+
+					int idVentaGenerado = 0;
 
                     // 1. Insertar en tabla venta.
                     using (MySqlCommand cmdVenta = new MySqlCommand("sp_InsertarVenta", conn))

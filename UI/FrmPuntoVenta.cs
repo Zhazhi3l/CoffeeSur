@@ -322,7 +322,9 @@ namespace CoffeeSur.UI
 
         private void FrmPuntoVenta_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.Hide();
+			SesionUsuario.CerrarSesion();
+
+			this.Hide();
             FrmLogin login = new FrmLogin();
             login.Show();
         }

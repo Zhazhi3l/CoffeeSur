@@ -62,14 +62,18 @@ namespace CoffeeSur.UI
 
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            FrmLogin login = new FrmLogin();
+			SesionUsuario.CerrarSesion();
+
+			FrmLogin login = new FrmLogin();
             login.Show();
             this.Close();
         }
 
         private void FrmMenu_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.Hide();
+			SesionUsuario.CerrarSesion();
+
+			this.Hide();
             FrmLogin login = new FrmLogin();
             login.Show();
         }

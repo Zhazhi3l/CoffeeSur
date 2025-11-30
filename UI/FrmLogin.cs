@@ -1,5 +1,6 @@
 ﻿using CoffeeSur.Modelos;
 using CoffeeSur.Servicios;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -42,7 +43,12 @@ namespace CoffeeSur.UI
                     return;
                 }
 
-                MessageBox.Show($"Bienvenido {usuario.Nombre} ({usuario.Rol})");
+				SesionUsuario.IniciarSesion(usuario);
+
+				EstablecerUsuarioEnBD(usuario.Username);
+
+				MessageBox.Show($"Bienvenido {usuario.Nombre} ({usuario.Rol})");
+
 
                 if (usuario.Rol == "Admin")
                 {
@@ -70,7 +76,27 @@ namespace CoffeeSur.UI
             
         }
 
-        private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
+		private void EstablecerUsuarioEnBD(string username)
+		{
+			try
+			{
+				using (var conexion = new Repositorios.ConexionBD().GetConexion())
+				{
+					using (var cmd = new MySqlCommand("sp_SetAppUser", conexion))
+					{
+						cmd.CommandType = CommandType.StoredProcedure;
+						cmd.Parameters.AddWithValue("@p_Username", username);
+						cmd.ExecuteNonQuery();
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error al establecer usuario en BD: " + ex.Message);
+			}
+		}
+
+		private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
         }

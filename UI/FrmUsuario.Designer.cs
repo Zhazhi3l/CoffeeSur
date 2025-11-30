@@ -45,21 +45,21 @@ namespace CoffeeSur.UI
 			btnAceptar = new Button();
 			btnCancelar = new Button();
 			tableLayoutPanel1 = new TableLayoutPanel();
+			tableLayoutPanel8 = new TableLayoutPanel();
+			tableLayoutPanel5 = new TableLayoutPanel();
+			tableLayoutPanel7 = new TableLayoutPanel();
 			tableLayoutPanel2 = new TableLayoutPanel();
+			tableLayoutPanel6 = new TableLayoutPanel();
 			tableLayoutPanel3 = new TableLayoutPanel();
 			tableLayoutPanel4 = new TableLayoutPanel();
-			tableLayoutPanel5 = new TableLayoutPanel();
-			tableLayoutPanel6 = new TableLayoutPanel();
-			tableLayoutPanel7 = new TableLayoutPanel();
-			tableLayoutPanel8 = new TableLayoutPanel();
 			tableLayoutPanel1.SuspendLayout();
+			tableLayoutPanel8.SuspendLayout();
+			tableLayoutPanel5.SuspendLayout();
+			tableLayoutPanel7.SuspendLayout();
 			tableLayoutPanel2.SuspendLayout();
+			tableLayoutPanel6.SuspendLayout();
 			tableLayoutPanel3.SuspendLayout();
 			tableLayoutPanel4.SuspendLayout();
-			tableLayoutPanel5.SuspendLayout();
-			tableLayoutPanel6.SuspendLayout();
-			tableLayoutPanel7.SuspendLayout();
-			tableLayoutPanel8.SuspendLayout();
 			SuspendLayout();
 			// 
 			// label1
@@ -276,6 +276,65 @@ namespace CoffeeSur.UI
 			tableLayoutPanel1.Size = new Size(917, 703);
 			tableLayoutPanel1.TabIndex = 30;
 			// 
+			// tableLayoutPanel8
+			// 
+			tableLayoutPanel8.ColumnCount = 5;
+			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.11111F));
+			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
+			tableLayoutPanel8.Controls.Add(btnCancelar, 3, 1);
+			tableLayoutPanel8.Controls.Add(btnAceptar, 1, 1);
+			tableLayoutPanel8.Dock = DockStyle.Fill;
+			tableLayoutPanel8.Location = new Point(94, 543);
+			tableLayoutPanel8.Name = "tableLayoutPanel8";
+			tableLayoutPanel8.RowCount = 3;
+			tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+			tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
+			tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+			tableLayoutPanel8.Size = new Size(727, 117);
+			tableLayoutPanel8.TabIndex = 31;
+			// 
+			// tableLayoutPanel5
+			// 
+			tableLayoutPanel5.ColumnCount = 5;
+			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
+			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
+			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
+			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+			tableLayoutPanel5.Controls.Add(label3, 0, 1);
+			tableLayoutPanel5.Controls.Add(cmbRol, 2, 1);
+			tableLayoutPanel5.Controls.Add(chkActivo, 4, 1);
+			tableLayoutPanel5.Dock = DockStyle.Fill;
+			tableLayoutPanel5.Location = new Point(94, 456);
+			tableLayoutPanel5.Name = "tableLayoutPanel5";
+			tableLayoutPanel5.RowCount = 3;
+			tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+			tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
+			tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+			tableLayoutPanel5.Size = new Size(727, 81);
+			tableLayoutPanel5.TabIndex = 33;
+			// 
+			// tableLayoutPanel7
+			// 
+			tableLayoutPanel7.ColumnCount = 3;
+			tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+			tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
+			tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+			tableLayoutPanel7.Controls.Add(txtPassword, 2, 1);
+			tableLayoutPanel7.Controls.Add(label4, 0, 1);
+			tableLayoutPanel7.Dock = DockStyle.Fill;
+			tableLayoutPanel7.Location = new Point(94, 369);
+			tableLayoutPanel7.Name = "tableLayoutPanel7";
+			tableLayoutPanel7.RowCount = 3;
+			tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+			tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
+			tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+			tableLayoutPanel7.Size = new Size(727, 81);
+			tableLayoutPanel7.TabIndex = 35;
+			// 
 			// tableLayoutPanel2
 			// 
 			tableLayoutPanel2.ColumnCount = 3;
@@ -292,6 +351,24 @@ namespace CoffeeSur.UI
 			tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
 			tableLayoutPanel2.Size = new Size(727, 64);
 			tableLayoutPanel2.TabIndex = 31;
+			// 
+			// tableLayoutPanel6
+			// 
+			tableLayoutPanel6.ColumnCount = 3;
+			tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+			tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
+			tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
+			tableLayoutPanel6.Controls.Add(label1, 0, 1);
+			tableLayoutPanel6.Controls.Add(txtNombre, 2, 1);
+			tableLayoutPanel6.Dock = DockStyle.Fill;
+			tableLayoutPanel6.Location = new Point(94, 108);
+			tableLayoutPanel6.Name = "tableLayoutPanel6";
+			tableLayoutPanel6.RowCount = 3;
+			tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+			tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
+			tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+			tableLayoutPanel6.Size = new Size(727, 81);
+			tableLayoutPanel6.TabIndex = 34;
 			// 
 			// tableLayoutPanel3
 			// 
@@ -330,83 +407,6 @@ namespace CoffeeSur.UI
 			tableLayoutPanel4.Size = new Size(727, 81);
 			tableLayoutPanel4.TabIndex = 32;
 			// 
-			// tableLayoutPanel5
-			// 
-			tableLayoutPanel5.ColumnCount = 5;
-			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
-			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
-			tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-			tableLayoutPanel5.Controls.Add(label3, 0, 1);
-			tableLayoutPanel5.Controls.Add(cmbRol, 2, 1);
-			tableLayoutPanel5.Controls.Add(chkActivo, 4, 1);
-			tableLayoutPanel5.Dock = DockStyle.Fill;
-			tableLayoutPanel5.Location = new Point(94, 456);
-			tableLayoutPanel5.Name = "tableLayoutPanel5";
-			tableLayoutPanel5.RowCount = 3;
-			tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-			tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
-			tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-			tableLayoutPanel5.Size = new Size(727, 81);
-			tableLayoutPanel5.TabIndex = 33;
-			// 
-			// tableLayoutPanel6
-			// 
-			tableLayoutPanel6.ColumnCount = 3;
-			tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-			tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
-			tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
-			tableLayoutPanel6.Controls.Add(label1, 0, 1);
-			tableLayoutPanel6.Controls.Add(txtNombre, 2, 1);
-			tableLayoutPanel6.Dock = DockStyle.Fill;
-			tableLayoutPanel6.Location = new Point(94, 108);
-			tableLayoutPanel6.Name = "tableLayoutPanel6";
-			tableLayoutPanel6.RowCount = 3;
-			tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-			tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
-			tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-			tableLayoutPanel6.Size = new Size(727, 81);
-			tableLayoutPanel6.TabIndex = 34;
-			// 
-			// tableLayoutPanel7
-			// 
-			tableLayoutPanel7.ColumnCount = 3;
-			tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-			tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 5F));
-			tableLayoutPanel7.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
-			tableLayoutPanel7.Controls.Add(txtPassword, 2, 1);
-			tableLayoutPanel7.Controls.Add(label4, 0, 1);
-			tableLayoutPanel7.Dock = DockStyle.Fill;
-			tableLayoutPanel7.Location = new Point(94, 369);
-			tableLayoutPanel7.Name = "tableLayoutPanel7";
-			tableLayoutPanel7.RowCount = 3;
-			tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-			tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
-			tableLayoutPanel7.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-			tableLayoutPanel7.Size = new Size(727, 81);
-			tableLayoutPanel7.TabIndex = 35;
-			// 
-			// tableLayoutPanel8
-			// 
-			tableLayoutPanel8.ColumnCount = 5;
-			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.11111F));
-			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-			tableLayoutPanel8.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 11.1111107F));
-			tableLayoutPanel8.Controls.Add(btnCancelar, 3, 1);
-			tableLayoutPanel8.Controls.Add(btnAceptar, 1, 1);
-			tableLayoutPanel8.Dock = DockStyle.Fill;
-			tableLayoutPanel8.Location = new Point(94, 543);
-			tableLayoutPanel8.Name = "tableLayoutPanel8";
-			tableLayoutPanel8.RowCount = 3;
-			tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-			tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 60F));
-			tableLayoutPanel8.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-			tableLayoutPanel8.Size = new Size(727, 117);
-			tableLayoutPanel8.TabIndex = 31;
-			// 
 			// FrmUsuario
 			// 
 			AcceptButton = btnAceptar;
@@ -419,19 +419,19 @@ namespace CoffeeSur.UI
 			Name = "FrmUsuario";
 			Text = "FrmUsuario";
 			tableLayoutPanel1.ResumeLayout(false);
+			tableLayoutPanel8.ResumeLayout(false);
+			tableLayoutPanel8.PerformLayout();
+			tableLayoutPanel5.ResumeLayout(false);
+			tableLayoutPanel5.PerformLayout();
+			tableLayoutPanel7.ResumeLayout(false);
+			tableLayoutPanel7.PerformLayout();
 			tableLayoutPanel2.ResumeLayout(false);
+			tableLayoutPanel6.ResumeLayout(false);
+			tableLayoutPanel6.PerformLayout();
 			tableLayoutPanel3.ResumeLayout(false);
 			tableLayoutPanel3.PerformLayout();
 			tableLayoutPanel4.ResumeLayout(false);
 			tableLayoutPanel4.PerformLayout();
-			tableLayoutPanel5.ResumeLayout(false);
-			tableLayoutPanel5.PerformLayout();
-			tableLayoutPanel6.ResumeLayout(false);
-			tableLayoutPanel6.PerformLayout();
-			tableLayoutPanel7.ResumeLayout(false);
-			tableLayoutPanel7.PerformLayout();
-			tableLayoutPanel8.ResumeLayout(false);
-			tableLayoutPanel8.PerformLayout();
 			ResumeLayout(false);
 		}
 
