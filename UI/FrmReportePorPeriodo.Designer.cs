@@ -109,6 +109,7 @@
             dgvReporteProductos.Margin = new Padding(3, 4, 3, 4);
             dgvReporteProductos.Name = "dgvReporteProductos";
             dgvReporteProductos.ReadOnly = true;
+            dgvReporteProductos.RowHeadersVisible = false;
             dgvReporteProductos.RowHeadersWidth = 51;
             dgvReporteProductos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvReporteProductos.Size = new Size(866, 273);

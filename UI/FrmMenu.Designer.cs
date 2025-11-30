@@ -326,7 +326,7 @@
             Controls.Add(tableLayoutPanel1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "FrmMenu";
-            Text = "FrmMenu";
+            Text = "Menú de Administrador";
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel6.ResumeLayout(false);
             tableLayoutPanel5.ResumeLayout(false);
