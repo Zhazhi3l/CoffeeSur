@@ -322,6 +322,16 @@ BEGIN
     VALUES (p_IdVenta, p_IdProducto, p_Cantidad, p_PrecioUnitario, p_Subtotal);
 END$$
 
+CREATE PROCEDURE sp_DescontarStock(
+    IN p_IdProducto INT,
+    IN p_Cantidad INT
+)
+BEGIN
+    UPDATE Productos 
+    SET Stock = Stock - p_Cantidad
+    WHERE IdProducto = p_IdProducto;
+END$$
+
 CREATE PROCEDURE sp_ActualizarStock(
     IN p_IdProducto INT,
     IN p_Cantidad INT
