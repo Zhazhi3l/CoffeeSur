@@ -27,7 +27,7 @@ INSERT INTO Usuarios (Nombre, Apellido, Username, Password, Rol, Activo) VALUES 
 
 CREATE TABLE Productos (
     IdProducto      INT AUTO_INCREMENT PRIMARY KEY, 
-    Clave           VARCHAR(50),                    
+    Clave           VARCHAR(50),
     Nombre          VARCHAR(100) NOT NULL,
     Descripcion     TEXT,
     Precio          DECIMAL(10,2) NOT NULL,
@@ -83,58 +83,6 @@ CREATE TABLE AuditoriaVentas (
     UsuarioBD       VARCHAR(50),
     Detalles        TEXT
 );
-
-
-/*
--- Tabla de categorías de productos
-CREATE TABLE categorias (
-    CategoriaID     INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
-    Nombre          VARCHAR(50)     NOT NULL,
-    Descripcion     TEXT
-);
-*/
-
-/*
--- Tabla de compras/proveedores
-CREATE TABLE compras (
-    CompraID        INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
-    FechaCompra     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Proveedor       VARCHAR(100)    NOT NULL,
-    Total           DECIMAL(10,2)   NOT NULL,
-    EmpleadoId          INT             NOT NULL,
-    FOREIGN KEY (UserID) REFERENCES Users(userid)
-);
-*/
-
-/*
-CREATE TABLE detalle_compra (
-    DetalleCompraID INT             NOT NULL    AUTO_INCREMENT    PRIMARY KEY,
-    CompraID        INT             NOT NULL,
-    ProductoID      INT             NOT NULL,
-    Cantidad        INT             NOT NULL,
-    PrecioUnitario  DECIMAL(10,2)   NOT NULL,
-    Subtotal        DECIMAL(10,2)   NOT NULL,
-    FOREIGN KEY (CompraID) REFERENCES compras(CompraID),
-    FOREIGN KEY (ProductoID) REFERENCES productos(ProductoID)
-);
-*/
-
--- Función para obtener el usuario
-DELIMITER $$
-CREATE FUNCTION fn_GetAppUser()
-RETURNS VARCHAR(50)
-DETERMINISTIC
-BEGIN
-    RETURN COALESCE(@app_user, 'SISTEMA');
-END$$
-
--- Establece el usuario de la aplicacion
-CREATE PROCEDURE sp_SetAppUser(IN p_Username VARCHAR(50))
-BEGIN
-    SET @app_user = p_Username;
-END$$
-
-DELIMITER ;
 
 -- --------------------------------------------------------------------------------------------
 -- Funcionalidad de la BD
@@ -292,6 +240,16 @@ BEGIN
     WHERE Clave = p_Clave;
 END$$
 
+CREATE PROCEDURE sp_ActualizarStock(
+	IN p_NuevaCantidad int,
+    IN p_IdProducto int
+)
+BEGIN
+	UPDATE Productos
+    SET Stock = Stock + p_NuevaCantidad
+    WHERE IdProducto = p_IdProducto;
+END$$
+
 DELIMITER ;
 -- ==============================
 -- 2.3 STORED PROCEDURES: VENTAS 
@@ -329,16 +287,6 @@ CREATE PROCEDURE sp_DescontarStock(
 BEGIN
     UPDATE Productos 
     SET Stock = Stock - p_Cantidad
-    WHERE IdProducto = p_IdProducto;
-END$$
-
-CREATE PROCEDURE sp_ActualizarStock(
-    IN p_IdProducto INT,
-    IN p_Cantidad INT
-)
-BEGIN
-    UPDATE Productos 
-    SET Stock = Stock + p_Cantidad
     WHERE IdProducto = p_IdProducto;
 END$$
 
@@ -412,9 +360,8 @@ CREATE PROCEDURE sp_ReporteVentasPorProducto(
 )
 BEGIN
     SELECT 
-		p.IdProducto,
         p.Clave,
-        p.Nombre AS Producto,
+        p.Nombre AS Producto, -- Aquí tengo duda, no se si es la clave del producto o su Id
         SUM(d.Cantidad) AS Unidades,
         SUM(d.Subtotal) AS Monto
     FROM DetalleVenta d
@@ -444,7 +391,7 @@ BEGIN
     VALUES (
         NEW.IdProducto, 
         'INSERT', 
-        fn_GetAppUser(), 
+        USER(), 
         CONCAT('Nuevo producto: ', NEW.Nombre, ' | Clave: ', NEW.Clave, ' | Precio: ', NEW.Precio, ' | Stock: ', NEW.Stock)
     );
 END$$
@@ -466,7 +413,7 @@ BEGIN
     );
     
     INSERT INTO AuditoriaProductos (IdProducto, Accion, UsuarioBD, Detalles)
-    VALUES (NEW.IdProducto, 'UPDATE', fn_GetAppUser(), detalles);
+    VALUES (NEW.IdProducto, 'UPDATE', USER(), detalles);
 END$$
 
 CREATE TRIGGER trg_Auditoria_DeleteProducto
@@ -478,7 +425,7 @@ BEGIN
         VALUES (
             OLD.IdProducto, 
             'DELETE', 
-            fn_GetAppUser(), 
+            USER(), 
             CONCAT('Producto desactivado: ', OLD.Nombre, ' | Clave: ', OLD.Clave)
         );
     END IF;
@@ -498,7 +445,7 @@ BEGIN
     VALUES (
         NEW.IdUsuario, 
         'INSERT', 
-        fn_GetAppUser(), 
+        USER(), 
         CONCAT('Nuevo usuario: ', NEW.Nombre, ' ', NEW.Apellido, ' | Username: ', NEW.Username, ' | Rol: ', NEW.Rol)
     );
 END$$
@@ -520,7 +467,7 @@ BEGIN
     );
     
     INSERT INTO AuditoriaUsuarios (IdUsuario, Accion, UsuarioBD, Detalles)
-    VALUES (NEW.IdUsuario, 'UPDATE', fn_GetAppUser(), detalles);
+    VALUES (NEW.IdUsuario, 'UPDATE', USER(), detalles);
 END$$
 
 CREATE TRIGGER trg_Auditoria_DeleteUsuario
@@ -532,7 +479,7 @@ BEGIN
         VALUES (
             OLD.IdUsuario, 
             'DELETE', 
-            fn_GetAppUser(), 
+            USER(), 
             CONCAT('Usuario desactivado: ', OLD.Nombre, ' ', OLD.Apellido, ' | Username: ', OLD.Username)
         );
     END IF;
@@ -552,7 +499,7 @@ BEGIN
     VALUES (
         NEW.IdVenta, 
         'INSERT', 
-        fn_GetAppUser(), 
+        USER(), 
         CONCAT('Nueva venta registrada | Total: $', NEW.Total, ' | Fecha: ', NEW.FechaVenta)
     );
 END$$
@@ -571,7 +518,7 @@ BEGIN
     );
     
     INSERT INTO AuditoriaVentas (IdVenta, Accion, UsuarioBD, Detalles)
-    VALUES (NEW.IdVenta, 'UPDATE', fn_GetAppUser(), detalles);
+    VALUES (NEW.IdVenta, 'UPDATE', USER(), detalles);
 END$$
 
 CREATE TRIGGER trg_Auditoria_DeleteVenta
@@ -582,7 +529,7 @@ BEGIN
     VALUES (
         OLD.IdVenta, 
         'DELETE', 
-        fn_GetAppUser(), 
+        USER(), 
         CONCAT('Venta eliminada ID: ', OLD.IdVenta, ' | Total: $', OLD.Total, ' | Fecha: ', OLD.FechaVenta)
     );
 END$$
@@ -625,23 +572,24 @@ END $$
 
 -- Reporte de productos vendidos
 
-CREATE PROCEDURE sp_ReporteProductosPorPeriodo(
-    IN p_FechaInicio DATE,
-    IN p_FechaFin DATE
+CREATE PROCEDURE sp_ReporteVentasPorProductoPorPeriodo(
+    IN p_FechaInicio DATETIME,
+    IN p_FechaFin DATETIME
 )
 BEGIN
     SELECT 
-        p.ProductoID,
-        p.NombreUsuario as Producto,
-        SUM(dv.Cantidad) as CantidadVendida,
-        SUM(dv.Subtotal) as TotalVendido
-    FROM detalle_venta dv
-    JOIN productos p ON dv.ProductoID = p.ProductoID
-    JOIN ventas v ON dv.VentaID = v.VentaID
-    WHERE DATE(v.FechaVenta) BETWEEN p_FechaInicio AND p_FechaFin
-    GROUP BY p.ProductoID
-    ORDER BY CantidadVendida DESC;
-END $$
+        p.IdProducto,
+        p.Clave AS ClaveProducto,
+        p.Nombre,
+        COALESCE(SUM(dv.Cantidad), 0) AS Unidades,
+        COALESCE(SUM(dv.Subtotal), 0) AS Monto
+    FROM DetalleVenta dv
+    JOIN Productos p ON dv.IdProducto = p.IdProducto
+    JOIN Ventas v ON dv.IdVenta = v.IdVenta
+    WHERE v.FechaVenta BETWEEN p_FechaInicio AND p_FechaFin
+    GROUP BY p.IdProducto, p.Clave, p.Nombre
+    ORDER BY Unidades DESC;
+END$$
 
 -- Reporte comparativo de productos
 CREATE PROCEDURE sp_ReporteComparativoProductos(
