@@ -145,15 +145,14 @@ namespace CoffeeSur.Servicios
                                     .Distinct()
                                     .ToList();
 
-            // 3. Llamada eficiente al repositorio
             return _ventaRepo.ObtenerComparacionDeProductosEntreMeses(idsUnicos, fecha1, fecha2);
         }
 
         public List<Venta> ObtenerVentasDeHoy()
         {
+
             try
             {
-
                 return _ventaRepo.ObtenerVentasDeHoy();
             }
             catch (Exception ex)

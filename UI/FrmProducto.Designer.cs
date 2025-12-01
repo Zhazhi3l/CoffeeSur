@@ -132,6 +132,7 @@
             nudStock.Font = new Font("Yu Gothic", 9.75F);
             nudStock.Location = new Point(3, 148);
             nudStock.Margin = new Padding(3, 4, 3, 4);
+            nudStock.Maximum = new decimal(new int[] { 99999, 0, 0, 0 });
             nudStock.Name = "nudStock";
             nudStock.Size = new Size(179, 34);
             nudStock.TabIndex = 2;

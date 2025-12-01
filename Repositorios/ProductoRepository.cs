@@ -228,7 +228,7 @@ namespace CoffeeSur.Repositorios
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.AddWithValue("@p_IdProducto", idProducto);
-                        cmd.Parameters.AddWithValue("@p_Cantidad", cantidadDescontar);
+                        cmd.Parameters.AddWithValue("@p_NuevaCantidad", cantidadDescontar);
 
                         int filas = cmd.ExecuteNonQuery();
 

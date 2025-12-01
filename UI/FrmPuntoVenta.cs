@@ -59,7 +59,7 @@ namespace CoffeeSur.UI
             flpProductos.Controls.Clear();
             List<Producto> productos = _servicioProductos
                 .ObtenerTodosProductos()
-                .Where(p => p.Stock > 0)
+                .Where(p => p.Stock > 0 && p.Activo)
                 .ToList();
 
             foreach (var p in productos)
