@@ -189,7 +189,7 @@ namespace CoffeeSur.Servicios
                     throw new Exception("La cantidad de stock no puede ser cero, ésto no realizará ningún cambio.");
                 }
 
-                bool actualizado = _repoProducto.AcualizarStock(idProducto, nuevaCantidadStock);
+                bool actualizado = _repoProducto.ActualizarStock(idProducto, nuevaCantidadStock);
                 if (!actualizado)
                 {
                     throw new Exception("No se encontró el producto para actualizar el stock.");

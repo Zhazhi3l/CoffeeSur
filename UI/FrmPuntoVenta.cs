@@ -32,7 +32,8 @@ namespace CoffeeSur.UI
             {
                 var usuario = _servicioUsuarios.BuscarUsuarioPorId(idUsuario);
                 lblUsuario.Text = $"Usuario: {usuario.Nombre}";
-            }catch 
+            }
+            catch
             {
                 lblUsuario.Text = "Usuario: Desconocido";
             }
@@ -317,14 +318,15 @@ namespace CoffeeSur.UI
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Hide();
-            this.Show();
+            FrmLogin login = new FrmLogin();
+            login.Show();
         }
 
         private void FrmPuntoVenta_FormClosing(object sender, FormClosingEventArgs e)
         {
-			SesionUsuario.CerrarSesion();
+            SesionUsuario.CerrarSesion();
 
-			this.Hide();
+            this.Hide();
             FrmLogin login = new FrmLogin();
             login.Show();
         }

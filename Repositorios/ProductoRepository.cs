@@ -217,7 +217,7 @@ namespace CoffeeSur.Repositorios
             return p;
         }
 
-        public bool AcualizarStock(int idProducto, int nuevaCantidad)
+        public bool ActualizarStock(int idProducto, int cantidadDescontar)
         {
             try
             {
@@ -228,17 +228,19 @@ namespace CoffeeSur.Repositorios
                         cmd.CommandType = CommandType.StoredProcedure;
 
                         cmd.Parameters.AddWithValue("@p_IdProducto", idProducto);
-                        cmd.Parameters.AddWithValue("@p_NuevaCantidad", nuevaCantidad);
+                        cmd.Parameters.AddWithValue("@p_Cantidad", cantidadDescontar);
 
-                        cmd.ExecuteNonQuery();
-                        return true;
+                        int filas = cmd.ExecuteNonQuery();
+
+                        return filas > 0;
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception("Error al actualizar el stock del producto: " + ex.Message);
             }
         }
+
     }
 }

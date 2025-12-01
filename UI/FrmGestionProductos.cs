@@ -132,6 +132,50 @@ namespace CoffeeSur.UI
                 }
             }
         }
+
+        private void btnAumentarStock_Click(object sender, EventArgs e)
+        {
+            var prod = GetProductoSeleccionado();
+            if (prod == null)
+            {
+                MessageBox.Show("Seleccione un producto de la lista.");
+                return;
+            }
+
+            int cantidad = PedirCantidad();
+            if (cantidad <= 0)
+            {
+                MessageBox.Show("Cantidad no válida.");
+                return;
+            }
+
+            try
+            {
+                _servicio.ActualizarStockProducto(prod.IdProducto, cantidad);
+
+                MessageBox.Show($"Stock actualizado correctamente. (+{cantidad})");
+
+                CargarProductos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar el stock: " + ex.Message);
+            }
+        }
+        private int PedirCantidad()
+        {
+            string input = Microsoft.VisualBasic.Interaction.InputBox(
+                    "Ingresa la cantidad a agregar al stock:",
+                    "Aumentar Stock",
+                    "1"
+                );
+
+            if (int.TryParse(input, out int cantidad) && cantidad > 0)
+                return cantidad;
+
+            return -1;
+        }
+
     }
 }
 
